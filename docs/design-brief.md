@@ -25,51 +25,51 @@ All colors are defined as CSS custom properties on `:root`.
 
 ### Background
 
-| Variable | Value | Use |
-|---|---|---|
-| `--bg` | `#09090b` | Page background (near-black zinc) |
-| `--bg-card` | `#111113` | Card backgrounds |
-| `--bg-card-hover` | `#18181b` | Card background on hover |
+| Variable          | Value     | Use                               |
+| ----------------- | --------- | --------------------------------- |
+| `--bg`            | `#09090b` | Page background (near-black zinc) |
+| `--bg-card`       | `#111113` | Card backgrounds                  |
+| `--bg-card-hover` | `#18181b` | Card background on hover          |
 
 ### Border
 
-| Variable | Value | Use |
-|---|---|---|
-| `--border` | `#27272a` | Standard borders, section dividers |
-| `--border-subtle` | `#1c1c1f` | Subtle internal dividers |
+| Variable          | Value     | Use                                |
+| ----------------- | --------- | ---------------------------------- |
+| `--border`        | `#27272a` | Standard borders, section dividers |
+| `--border-subtle` | `#1c1c1f` | Subtle internal dividers           |
 
 ### Text
 
-| Variable | Value | Use |
-|---|---|---|
-| `--text-primary` | `#fafafa` | Headings, primary labels |
-| `--text-secondary` | `#a1a1aa` | Body copy, descriptions |
-| `--text-muted` | `#52525b` | Labels, metadata, section numbers |
+| Variable           | Value     | Use                               |
+| ------------------ | --------- | --------------------------------- |
+| `--text-primary`   | `#fafafa` | Headings, primary labels          |
+| `--text-secondary` | `#a1a1aa` | Body copy, descriptions           |
+| `--text-muted`     | `#52525b` | Labels, metadata, section numbers |
 
 ### Accent
 
-| Variable | Value | Use |
-|---|---|---|
+| Variable   | Value     | Use                                                          |
+| ---------- | --------- | ------------------------------------------------------------ |
 | `--accent` | `#22d3ee` | Primary accent (cyan-400); links, logo suffix, active states |
 
 ### Layer Identity Colors
 
 Each ecosystem component has a dedicated identity color used for card top-borders, architecture nodes, and legend dots.
 
-| Variable | Value | Component | Rationale |
-|---|---|---|---|
-| `--layer-ui` | `#818cf8` | specorator (UI) | Indigo — interface/cognitive layer |
-| `--layer-runtime` | `#22d3ee` | specorator-runtime | Cyan — same as accent; the engine is the core |
-| `--layer-agents` | `#f472b6` | agentonomous | Pink — agents are active/energetic |
-| `--layer-workflow` | `#fb923c` | agentic-workflow | Orange — process/sequence/flow |
+| Variable           | Value     | Component          | Rationale                                     |
+| ------------------ | --------- | ------------------ | --------------------------------------------- |
+| `--layer-ui`       | `#818cf8` | specorator (UI)    | Indigo — interface/cognitive layer            |
+| `--layer-runtime`  | `#22d3ee` | specorator-runtime | Cyan — same as accent; the engine is the core |
+| `--layer-agents`   | `#f472b6` | agentonomous       | Pink — agents are active/energetic            |
+| `--layer-workflow` | `#fb923c` | agentic-workflow   | Orange — process/sequence/flow                |
 
 ### Status Colors
 
-| Variable | Value | Status |
-|---|---|---|
+| Variable               | Value     | Status              |
+| ---------------------- | --------- | ------------------- |
 | `--status-in-progress` | `#22c55e` | In Progress (green) |
-| `--status-planned` | `#f59e0b` | Planned (amber) |
-| `--status-done` | `#3b82f6` | Done (blue) |
+| `--status-planned`     | `#f59e0b` | Planned (amber)     |
+| `--status-done`        | `#3b82f6` | Done (blue)         |
 
 ---
 
@@ -79,22 +79,22 @@ Each ecosystem component has a dedicated identity color used for card top-border
 
 ```css
 --font-sans: system-ui, -apple-system, sans-serif;
---font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+--font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 ```
 
 Monospace is the primary expressive type face — used for the logo, section numbers, identifiers, badges, labels, metadata, and code-like values. Sans-serif is used for body copy (descriptions, paragraphs).
 
 ### Type Scale
 
-| Role | Size | Font | Weight | Treatment |
-|---|---|---|---|---|
-| Logo | 1.5rem | mono | 700 | `letter-spacing: -0.02em` |
-| Section title | 0.78rem | sans | 600 | `uppercase, letter-spacing: 0.12em` |
-| Card name | 0.875rem | mono | 600 | — |
-| Body / description | 0.82rem | sans | 400 | `line-height: 1.55` |
-| Badge / label | 0.62–0.72rem | mono | 700 | `uppercase, letter-spacing: 0.05–0.1em` |
-| Metadata value | 0.78rem | mono | 400 | — |
-| Footer | 0.72rem | mono | 400 | — |
+| Role               | Size         | Font | Weight | Treatment                               |
+| ------------------ | ------------ | ---- | ------ | --------------------------------------- |
+| Logo               | 1.5rem       | mono | 700    | `letter-spacing: -0.02em`               |
+| Section title      | 0.78rem      | sans | 600    | `uppercase, letter-spacing: 0.12em`     |
+| Card name          | 0.875rem     | mono | 600    | —                                       |
+| Body / description | 0.82rem      | sans | 400    | `line-height: 1.55`                     |
+| Badge / label      | 0.62–0.72rem | mono | 700    | `uppercase, letter-spacing: 0.05–0.1em` |
+| Metadata value     | 0.78rem      | mono | 400    | —                                       |
+| Footer             | 0.72rem      | mono | 400    | —                                       |
 
 ---
 
@@ -160,6 +160,7 @@ Vertical stack with three rows:
 ```
 
 **Node anatomy:**
+
 - Border: `1px solid var(--c)` where `--c` is the layer color
 - Background: `color-mix(in srgb, var(--c) 6%, var(--bg-card))`
 - Box shadow: `0 0 24px -10px var(--c)` — subtle glow
@@ -169,15 +170,18 @@ Vertical stack with three rows:
 - Planned nodes: `opacity: 0.7` + `(planned)` label
 
 **Connectors:**
+
 - `1px solid --border` vertical lines
 - `▼` arrowhead in `--text-muted`
 
 **Legend:**
+
 - Inline row of `[dot] [role-name]` items below the diagram
 - Dot: 8px circle in layer color
 - Label: 0.72rem monospace `--text-secondary`
 
 **Annotation:**
+
 - Single line of 0.78rem `--text-muted` text below legend explaining the key connections in plain language
 
 ### 5.5 Project Cards
@@ -196,6 +200,7 @@ Four cards in a responsive CSS grid (`repeat(auto-fill, minmax(260px, 1fr))`).
 6. **Links row** — `Repo ↗` `Docs ↗` `PRD ↗` links, 0.72rem mono cyan, opacity 0.75 → 1 on hover
 
 **Card states:**
+
 - Default: `--bg-card` background, `--border` border
 - Hover: `--bg-card-hover` background, `var(--ca)` all borders
 
@@ -221,10 +226,10 @@ Single row, centered-left.
 
 ## 6. Border Radius
 
-| Variable | Value | Use |
-|---|---|---|
-| `--radius` | `8px` | Cards, architecture nodes |
-| `--radius-sm` | `4px` | Badges, tags, pills |
+| Variable      | Value | Use                       |
+| ------------- | ----- | ------------------------- |
+| `--radius`    | `8px` | Cards, architecture nodes |
+| `--radius-sm` | `4px` | Badges, tags, pills       |
 
 ---
 
@@ -247,8 +252,13 @@ Minimal. One animation defined:
 
 ```css
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.25; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
 }
 ```
 
