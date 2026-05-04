@@ -6,19 +6,19 @@
 
 @theme {
   /* === Colors === */
-  --color-primary: #8F2FFE;
-  --color-secondary: #DF53FE;
-  --color-primary-dark: #1A131F;
-  --color-body: #0E0912;
+  --color-primary: #22d3ee;
+  --color-secondary: #818cf8;
+  --color-primary-dark: #0d1117;
+  --color-body: #09090b;
   --color-border: #FFFFFF;
   --color-light: #fff;
-  --color-gray: #B9B7BA;
-  --color-dark: #121212;
-  --color-dark-gray: #292929;
-  --color-card: #151019;
-  --color-text: #ffffff;
-  --color-text-dark: #040404;
-  --color-text-light: #f7f7f7;
+  --color-gray: #a1a1aa;
+  --color-dark: #111113;
+  --color-dark-gray: #27272a;
+  --color-card: #111113;
+  --color-text: #fafafa;
+  --color-text-dark: #09090b;
+  --color-text-light: #f4f4f5;
 
   /* === Font Families === */
   --font-primary: Inter, sans-serif;
