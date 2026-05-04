@@ -26,7 +26,7 @@ const STATUS_TOPIC_MAP: Record<string, string> = {
 function extractStatus(topics: unknown): string | null {
   if (!Array.isArray(topics)) return null;
   for (const topic of topics) {
-    if (typeof topic === "string" && topic in STATUS_TOPIC_MAP) {
+    if (typeof topic === "string" && Object.hasOwn(STATUS_TOPIC_MAP, topic)) {
       return STATUS_TOPIC_MAP[topic];
     }
   }
@@ -36,17 +36,17 @@ function extractStatus(topics: unknown): string | null {
 function normalizeUrl(raw: unknown): string | null {
   if (typeof raw !== "string" || raw.trim().length === 0) return null;
   const trimmed = raw.trim();
+  const isHttps = (u: URL) => u.protocol === "https:" || u.protocol === "http:";
   try {
-    const url = new URL(
-      trimmed.startsWith("http://") || trimmed.startsWith("https://")
-        ? trimmed
-        : `https://${trimmed}`,
-    );
-    return url.protocol === "https:" || url.protocol === "http:"
-      ? url.href
-      : null;
+    const url = new URL(trimmed);
+    return isHttps(url) ? url.href : null;
   } catch {
-    return null;
+    try {
+      const url = new URL(`https://${trimmed}`);
+      return isHttps(url) ? url.href : null;
+    } catch {
+      return null;
+    }
   }
 }
 
