@@ -16,12 +16,12 @@ It is not a marketing page. The aesthetic is a system control plane — dark, mo
 
 ## Ecosystem components
 
-| Project | Layer | Status |
-|---|---|---|
-| [specorator](https://github.com/Luis85/specorator) | UI / Visualization (Obsidian plugin) | v1-alpha, in progress |
-| [specorator-runtime](https://github.com/Luis85/specorator-runtime) | Execution Runtime | Planned |
-| [agentonomous](https://github.com/Luis85/agentonomous) | Agent Library | Planned |
-| [agentic-workflow](https://github.com/Luis85/agentic-workflow) | Workflow Definition System | v0.5.1, in progress |
+| Project                                                            | Layer                                | Status                |
+| ------------------------------------------------------------------ | ------------------------------------ | --------------------- |
+| [specorator](https://github.com/Luis85/specorator)                 | UI / Visualization (Obsidian plugin) | v1-alpha, in progress |
+| [specorator-runtime](https://github.com/Luis85/specorator-runtime) | Execution Runtime                    | Planned               |
+| [agentonomous](https://github.com/Luis85/agentonomous)             | Agent Library                        | Planned               |
+| [agentic-workflow](https://github.com/Luis85/agentic-workflow)     | Workflow Definition System           | v0.5.1, in progress   |
 
 ---
 
@@ -98,9 +98,9 @@ docs/
 
 ## Roadmap
 
-| Version | Scope |
-|---|---|
-| **V1** (current) | Static site · architecture diagram · project listing · manual data |
-| V2 | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages |
-| V3 | Runtime observability · agent session tracking · event stream visualization |
-| V4 | Workflow execution tracking · knowledge graph · semantic cross-linking |
+| Version          | Scope                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| **V1** (current) | Static site · architecture diagram · project listing · manual data                     |
+| V2               | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages |
+| V3               | Runtime observability · agent session tracking · event stream visualization            |
+| V4               | Workflow execution tracking · knowledge graph · semantic cross-linking                 |
