@@ -78,28 +78,23 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
 
         return {
           ...project,
-          status: extractStatus(repo?.topics),
+          status: extractStatus(repo?.topics) ?? project.status,
           lastUpdate:
             typeof repo?.pushed_at === "string"
               ? repo.pushed_at.split("T")[0]
-              : null,
+              : project.lastUpdate,
           openIssues:
             typeof repo?.open_issues_count === "number"
               ? repo.open_issues_count
-              : null,
+              : project.openIssues,
           version:
-            typeof release?.tag_name === "string" ? release.tag_name : null,
-          docs: normalizeUrl(repo?.homepage),
+            typeof release?.tag_name === "string"
+              ? release.tag_name
+              : project.version,
+          docs: normalizeUrl(repo?.homepage) ?? project.docs,
         };
       } catch {
-        return {
-          ...project,
-          status: null,
-          lastUpdate: null,
-          openIssues: null,
-          version: null,
-          docs: null,
-        };
+        return { ...project };
       }
     }),
   );

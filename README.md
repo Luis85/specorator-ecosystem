@@ -1,6 +1,6 @@
 # specorator-ecosystem
 
-The **Specorator Ecosystem Hub** — a static control plane for the four-component Specorator system, deployed to GitHub Pages.
+The **Specorator Ecosystem Hub** — the entry point for the four-component Specorator system, deployed to GitHub Pages.
 
 **Live:** https://luis85.github.io/specorator-ecosystem
 
@@ -10,7 +10,7 @@ The **Specorator Ecosystem Hub** — a static control plane for the four-compone
 
 A lightweight developer-facing dashboard that provides a single URL to understand the Specorator system: what components exist, what state they're in, how they relate, and how to navigate to each one.
 
-It is not a marketing page. The aesthetic is a system control plane — dark, monospace, dense.
+It is not a marketing page. The aesthetic is an ops-style hub — dark, monospace, dense.
 
 ---
 
