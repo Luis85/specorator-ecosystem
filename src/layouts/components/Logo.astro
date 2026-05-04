@@ -11,7 +11,7 @@ const h = parseInt(String(logo_height || 0), 10) || 0;
 const logoPath = src ?? logo;
 ---
 
-<a href="/" class="navbar-brand inline-block">
+<a href={import.meta.env.BASE_URL} class="navbar-brand inline-block">
   {
     logoPath ? (
       <ImageMod

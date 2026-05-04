@@ -24,13 +24,14 @@ The hub is the front door to the ecosystem. It aggregates, organises, and links 
 
 ## Branching model
 
-| Branch | Purpose |
-|---|---|
-| `main` | Published state — always matches what is live on GitHub Pages |
-| `develop` | Active integration branch — CI verifies but does NOT deploy |
-| `feature/*` | Short-lived feature branches, merged to `develop` via PR |
+| Branch      | Purpose                                                       |
+| ----------- | ------------------------------------------------------------- |
+| `main`      | Published state — always matches what is live on GitHub Pages |
+| `develop`   | Active integration branch — CI verifies but does NOT deploy   |
+| `feature/*` | Short-lived feature branches, merged to `develop` via PR      |
 
 **Rules:**
+
 - Direct commits to `main` should be avoided
 - Merges to `main` must go through a PR with passing CI (`verify` job)
 - Deployment to GitHub Pages happens only when a commit lands on `main`
@@ -65,39 +66,39 @@ The single source of truth for all ecosystem project metadata.
 
 #### Stable fields (manually editable)
 
-| Field | Type | Notes |
-|---|---|---|
-| `id` | `string` | Stable identifier, matches the repo name |
-| `name` | `string` | Display name |
-| `role` | `"ui" \| "runtime" \| "agents" \| "workflow"` | Drives layer color theming |
-| `layer` | `string` | Human-readable layer label |
-| `description` | `string` | 1–2 sentence description |
-| `status` | `"planned" \| "in-progress" \| "done"` | **Manual until issue #7 is resolved** |
-| `version` | `string \| null` | Current version string |
-| `techStack` | `string[]` | Technology tags (display only) |
-| `repo` | `string` | GitHub repository URL |
-| `docs` | `string \| null` | Documentation URL (**do not manually set — see issue #8**) |
-| `prd` | `string \| null` | PRD/spec URL (**do not manually set — see issue #8**) |
+| Field         | Type                                          | Notes                                                      |
+| ------------- | --------------------------------------------- | ---------------------------------------------------------- |
+| `id`          | `string`                                      | Stable identifier, matches the repo name                   |
+| `name`        | `string`                                      | Display name                                               |
+| `role`        | `"ui" \| "runtime" \| "agents" \| "workflow"` | Drives layer color theming                                 |
+| `layer`       | `string`                                      | Human-readable layer label                                 |
+| `description` | `string`                                      | 1–2 sentence description                                   |
+| `status`      | `"planned" \| "in-progress" \| "done"`        | **Manual until issue #7 is resolved**                      |
+| `version`     | `string \| null`                              | Current version string                                     |
+| `techStack`   | `string[]`                                    | Technology tags (display only)                             |
+| `repo`        | `string`                                      | GitHub repository URL                                      |
+| `docs`        | `string \| null`                              | Documentation URL (**do not manually set — see issue #8**) |
+| `prd`         | `string \| null`                              | PRD/spec URL (**do not manually set — see issue #8**)      |
 
 #### Volatile fields (NOT manually editable — must come from automation)
 
 > These fields must always be `null` in the source file. They will be populated automatically by the GitHub API at build time once issue #3 is resolved. **Never hardcode values here — stale integers are more dangerous than null.**
 
-| Field | Type | Source (once automated) |
-|---|---|---|
-| `lastUpdate` | `string \| null` | `repo.pushed_at` from GitHub API |
+| Field        | Type             | Source (once automated)                  |
+| ------------ | ---------------- | ---------------------------------------- |
+| `lastUpdate` | `string \| null` | `repo.pushed_at` from GitHub API         |
 | `openIssues` | `number \| null` | `repo.open_issues_count` from GitHub API |
 
 ### `src/data/roadmap.json` — Roadmap milestones
 
 Controls the roadmap section on the homepage. Fields:
 
-| Field | Type | Notes |
-|---|---|---|
-| `phase` | `string` | Version label (e.g. `"V1"`) |
-| `title` | `string` | Milestone name |
-| `description` | `string` | HTML allowed — rendered with `set:html` |
-| `status` | `"active" \| "planned" \| "done"` | Exactly one milestone should be `"active"` |
+| Field         | Type                              | Notes                                      |
+| ------------- | --------------------------------- | ------------------------------------------ |
+| `phase`       | `string`                          | Version label (e.g. `"V1"`)                |
+| `title`       | `string`                          | Milestone name                             |
+| `description` | `string`                          | HTML allowed — rendered with `set:html`    |
+| `status`      | `"active" \| "planned" \| "done"` | Exactly one milestone should be `"active"` |
 
 The active milestone phase is also shown in the hero stats row. Change `status` here to update both the roadmap card highlight and the stats badge.
 
