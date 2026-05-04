@@ -1,0 +1,58 @@
+{
+  "main": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Projects",
+      "url": "/integrations"
+    },
+    {
+      "name": "Roadmap",
+      "url": "/changelog"
+    }
+  ],
+  "footer_company": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Projects",
+      "url": "/integrations"
+    },
+    {
+      "name": "Roadmap",
+      "url": "/changelog"
+    }
+  ],
+  "footer_resource": [
+    {
+      "name": "specorator",
+      "url": "https://github.com/luis85/specorator"
+    },
+    {
+      "name": "specorator-runtime",
+      "url": "https://github.com/luis85/specorator-runtime"
+    },
+    {
+      "name": "agentonomous",
+      "url": "https://github.com/luis85/agentonomous"
+    },
+    {
+      "name": "agentic-workflow",
+      "url": "https://github.com/luis85/agentic-workflow"
+    }
+  ],
+  "footer_legal": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/luis85/specorator-ecosystem"
+    },
+    {
+      "name": "Issue #2 — PRD",
+      "url": "https://github.com/luis85/specorator-ecosystem/issues/2"
+    }
+  ]
+}

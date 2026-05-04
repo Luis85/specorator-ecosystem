@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://luis85.github.io
+
+# Sitemaps
+Sitemap: https://luis85.github.io/specorator-ecosystem/sitemap-index.xml

@@ -1,0 +1,49 @@
+{
+  "site": {
+    "title": "Specorator Hub — Ecosystem Entry Point",
+    "base_url": "https://luis85.github.io/specorator-ecosystem",
+    "base_path": "/specorator-ecosystem",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "",
+    "logo_width": "0",
+    "logo_height": "0",
+    "logo_text": "specorator://hub"
+  },
+
+  "settings": {
+    "sticky_header": true,
+    "pagination": 9,
+    "summary_length": 200,
+    "blog_folder": "blog",
+    "case_studies_folder": "case-studies",
+    "career_folder": "careers"
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "apply_form_action": "#",
+    "newsletter_form_action": "#",
+    "footer_text": "The hub and entry point for the Specorator ecosystem",
+    "mail": "",
+    "phone": "",
+    "copyright": "Specorator Ecosystem · MIT License · [github.com/luis85](https://github.com/luis85)"
+  },
+
+  "navigation_button": {
+    "enable": true,
+    "label": "GitHub",
+    "link": "https://github.com/luis85/specorator-ecosystem"
+  },
+
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+
+  "metadata": {
+    "meta_author": "luis85",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Specorator Hub is the entry point for the Specorator ecosystem — navigate projects, explore the architecture, and track progress across all components."
+  }
+}
