@@ -1,0 +1,9 @@
+dist/
+node_modules/
+.astro/
+public/
+scripts/
+content/
+src/layouts/
+src/hooks/
+src/styles/
