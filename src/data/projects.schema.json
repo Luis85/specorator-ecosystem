@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Schema for src/data/projects.json. Stable registry fields are manually editable. Volatile fields must NOT be manually edited — they are populated by automation (see issue #3) or left null.",
+  "type": "object",
+  "required": ["projects"],
+  "properties": {
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role", "layer", "description", "repo"],
+        "properties": {
+          "id": {
+            "$comment": "STABLE — manually editable. Unique slug matching the GitHub repo name.",
+            "type": "string"
+          },
+          "name": {
+            "$comment": "STABLE — manually editable. Display name of the project.",
+            "type": "string"
+          },
+          "role": {
+            "$comment": "STABLE — manually editable. One of: ui | runtime | agents | workflow",
+            "type": "string",
+            "enum": ["ui", "runtime", "agents", "workflow"]
+          },
+          "layer": {
+            "$comment": "STABLE — manually editable. Human-readable layer name.",
+            "type": "string"
+          },
+          "description": {
+            "$comment": "STABLE — manually editable. One-paragraph project description.",
+            "type": "string"
+          },
+          "repo": {
+            "$comment": "STABLE — manually editable. Full GitHub repository URL.",
+            "type": "string",
+            "format": "uri"
+          },
+          "techStack": {
+            "$comment": "STABLE — manually editable. List of technologies used.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "dependencies": {
+            "$comment": "STABLE — manually editable. IDs of other ecosystem projects this one depends on.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "status": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Topics at build time (issue #7). Add a topic matching 'status-planned', 'status-in-progress', or 'status-done' to the GitHub repo to set this.",
+            "type": ["string", "null"],
+            "enum": ["planned", "in-progress", "done", null]
+          },
+          "version": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Releases API latest tag_name (issue #3). Leave null until automation is in place.",
+            "type": ["string", "null"]
+          },
+          "lastUpdate": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API pushed_at (issue #3). Leave null until automation is in place.",
+            "type": ["string", "null"]
+          },
+          "openIssues": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API open_issues_count (issue #3). Leave null until automation is in place.",
+            "type": ["integer", "null"]
+          },
+          "docs": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API repo.homepage at build time (issue #8). Set the homepage field on the GitHub repo to populate this.",
+            "type": ["string", "null"]
+          },
+          "prd": {
+            "$comment": "VOLATILE — do not manually edit. Strategy TBD (issue #8). Leave null until automation is in place.",
+            "type": ["string", "null"]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

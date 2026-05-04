@@ -1,7 +1,9 @@
 dist/
 node_modules/
 .astro/
-# Third-party template internals
+public/
+scripts/
+content/
 src/layouts/
-src/lib/
-src/styles/generated-theme.css
+src/hooks/
+src/styles/

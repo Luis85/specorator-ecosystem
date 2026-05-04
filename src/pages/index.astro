@@ -1,12 +1,14 @@
 ---
 import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
-import projectsData from "@/data/projects.json";
+import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
 import roadmapData from "@/data/roadmap.json";
+import { version as hubVersion } from "../../package.json";
 
-const { projects } = projectsData;
-const { milestones } = roadmapData;
-const activeMilestone = milestones.find((m) => m.status === "active");
+const projects = await fetchEnrichedProjects();
+const roadmap = roadmapData.milestones;
+const activeMilestone =
+  roadmap.find((r) => r.status === "active") ?? roadmap[0];
 
 const layerColors: Record<string, string> = {
   ui: "#818cf8",
@@ -27,375 +29,662 @@ const statusColors: Record<string, string> = {
   done: "#3b82f6",
 };
 
-const inProgressCount = projects.filter(
-  (p) => p.status === "in-progress",
-).length;
-const plannedCount = projects.filter((p) => p.status === "planned").length;
+const specorator = projects.find((p) => p.id === "specorator");
+const agenticWorkflow = projects.find((p) => p.id === "agentic-workflow");
+const agentonomous = projects.find((p) => p.id === "agentonomous");
+
+const useCases = [
+  {
+    label: "I want a development cockpit",
+    description:
+      "Manage your full project lifecycle from inside Obsidian — specs, tasks, quality gates, and AI agents all in one place.",
+    cta: "Get specorator",
+    href: specorator?.repo ?? "#",
+    color: layerColors.ui,
+    badge: "Start here",
+    badgeColor: "#22c55e",
+    available: true,
+  },
+  {
+    label: "I want the workflow methodology",
+    description:
+      "Use the 11-stage workflow and Claude Code agents on their own, without the Obsidian plugin — pure CLI and Markdown.",
+    cta: "Explore agentic-workflow",
+    href: agenticWorkflow?.repo ?? "#",
+    color: layerColors.workflow,
+    badge: "In Progress",
+    badgeColor: "#22c55e",
+    available: true,
+  },
+  {
+    label: "I want to build AI agents",
+    description:
+      "Use the TypeScript agent library to compose autonomous agents for your own tooling, independent of the rest of the ecosystem.",
+    cta: "View agentonomous",
+    href: agentonomous?.repo ?? "#",
+    color: layerColors.agents,
+    badge: "Planned",
+    badgeColor: "#f59e0b",
+    available: false,
+  },
+];
 ---
 
 <Base
-  title="Specorator Hub — Ecosystem Entry Point"
-  description="The hub and entry point for the Specorator ecosystem — navigate projects, explore the architecture, and track progress across all components."
+  title="Specorator — AI-Powered Development Workflow"
+  description="Specorator guides your software projects from idea to release inside Obsidian — with Claude Code agents handling spec drafting, task generation, and quality gates."
 >
   <MainContainer>
-    <!-- ─── Hero / Header ────────────────────────────────────────────── -->
-    <section class="container-padding-x pt-20 pb-10 border-b border-border/10">
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-gray uppercase tracking-widest"
-            >ecosystem hub</span
-          >
+    <!-- ─── Hero ──────────────────────────────────────────────────────── -->
+    <section class="container-padding-x pt-20 pb-16 border-b border-border/10">
+      <div class="flex flex-col gap-5 max-w-3xl">
+        <!-- Eyebrow -->
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="font-mono text-xs text-gray uppercase tracking-widest">
+            Obsidian Plugin · Claude Code · Open Source
+          </span>
           <span
             class="inline-flex items-center gap-1.5 font-mono text-xs text-green-400"
           >
             <span class="size-1.5 rounded-full bg-green-400 animate-pulse"
-            ></span>live
+            ></span>
+            active development
+          </span>
+          <span
+            class="font-mono text-xs text-dark-gray border border-border/20 px-1.5 py-0.5 rounded"
+          >
+            hub v{hubVersion}
           </span>
         </div>
+
+        <!-- Headline -->
         <h1
-          class="font-primary font-bold text-5xl md:text-6xl text-text tracking-tight"
+          class="font-primary font-bold text-5xl md:text-6xl text-text tracking-tight leading-tight"
         >
-          specorator<span class="text-primary">://hub</span>
+          From idea to shipped software —<br />
+          <span class="text-primary">with AI doing the heavy lifting</span>
         </h1>
-        <p class="text-gray text-lg max-w-2xl leading-relaxed">
-          Four-component system for spec-driven, agentic software development —
-          where humans define what to build and specialist agents handle how.
-          One URL to understand the system, see what is active, and navigate to
-          any component.
+
+        <!-- Subheadline -->
+        <p class="text-gray text-xl leading-relaxed max-w-2xl">
+          Specorator is a workflow cockpit inside Obsidian. Define what to build
+          through a structured 11-stage process and Claude Code agents handle
+          spec drafting, task generation, and quality gates. You stay in control
+          of <em>what</em> to build — the agents handle <em>how</em>.
         </p>
-        <div class="flex items-center gap-6 pt-2 flex-wrap">
-          <div class="flex flex-col gap-1">
-            <span class="font-mono font-bold text-3xl text-text">4</span>
-            <span class="font-mono text-xs uppercase tracking-wide text-gray"
-              >Components</span
-            >
-          </div>
-          <div class="w-px h-8 bg-border/20"></div>
-          <div class="flex flex-col gap-1">
-            <span class="font-mono font-bold text-3xl text-green-400"
-              >{inProgressCount}</span
-            >
-            <span class="font-mono text-xs uppercase tracking-wide text-gray"
-              >In Progress</span
-            >
-          </div>
-          <div class="w-px h-8 bg-border/20"></div>
-          <div class="flex flex-col gap-1">
-            <span class="font-mono font-bold text-3xl text-amber-400"
-              >{plannedCount}</span
-            >
-            <span class="font-mono text-xs uppercase tracking-wide text-gray"
-              >Planned</span
-            >
-          </div>
-          <div class="w-px h-8 bg-border/20"></div>
-          <div class="flex flex-col gap-1">
-            <span class="font-mono font-bold text-3xl text-primary"
-              >{activeMilestone?.phase ?? "—"}</span
-            >
-            <span class="font-mono text-xs uppercase tracking-wide text-gray"
-              >Active Milestone</span
-            >
-          </div>
+
+        <!-- CTAs -->
+        <div class="flex items-center gap-4 pt-2 flex-wrap">
+          <a
+            href={specorator?.repo ?? "https://github.com/Luis85/specorator"}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 bg-primary text-body font-mono font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-primary/90 transition-colors duration-150 no-underline hover:no-underline"
+          >
+            Get the Plugin ↗
+          </a>
+          <a
+            href="#use-cases"
+            class="inline-flex items-center gap-2 border border-border/30 text-gray font-mono font-semibold text-sm px-5 py-2.5 rounded-xl hover:border-border/60 hover:text-text transition-colors duration-150 no-underline hover:no-underline"
+          >
+            Find your entry point ↓
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ─── 02 Architecture ──────────────────────────────────────────── -->
+    <!-- ─── Problem ───────────────────────────────────────────────────── -->
     <section class="container-padding-x py-16 border-b border-border/10">
-      <h2
-        class="font-mono text-xs uppercase tracking-widest text-gray mb-10 flex items-center gap-3"
-      >
-        <span class="text-dark-gray">02</span>Architecture
-      </h2>
-
-      <div class="flex flex-col items-center max-w-xl gap-0">
-        <!-- Row 1: specorator -->
-        <div
-          class="w-full rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
-          style={`border-color: ${layerColors.ui}; background: color-mix(in srgb, ${layerColors.ui} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.ui}`}
-        >
-          <div class="flex items-center justify-between gap-2">
-            <span
-              class="font-mono font-semibold text-sm"
-              style={`color: ${layerColors.ui}`}>specorator</span
-            >
-            <span class="size-2 rounded-full bg-green-400" title="In Progress"
-            ></span>
-          </div>
-          <span class="text-xs text-gray"
-            >UI / Visualization Layer · Obsidian Plugin</span
+      <div class="flex flex-col gap-10 max-w-3xl">
+        <div class="flex flex-col gap-3">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
           >
+            <span class="text-dark-gray">01</span>The Problem
+          </h2>
+          <p class="font-primary font-bold text-3xl text-text leading-snug">
+            AI can write code.<br />
+            <span class="text-dark-gray">It can't manage your project.</span>
+          </p>
         </div>
 
-        <!-- Connector + label -->
-        <div class="flex flex-col items-center py-1 gap-0.5">
-          <span class="font-mono text-[10px] text-dark-gray"
-            >spec methodology</span
+        <div class="grid md:grid-cols-3 gap-4">
+          {
+            [
+              {
+                icon: "⚡",
+                heading: "Context gets lost",
+                body: "AI tools are powerful in the moment but forget your project history, decisions, and rationale the instant the session ends.",
+              },
+              {
+                icon: "🗂",
+                heading: "Artifacts are scattered",
+                body: "Specs live in Notion, tasks in Linear, notes in Slack threads. Nothing stays connected through the lifecycle of a feature.",
+              },
+              {
+                icon: "🔁",
+                heading: "Every project restarts chaos",
+                body: "There's no repeatable process. Each new feature kicks off the same unstructured planning loop — from scratch, every time.",
+              },
+            ].map((item) => (
+              <div class="bg-card/50 border border-border/6 rounded-2xl p-5 flex flex-col gap-3">
+                <span class="text-2xl">{item.icon}</span>
+                <span class="font-mono font-semibold text-sm text-text">
+                  {item.heading}
+                </span>
+                <p class="text-xs text-gray leading-relaxed">{item.body}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── How It Works ─────────────────────────────────────────────── -->
+    <section class="container-padding-x py-16 border-b border-border/10">
+      <div class="flex flex-col gap-10 max-w-3xl">
+        <div class="flex flex-col gap-3">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
           >
-          <div class="w-px h-4 bg-border/30"></div>
-          <span class="text-dark-gray text-[8px]">▼</span>
+            <span class="text-dark-gray">02</span>How It Works
+          </h2>
+          <p class="font-primary font-bold text-3xl text-text leading-snug">
+            Three moves from idea to release.
+          </p>
         </div>
 
-        <!-- Row 2: specorator-runtime -->
-        <div
-          class="w-full rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
-          style={`border-color: ${layerColors.runtime}; background: color-mix(in srgb, ${layerColors.runtime} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.runtime}`}
-        >
-          <div class="flex items-center justify-between gap-2">
-            <span
-              class="font-mono font-semibold text-sm"
-              style={`color: ${layerColors.runtime}`}>specorator-runtime</span
-            >
-            <span
-              class="font-mono text-[9px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded"
-              >planned</span
-            >
-          </div>
-          <span class="text-xs text-gray"
-            >Execution Runtime · Orchestration Bridge</span
+        <div class="flex flex-col gap-0">
+          {
+            [
+              {
+                step: "01",
+                title: "Define",
+                description:
+                  "Describe your idea in plain language inside your Obsidian vault. Specorator creates a structured project file and sets up your 11-stage workflow automatically.",
+                detail: "Stage: Idea → Research → Requirements",
+              },
+              {
+                step: "02",
+                title: "Structure",
+                description:
+                  "Claude Code agents draft your specifications, break work into tasks, and enforce quality gates at each stage. You review, adjust, and approve — the agents do the drafting.",
+                detail: "Stage: Design → Specification → Tasks",
+              },
+              {
+                step: "03",
+                title: "Ship",
+                description:
+                  "Progress through implementation, testing, and review with full context preserved at every step. Each stage gates the next — nothing slips through.",
+                detail: "Stage: Implementation → Testing → Review → Release",
+              },
+            ].map((item, i) => (
+              <div
+                class={`flex gap-6 py-8 ${i < 2 ? "border-b border-border/10" : ""}`}
+              >
+                <div class="flex flex-col items-center gap-2 flex-shrink-0">
+                  <span class="font-mono font-bold text-2xl text-primary">
+                    {item.step}
+                  </span>
+                  {i < 2 && <div class="w-px flex-1 bg-border/20 min-h-8" />}
+                </div>
+                <div class="flex flex-col gap-2 pt-1">
+                  <span class="font-primary font-bold text-xl text-text">
+                    {item.title}
+                  </span>
+                  <p class="text-sm text-gray leading-relaxed">
+                    {item.description}
+                  </p>
+                  <span class="font-mono text-[10px] text-dark-gray uppercase tracking-wide">
+                    {item.detail}
+                  </span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Use-Case Routing ──────────────────────────────────────────── -->
+    <section
+      id="use-cases"
+      class="container-padding-x py-16 border-b border-border/10"
+    >
+      <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3 max-w-3xl">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
           >
+            <span class="text-dark-gray">03</span>Where to Start
+          </h2>
+          <p class="font-primary font-bold text-3xl text-text leading-snug">
+            What brings you here?
+          </p>
+          <p class="text-gray text-base leading-relaxed">
+            The ecosystem has four components. Pick the one that matches your
+            use case.
+          </p>
         </div>
 
-        <!-- Split connector -->
-        <div class="flex justify-around w-full max-w-xl px-16 py-1">
-          <div class="flex flex-col items-center gap-0.5">
-            <div class="w-px h-4 bg-border/30"></div>
-            <span class="text-dark-gray text-[8px]">▼</span>
-          </div>
-          <div class="flex flex-col items-center gap-0.5">
-            <div class="w-px h-4 bg-border/30"></div>
-            <span class="text-dark-gray text-[8px]">▼</span>
-          </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          {
+            useCases.map((uc) => (
+              <div
+                class="bg-card/70 border border-border/6 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden"
+                style={`border-top: 2px solid ${uc.color}`}
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <span class="font-mono font-semibold text-sm text-text leading-snug">
+                    {uc.label}
+                  </span>
+                  <span
+                    class="font-mono text-[9px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded flex-shrink-0"
+                    style={`color: ${uc.badgeColor}; border-color: ${uc.badgeColor}`}
+                  >
+                    {uc.badge}
+                  </span>
+                </div>
+                <p class="text-xs text-gray leading-relaxed flex-1">
+                  {uc.description}
+                </p>
+                {uc.available ? (
+                  <a
+                    href={uc.href}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-80 hover:opacity-100 transition-colors duration-150 no-underline hover:no-underline"
+                    style={`color: ${uc.color}`}
+                  >
+                    {uc.cta} ↗
+                  </a>
+                ) : (
+                  <span
+                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-40 cursor-not-allowed"
+                    aria-disabled="true"
+                    style={`color: ${uc.color}`}
+                  >
+                    {uc.cta} ↗
+                  </span>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 04 Architecture ──────────────────────────────────────────── -->
+    <section class="container-padding-x py-16 border-b border-border/10">
+      <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3 max-w-3xl">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
+          >
+            <span class="text-dark-gray">04</span>Architecture
+          </h2>
+          <p class="font-primary font-bold text-2xl text-text leading-snug">
+            Four components. One composable system.
+          </p>
+          <p class="text-gray text-sm leading-relaxed max-w-xl">
+            Each layer has a single responsibility. Together they form a fully
+            observable, spec-driven development platform — built incrementally
+            so you can adopt as much or as little as you need.
+          </p>
         </div>
 
-        <!-- Row 3: agentonomous + agentic-workflow -->
-        <div class="w-full grid grid-cols-2 gap-4">
+        <div class="flex flex-col items-start max-w-xl gap-0">
+          <!-- Row 1: specorator -->
           <div
-            class="rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
-            style={`border-color: ${layerColors.agents}; background: color-mix(in srgb, ${layerColors.agents} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.agents}`}
+            class="w-full rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
+            style={`border-color: ${layerColors.ui}; background: color-mix(in srgb, ${layerColors.ui} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.ui}`}
           >
             <div class="flex items-center justify-between gap-2">
               <span
                 class="font-mono font-semibold text-sm"
-                style={`color: ${layerColors.agents}`}>agentonomous</span
+                style={`color: ${layerColors.ui}`}>specorator</span
+              >
+              <span class="size-2 rounded-full bg-green-400" title="In Progress"
+              ></span>
+            </div>
+            <span class="text-xs text-gray"
+              >UI / Visualization Layer · Obsidian Plugin</span
+            >
+          </div>
+
+          <div class="flex flex-col items-center py-1 gap-0.5 self-center">
+            <span class="font-mono text-[10px] text-dark-gray"
+              >spec methodology</span
+            >
+            <div class="w-px h-4 bg-border/30"></div>
+            <span class="text-dark-gray text-[8px]">▼</span>
+          </div>
+
+          <!-- Row 2: specorator-runtime -->
+          <div
+            class="w-full rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
+            style={`border-color: ${layerColors.runtime}; background: color-mix(in srgb, ${layerColors.runtime} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.runtime}`}
+          >
+            <div class="flex items-center justify-between gap-2">
+              <span
+                class="font-mono font-semibold text-sm"
+                style={`color: ${layerColors.runtime}`}>specorator-runtime</span
               >
               <span
                 class="font-mono text-[9px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded"
                 >planned</span
               >
             </div>
-            <span class="text-xs text-gray">Agent Library</span>
-          </div>
-
-          <div
-            class="rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
-            style={`border-color: ${layerColors.workflow}; background: color-mix(in srgb, ${layerColors.workflow} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.workflow}`}
-          >
-            <div class="flex items-center justify-between gap-2">
-              <span
-                class="font-mono font-semibold text-sm"
-                style={`color: ${layerColors.workflow}`}>agentic-workflow</span
-              >
-              <span class="size-2 rounded-full bg-green-400" title="In Progress"
-              ></span>
-            </div>
-            <span class="text-xs text-gray">Workflow Definition System</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Legend -->
-      <div class="flex items-center gap-5 mt-8 flex-wrap">
-        {
-          Object.entries(layerColors).map(([role, color]) => (
-            <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-              <span
-                class="size-2 rounded-full"
-                style={`background: ${color}`}
-              />
-              {role}
-            </span>
-          ))
-        }
-        <span class="w-px h-4 bg-border/20"></span>
-        <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-          <span class="size-2 rounded-full bg-green-400"></span>in-progress
-        </span>
-        <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-          <span class="size-2 rounded-full bg-amber-400 opacity-60"
-          ></span>planned
-        </span>
-      </div>
-
-      <p class="mt-5 text-sm text-dark-gray italic max-w-xl leading-relaxed">
-        specorator currently reads agentic-workflow methodology directly.
-        specorator-runtime will become the orchestration bridge once
-        implemented, and agentonomous will power agentic coworker features in
-        specorator v2.0.
-      </p>
-    </section>
-
-    <!-- ─── 03 Projects ──────────────────────────────────────────────── -->
-    <section class="container-padding-x py-16 border-b border-border/10">
-      <h2
-        class="font-mono text-xs uppercase tracking-widest text-gray mb-10 flex items-center gap-3"
-      >
-        <span class="text-dark-gray">03</span>Projects
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-4">
-        {
-          projects.map((p) => (
-            <article
-              class="bg-card/70 border border-border/6 rounded-3xl p-6 flex flex-col gap-4 group relative overflow-hidden transition-all duration-200 hover:bg-card/90"
-              style={`border-top: 2px solid ${layerColors[p.role]}`}
+            <span class="text-xs text-gray"
+              >Execution Runtime · Orchestration Bridge</span
             >
-              <div class="flex flex-col gap-1">
-                <div class="flex items-center justify-between gap-2">
-                  <h3 class="font-mono font-semibold text-base text-text">
-                    {p.name}
-                  </h3>
-                  <span
-                    class="font-mono text-[10px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded flex-shrink-0"
-                    style={`color: ${statusColors[p.status]}; border-color: ${statusColors[p.status]}`}
-                  >
-                    {statusLabels[p.status]}
-                  </span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-dark-gray">{p.layer}</span>
-                  {p.version && (
-                    <span
-                      class="font-mono text-[10px] border px-1.5 py-0.5 rounded"
-                      style={`color: ${layerColors[p.role]}; border-color: color-mix(in srgb, ${layerColors[p.role]} 30%, transparent)`}
-                    >
-                      {p.version}
-                    </span>
-                  )}
-                </div>
-              </div>
+          </div>
 
-              <p class="text-sm text-gray leading-relaxed flex-1">
-                {p.description}
-              </p>
+          <!-- Split connector -->
+          <div class="flex justify-around w-full max-w-xl px-16 py-1">
+            <div class="flex flex-col items-center gap-0.5">
+              <div class="w-px h-4 bg-border/30"></div>
+              <span class="text-dark-gray text-[8px]">▼</span>
+            </div>
+            <div class="flex flex-col items-center gap-0.5">
+              <div class="w-px h-4 bg-border/30"></div>
+              <span class="text-dark-gray text-[8px]">▼</span>
+            </div>
+          </div>
 
-              {p.techStack && p.techStack.length > 0 && (
-                <div class="flex flex-wrap gap-1.5">
-                  {p.techStack.map((tech: string) => (
-                    <span class="font-mono text-[10px] text-dark-gray bg-body border border-border/20 px-2 py-0.5 rounded">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {(p.lastUpdate || p.openIssues !== null) && (
-                <div class="flex gap-5 pt-3 border-t border-border/10">
-                  {p.lastUpdate && (
-                    <div class="flex flex-col gap-0.5">
-                      <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
-                        Updated
-                      </span>
-                      <span class="font-mono text-xs text-gray">
-                        {p.lastUpdate}
-                      </span>
-                    </div>
-                  )}
-                  {p.openIssues !== null && (
-                    <div class="flex flex-col gap-0.5">
-                      <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
-                        Open Issues
-                      </span>
-                      <span class="font-mono text-xs text-gray">
-                        {p.openIssues}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div class="flex gap-3">
-                {p.repo && (
-                  <a
-                    href={p.repo}
-                    target="_blank"
-                    rel="noopener"
-                    class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                  >
-                    Repo ↗
-                  </a>
-                )}
-                {p.docs && (
-                  <a
-                    href={p.docs}
-                    target="_blank"
-                    rel="noopener"
-                    class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                  >
-                    Docs ↗
-                  </a>
-                )}
-                {p.prd && (
-                  <a
-                    href={p.prd}
-                    target="_blank"
-                    rel="noopener"
-                    class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                  >
-                    PRD ↗
-                  </a>
-                )}
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- ─── 04 Roadmap ───────────────────────────────────────────────── -->
-    <section class="container-padding-x py-16">
-      <h2
-        class="font-mono text-xs uppercase tracking-widest text-gray mb-10 flex items-center gap-3"
-      >
-        <span class="text-dark-gray">04</span>Roadmap
-      </h2>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {
-          milestones.map((m) => (
+          <!-- Row 3: agentonomous + agentic-workflow -->
+          <div class="w-full grid grid-cols-2 gap-4">
             <div
-              class={`bg-card/70 rounded-3xl p-6 flex flex-col gap-3 ${m.status === "active" ? "border border-primary/40" : "border border-border/6 opacity-45"}`}
-              style={
-                m.status === "active"
-                  ? "background: color-mix(in srgb, #22d3ee 4%, #111113)"
-                  : ""
-              }
+              class="rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
+              style={`border-color: ${layerColors.agents}; background: color-mix(in srgb, ${layerColors.agents} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.agents}`}
             >
               <div class="flex items-center justify-between gap-2">
-                <span class="font-mono text-xs font-bold uppercase tracking-widest text-primary">
-                  {m.phase}
-                </span>
-                {m.status === "active" ? (
-                  <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-green-400 border border-green-400 px-1.5 py-0.5 rounded">
-                    Active
-                  </span>
-                ) : (
-                  <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded">
-                    Planned
-                  </span>
-                )}
+                <span
+                  class="font-mono font-semibold text-sm"
+                  style={`color: ${layerColors.agents}`}>agentonomous</span
+                >
+                <span
+                  class="font-mono text-[9px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded"
+                  >planned</span
+                >
               </div>
-              <span class="font-mono text-sm font-semibold text-text">
-                {m.title}
-              </span>
-              <span
-                class="text-xs text-gray leading-relaxed"
-                set:html={m.description}
-              />
+              <span class="text-xs text-gray">Agent Library</span>
             </div>
-          ))
-        }
+
+            <div
+              class="rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
+              style={`border-color: ${layerColors.workflow}; background: color-mix(in srgb, ${layerColors.workflow} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.workflow}`}
+            >
+              <div class="flex items-center justify-between gap-2">
+                <span
+                  class="font-mono font-semibold text-sm"
+                  style={`color: ${layerColors.workflow}`}
+                  >agentic-workflow</span
+                >
+                <span
+                  class="size-2 rounded-full bg-green-400"
+                  title="In Progress"></span>
+              </div>
+              <span class="text-xs text-gray">Workflow Definition System</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center gap-5 flex-wrap">
+          {
+            Object.entries(layerColors).map(([role, color]) => (
+              <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
+                <span
+                  class="size-2 rounded-full"
+                  style={`background: ${color}`}
+                />
+                {role}
+              </span>
+            ))
+          }
+          <span class="w-px h-4 bg-border/20"></span>
+          <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
+            <span class="size-2 rounded-full bg-green-400"></span>in-progress
+          </span>
+          <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
+            <span class="size-2 rounded-full bg-amber-400 opacity-60"
+            ></span>planned
+          </span>
+        </div>
+
+        <p class="text-sm text-dark-gray italic max-w-xl leading-relaxed">
+          specorator currently reads agentic-workflow methodology directly.
+          specorator-runtime will become the orchestration bridge once
+          implemented, and agentonomous will power agentic coworker features in
+          specorator v2.0.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── 05 Projects ──────────────────────────────────────────────── -->
+    <section class="container-padding-x py-16 border-b border-border/10">
+      <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3 max-w-3xl">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
+          >
+            <span class="text-dark-gray">05</span>Projects
+          </h2>
+          <p class="font-primary font-bold text-2xl text-text leading-snug">
+            Every component, at a glance.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          {
+            projects.map((p) => (
+              <article
+                class="bg-card/70 border border-border/6 rounded-3xl p-6 flex flex-col gap-4 group relative overflow-hidden transition-all duration-200 hover:bg-card/90"
+                style={`border-top: 2px solid ${layerColors[p.role]}`}
+              >
+                <div class="flex flex-col gap-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <h3 class="font-mono font-semibold text-base text-text">
+                      {p.name}
+                    </h3>
+                    {p.status && (
+                      <span
+                        class="font-mono text-[10px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded flex-shrink-0"
+                        style={`color: ${statusColors[p.status]}; border-color: ${statusColors[p.status]}`}
+                      >
+                        {statusLabels[p.status]}
+                      </span>
+                    )}
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-dark-gray">{p.layer}</span>
+                    {p.version && (
+                      <span
+                        class="font-mono text-[10px] border px-1.5 py-0.5 rounded"
+                        style={`color: ${layerColors[p.role]}; border-color: color-mix(in srgb, ${layerColors[p.role]} 30%, transparent)`}
+                      >
+                        {p.version}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <p class="text-sm text-gray leading-relaxed flex-1">
+                  {p.description}
+                </p>
+
+                {p.techStack && p.techStack.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5">
+                    {p.techStack.map((tech: string) => (
+                      <span class="font-mono text-[10px] text-dark-gray bg-body border border-border/20 px-2 py-0.5 rounded">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {(p.lastUpdate || p.openIssues !== null) && (
+                  <div class="flex gap-5 pt-3 border-t border-border/10">
+                    {p.lastUpdate && (
+                      <div class="flex flex-col gap-0.5">
+                        <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
+                          Updated
+                        </span>
+                        <span class="font-mono text-xs text-gray">
+                          {p.lastUpdate}
+                        </span>
+                      </div>
+                    )}
+                    {p.openIssues !== null && (
+                      <div class="flex flex-col gap-0.5">
+                        <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
+                          Issues & PRs
+                        </span>
+                        <span class="font-mono text-xs text-gray">
+                          {p.openIssues}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div class="flex gap-3">
+                  {p.repo && (
+                    <a
+                      href={p.repo}
+                      target="_blank"
+                      rel="noopener"
+                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
+                    >
+                      Repo ↗
+                    </a>
+                  )}
+                  {p.docs && (
+                    <a
+                      href={p.docs}
+                      target="_blank"
+                      rel="noopener"
+                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
+                    >
+                      Docs ↗
+                    </a>
+                  )}
+                  {p.prd && (
+                    <a
+                      href={p.prd}
+                      target="_blank"
+                      rel="noopener"
+                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
+                    >
+                      PRD ↗
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 06 Roadmap ───────────────────────────────────────────────── -->
+    <section class="container-padding-x py-16 border-b border-border/10">
+      <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3 max-w-3xl">
+          <h2
+            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
+          >
+            <span class="text-dark-gray">06</span>Roadmap
+          </h2>
+          <p class="font-primary font-bold text-2xl text-text leading-snug">
+            What's shipping next.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {
+            roadmap.map((entry) => (
+              <div
+                class={`bg-card/70 rounded-3xl p-6 flex flex-col gap-3 ${entry.status === "active" ? "border border-primary/40" : "border border-border/6 opacity-45"}`}
+                style={
+                  entry.status === "active"
+                    ? "background: color-mix(in srgb, #22d3ee 4%, #111113)"
+                    : ""
+                }
+              >
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-mono text-xs font-bold uppercase tracking-widest text-primary">
+                    {entry.phase}
+                  </span>
+                  {entry.status === "active" ? (
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-green-400 border border-green-400 px-1.5 py-0.5 rounded">
+                      Active
+                    </span>
+                  ) : (
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded">
+                      Planned
+                    </span>
+                  )}
+                </div>
+                <span class="font-mono text-sm font-semibold text-text">
+                  {entry.title}
+                </span>
+                <span class="text-xs text-gray leading-relaxed">
+                  {entry.description}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Final CTA ────────────────────────────────────────────────── -->
+    <section class="container-padding-x py-20">
+      <div
+        class="rounded-3xl border border-primary/20 p-10 flex flex-col gap-6 items-start"
+        style="background: color-mix(in srgb, #22d3ee 3%, #111113)"
+      >
+        <div class="flex flex-col gap-3 max-w-2xl">
+          <span class="font-mono text-xs uppercase tracking-widest text-primary"
+            >Ready to start?</span
+          >
+          <p class="font-primary font-bold text-3xl text-text leading-snug">
+            Stop reinventing your process.<br />
+            <span class="text-primary">Start building with a system.</span>
+          </p>
+          <p class="text-gray text-base leading-relaxed">
+            Install the Obsidian plugin, run the workflow, and let the agents
+            handle the drafting. Everything is open source — no sign-up, no
+            lock-in, your files stay yours.
+          </p>
+        </div>
+        <div class="flex items-center gap-4 flex-wrap">
+          <a
+            href={specorator?.repo ?? "https://github.com/Luis85/specorator"}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 bg-primary text-body font-mono font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors duration-150 no-underline hover:no-underline"
+          >
+            Get specorator ↗
+          </a>
+          <a
+            href={agenticWorkflow?.repo ??
+              "https://github.com/Luis85/agentic-workflow"}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 border border-border/30 text-gray font-mono font-semibold text-sm px-6 py-3 rounded-xl hover:border-border/60 hover:text-text transition-colors duration-150 no-underline hover:no-underline"
+          >
+            Browse the workflow ↗
+          </a>
+        </div>
+        <p class="font-mono text-xs text-dark-gray">
+          All four projects are open source under the MIT licence. Active
+          milestone: <span class="text-primary"
+            >{activeMilestone.phase} — {activeMilestone.title}</span
+          >
+        </p>
       </div>
     </section>
   </MainContainer>

@@ -15,7 +15,7 @@ type PageData = {
 };
 
 export const getSinglePage = async <C extends CollectionKey>(
-  collectionName: C
+  collectionName: C,
 ): Promise<CollectionEntry<C>[]> => {
   const now = new Date();
   const allPages = await getCollection(
@@ -23,23 +23,23 @@ export const getSinglePage = async <C extends CollectionKey>(
     ({ data, id }) =>
       !(data as PageData)?.draft &&
       !id.startsWith("-") &&
-      (!(data as any)?.date || new Date((data as any).date) <= now)
+      (!(data as any)?.date || new Date((data as any).date) <= now),
   );
   return allPages;
 };
 
 export const getListPage = async <C extends CollectionKey>(
   collectionName: C,
-  documentId: "-index" | string
+  documentId: "-index" | string,
 ): Promise<CollectionEntry<C>> => {
   const data = (await getEntry(
     collectionName,
-    documentId
+    documentId,
   )) as CollectionEntry<C> | null;
 
   if (!data) {
     throw new Error(
-      `No page found for the collection: ${collectionName} with filename: ${documentId}`
+      `No page found for the collection: ${collectionName} with filename: ${documentId}`,
     );
   }
 
