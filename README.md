@@ -1,6 +1,6 @@
 # specorator-ecosystem
 
-The **Specorator Ecosystem Hub** — a static control plane for the four-component Specorator system, deployed to GitHub Pages.
+The **Specorator Ecosystem Hub** — the entry point for the four-component Specorator system, deployed to GitHub Pages.
 
 **Live:** https://luis85.github.io/specorator-ecosystem
 
@@ -10,18 +10,18 @@ The **Specorator Ecosystem Hub** — a static control plane for the four-compone
 
 A lightweight developer-facing dashboard that provides a single URL to understand the Specorator system: what components exist, what state they're in, how they relate, and how to navigate to each one.
 
-It is not a marketing page. The aesthetic is a system control plane — dark, monospace, dense.
+It is not a marketing page. The aesthetic is an ops-style hub — dark, monospace, dense.
 
 ---
 
 ## Ecosystem components
 
-| Project | Layer | Status |
-|---|---|---|
-| [specorator](https://github.com/Luis85/specorator) | UI / Visualization (Obsidian plugin) | v1-alpha, in progress |
-| [specorator-runtime](https://github.com/Luis85/specorator-runtime) | Execution Runtime | Planned |
-| [agentonomous](https://github.com/Luis85/agentonomous) | Agent Library | Planned |
-| [agentic-workflow](https://github.com/Luis85/agentic-workflow) | Workflow Definition System | v0.5.1, in progress |
+| Project                                                            | Layer                                | Status                |
+| ------------------------------------------------------------------ | ------------------------------------ | --------------------- |
+| [specorator](https://github.com/Luis85/specorator)                 | UI / Visualization (Obsidian plugin) | v1-alpha, in progress |
+| [specorator-runtime](https://github.com/Luis85/specorator-runtime) | Execution Runtime                    | Planned               |
+| [agentonomous](https://github.com/Luis85/agentonomous)             | Agent Library                        | Planned               |
+| [agentic-workflow](https://github.com/Luis85/agentic-workflow)     | Workflow Definition System           | v0.5.1, in progress   |
 
 ---
 
@@ -98,9 +98,9 @@ docs/
 
 ## Roadmap
 
-| Version | Scope |
-|---|---|
-| **V1** (current) | Static site · architecture diagram · project listing · manual data |
-| V2 | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages |
-| V3 | Runtime observability · agent session tracking · event stream visualization |
-| V4 | Workflow execution tracking · knowledge graph · semantic cross-linking |
+| Version          | Scope                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| **V1** (current) | Static site · architecture diagram · project listing · manual data                     |
+| V2               | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages |
+| V3               | Runtime observability · agent session tracking · event stream visualization            |
+| V4               | Workflow execution tracking · knowledge graph · semantic cross-linking                 |

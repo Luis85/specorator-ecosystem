@@ -39,12 +39,12 @@ Both audiences need the same thing: clarity on what exists, what state it's in, 
 
 ## 4. Ecosystem Components
 
-| Project | Layer | Role | Current State |
-|---|---|---|---|
-| **specorator** | UI / Visualization | Obsidian plugin providing a spec-driven workflow cockpit. Guides teams from idea to release through an 11-stage lifecycle, maintaining all artifacts as editable Markdown. | v1-alpha, in active development |
-| **specorator-runtime** | Execution Runtime | Planned execution engine that will orchestrate agents and workflows, bridging the UI layer with the agent and workflow subsystems at runtime. | Planned, 11 open issues |
-| **agentonomous** | Agent Library | Autonomous agent library for TypeScript. Provides building blocks for intelligent task execution. Integrates into specorator v2.0 for agentic coworker capabilities. | Pre-release (name reserved), 21 open issues |
-| **agentic-workflow** | Workflow Definition | Spec-driven, 11-stage development workflow template (Idea → Research → Requirements → Design → Specification → Tasks → Implementation → Testing → Review → Release → Retrospective). Powers specorator's workflow cockpit and provides methodology, templates, and quality gates. | v0.5.1, actively maintained |
+| Project                | Layer               | Role                                                                                                                                                                                                                                                                              | Current State                               |
+| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| **specorator**         | UI / Visualization  | Obsidian plugin providing a spec-driven workflow cockpit. Guides teams from idea to release through an 11-stage lifecycle, maintaining all artifacts as editable Markdown.                                                                                                        | v1-alpha, in active development             |
+| **specorator-runtime** | Execution Runtime   | Planned execution engine that will orchestrate agents and workflows, bridging the UI layer with the agent and workflow subsystems at runtime.                                                                                                                                     | Planned, 11 open issues                     |
+| **agentonomous**       | Agent Library       | Autonomous agent library for TypeScript. Provides building blocks for intelligent task execution. Integrates into specorator v2.0 for agentic coworker capabilities.                                                                                                              | Pre-release (name reserved), 21 open issues |
+| **agentic-workflow**   | Workflow Definition | Spec-driven, 11-stage development workflow template (Idea → Research → Requirements → Design → Specification → Tasks → Implementation → Testing → Review → Release → Retrospective). Powers specorator's workflow cockpit and provides methodology, templates, and quality gates. | v0.5.1, actively maintained                 |
 
 ### Architectural Relationships
 
@@ -71,14 +71,14 @@ V1 is a static site. No build-time API calls, no dynamic data, no client-side Ja
 
 ### What V1 includes
 
-| Feature | Description |
-|---|---|
-| **System overview** | Single-paragraph explanation of what the ecosystem is and what this hub does |
-| **Architecture diagram** | Layered visual showing the four components, their layer assignments, and connection flow |
+| Feature                  | Description                                                                                                                          |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **System overview**      | Single-paragraph explanation of what the ecosystem is and what this hub does                                                         |
+| **Architecture diagram** | Layered visual showing the four components, their layer assignments, and connection flow                                             |
 | **Project status cards** | One card per component — name, layer, status badge, description, tech stack, last-update date, open issue count (where known), links |
-| **Roadmap section** | V1–V4 milestone cards; V1 highlighted as active |
-| **Navigation** | Every card links directly to its GitHub repository |
-| **CI/CD** | GitHub Actions workflow deploys to GitHub Pages on push to `develop` |
+| **Roadmap section**      | V1–V4 milestone cards; V1 highlighted as active                                                                                      |
+| **Navigation**           | Every card links directly to its GitHub repository                                                                                   |
+| **CI/CD**                | GitHub Actions workflow deploys to GitHub Pages on push to `develop`                                                                 |
 
 ### What V1 explicitly excludes
 
@@ -92,12 +92,12 @@ V1 is a static site. No build-time API calls, no dynamic data, no client-side Ja
 
 ## 6. Roadmap
 
-| Version | Scope | Status |
-|---|---|---|
-| **V1** | Static site · architecture diagram · project listing · manual data in `projects.json` · GitHub Pages CI/CD | **Active (this PR)** |
-| **V2** | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages | Planned |
-| **V3** | Runtime observability · agent session tracking · event stream visualization | Planned |
-| **V4** | Workflow execution tracking · knowledge graph · semantic cross-linking | Planned |
+| Version | Scope                                                                                                      | Status               |
+| ------- | ---------------------------------------------------------------------------------------------------------- | -------------------- |
+| **V1**  | Static site · architecture diagram · project listing · manual data in `projects.json` · GitHub Pages CI/CD | **Active (this PR)** |
+| **V2**  | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages                     | Planned              |
+| **V3**  | Runtime observability · agent session tracking · event stream visualization                                | Planned              |
+| **V4**  | Workflow execution tracking · knowledge graph · semantic cross-linking                                     | Planned              |
 
 ---
 
@@ -128,6 +128,7 @@ V1 is a static site. No build-time API calls, no dynamic data, no client-side Ja
 All project metadata for V1 lives in `src/data/projects.json`. This is the **single source of truth** for the hub. V2 will replace the static fields (`lastUpdate`, `openIssues`) with GitHub API responses at build time while keeping the same data shape.
 
 Fields per project:
+
 - `id` — stable identifier (matches repo name)
 - `name` — display name
 - `role` — `ui | runtime | agents | workflow` (drives color theming)

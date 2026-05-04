@@ -8,11 +8,17 @@
       "description": "Obsidian plugin providing a spec-driven, agentic software development workflow cockpit. Guides teams from idea to release through an 11-stage lifecycle, maintaining all artifacts as editable Markdown within the vault. v2.0 will integrate agentonomous for agentic coworker capabilities.",
       "status": "in-progress",
       "version": "v1-alpha",
-      "techStack": ["TypeScript 5.8", "Vue 3", "Pinia 2", "Vite", "Obsidian SDK"],
+      "techStack": [
+        "TypeScript 5.8",
+        "Vue 3",
+        "Pinia 2",
+        "Vite",
+        "Obsidian SDK"
+      ],
       "repo": "https://github.com/Luis85/specorator",
       "docs": null,
       "prd": null,
-      "lastUpdate": "2026-05-04",
+      "lastUpdate": null,
       "openIssues": null
     },
     {
@@ -28,7 +34,7 @@
       "docs": null,
       "prd": null,
       "lastUpdate": null,
-      "openIssues": 11
+      "openIssues": null
     },
     {
       "id": "agentonomous",
@@ -43,7 +49,7 @@
       "docs": null,
       "prd": null,
       "lastUpdate": null,
-      "openIssues": 21
+      "openIssues": null
     },
     {
       "id": "agentic-workflow",
@@ -57,7 +63,7 @@
       "repo": "https://github.com/Luis85/agentic-workflow",
       "docs": null,
       "prd": null,
-      "lastUpdate": "2026-05-04",
+      "lastUpdate": null,
       "openIssues": null
     }
   ]
