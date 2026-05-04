@@ -17,17 +17,17 @@ export interface Project {
   prd: string | null;
 }
 
-const STATUS_TOPICS = new Set([
-  "status:planned",
-  "status:in-progress",
-  "status:done",
-]);
+const STATUS_TOPIC_MAP: Record<string, string> = {
+  "status-planned": "planned",
+  "status-in-progress": "in-progress",
+  "status-done": "done",
+};
 
 function extractStatus(topics: unknown): string | null {
   if (!Array.isArray(topics)) return null;
   for (const topic of topics) {
-    if (typeof topic === "string" && STATUS_TOPICS.has(topic)) {
-      return topic.replace("status:", "");
+    if (typeof topic === "string" && topic in STATUS_TOPIC_MAP) {
+      return STATUS_TOPIC_MAP[topic];
     }
   }
   return null;

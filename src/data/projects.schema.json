@@ -47,7 +47,7 @@
             "items": { "type": "string" }
           },
           "status": {
-            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Topics at build time (issue #7). Add a topic matching 'status:planned', 'status:in-progress', or 'status:done' to the GitHub repo to set this.",
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Topics at build time (issue #7). Add a topic matching 'status-planned', 'status-in-progress', or 'status-done' to the GitHub repo to set this.",
             "type": ["string", "null"],
             "enum": ["planned", "in-progress", "done", null]
           },
