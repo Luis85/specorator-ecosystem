@@ -1,7 +1,7 @@
 # Design Brief — Specorator Ecosystem Hub
 
 **Version:** 1.0  
-**Aesthetic:** System control plane — dark, dense, monospace  
+**Aesthetic:** Ecosystem hub — dark, dense, monospace  
 **Framework:** Astro (static), zero external CSS frameworks
 
 ---

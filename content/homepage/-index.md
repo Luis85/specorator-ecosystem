@@ -4,11 +4,11 @@ banner:
   title: |
     Specorator Ecosystem
     <br/>
-    <mark>Control Plane</mark>
+    <mark>Hub</mark>
   content: "Central entry point for all Specorator projects. Navigate the architecture, track project status, and explore the system — in one place."
   badge:
     enable: true
-    label: "4 Projects · System Control Plane V1"
+    label: "4 Projects · Ecosystem Hub V1"
     images: []
   image: "/images/banner.png"
   button_dark:
