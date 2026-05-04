@@ -47,7 +47,7 @@
             "items": { "type": "string" }
           },
           "status": {
-            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Topics (issue #7). Leave null until automation is in place.",
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub Topics at build time (issue #7). Add a topic matching 'status-planned', 'status-in-progress', or 'status-done' to the GitHub repo to set this.",
             "type": ["string", "null"],
             "enum": ["planned", "in-progress", "done", null]
           },
@@ -64,7 +64,7 @@
             "type": ["integer", "null"]
           },
           "docs": {
-            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API repo.homepage (issue #8). Leave null until automation is in place.",
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API repo.homepage at build time (issue #8). Set the homepage field on the GitHub repo to populate this.",
             "type": ["string", "null"]
           },
           "prd": {

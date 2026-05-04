@@ -17,6 +17,39 @@ export interface Project {
   prd: string | null;
 }
 
+const STATUS_TOPIC_MAP: Record<string, string> = {
+  "status-planned": "planned",
+  "status-in-progress": "in-progress",
+  "status-done": "done",
+};
+
+function extractStatus(topics: unknown): string | null {
+  if (!Array.isArray(topics)) return null;
+  for (const topic of topics) {
+    if (typeof topic === "string" && Object.hasOwn(STATUS_TOPIC_MAP, topic)) {
+      return STATUS_TOPIC_MAP[topic];
+    }
+  }
+  return null;
+}
+
+function normalizeUrl(raw: unknown): string | null {
+  if (typeof raw !== "string" || raw.trim().length === 0) return null;
+  const trimmed = raw.trim();
+  const isHttps = (u: URL) => u.protocol === "https:" || u.protocol === "http:";
+  try {
+    const url = new URL(trimmed);
+    return isHttps(url) ? url.href : null;
+  } catch {
+    try {
+      const url = new URL(`https://${trimmed}`);
+      return isHttps(url) ? url.href : null;
+    } catch {
+      return null;
+    }
+  }
+}
+
 export async function fetchEnrichedProjects(): Promise<Project[]> {
   const { projects } = projectsData;
   const token = import.meta.env.GITHUB_TOKEN as string | undefined;
@@ -45,6 +78,7 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
 
         return {
           ...project,
+          status: extractStatus(repo?.topics),
           lastUpdate:
             typeof repo?.pushed_at === "string"
               ? repo.pushed_at.split("T")[0]
@@ -55,13 +89,16 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
               : null,
           version:
             typeof release?.tag_name === "string" ? release.tag_name : null,
+          docs: normalizeUrl(repo?.homepage),
         };
       } catch {
         return {
           ...project,
+          status: null,
           lastUpdate: null,
           openIssues: null,
           version: null,
+          docs: null,
         };
       }
     }),
