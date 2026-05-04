@@ -286,15 +286,25 @@ const useCases = [
                 <p class="text-xs text-gray leading-relaxed flex-1">
                   {uc.description}
                 </p>
-                <a
-                  href={uc.href}
-                  target="_blank"
-                  rel="noopener"
-                  class={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold transition-colors duration-150 no-underline hover:no-underline ${uc.available ? "hover:opacity-100 opacity-80" : "opacity-40 pointer-events-none"}`}
-                  style={`color: ${uc.color}`}
-                >
-                  {uc.cta} ↗
-                </a>
+                {uc.available ? (
+                  <a
+                    href={uc.href}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-80 hover:opacity-100 transition-colors duration-150 no-underline hover:no-underline"
+                    style={`color: ${uc.color}`}
+                  >
+                    {uc.cta} ↗
+                  </a>
+                ) : (
+                  <span
+                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-40 cursor-not-allowed"
+                    aria-disabled="true"
+                    style={`color: ${uc.color}`}
+                  >
+                    {uc.cta} ↗
+                  </span>
+                )}
               </div>
             ))
           }
