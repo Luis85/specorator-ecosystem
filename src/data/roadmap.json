@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "V1",
+    "label": "Static Hub",
+    "description": "Architecture diagram · project listing · manual data in projects.json · GitHub Pages CI/CD",
+    "active": true
+  },
+  {
+    "phase": "V2",
+    "label": "Live Data",
+    "description": "GitHub API at build time · live issue counts · last-commit dates · per-project detail pages",
+    "active": false
+  },
+  {
+    "phase": "V3",
+    "label": "Runtime Observability",
+    "description": "Agent session tracking · event stream visualization · live runtime status from specorator-runtime",
+    "active": false
+  },
+  {
+    "phase": "V4",
+    "label": "Knowledge Graph",
+    "description": "Workflow execution tracking · semantic cross-linking · knowledge graph across ecosystem components",
+    "active": false
+  }
+]

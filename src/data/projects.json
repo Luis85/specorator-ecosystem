@@ -6,14 +6,21 @@
       "role": "ui",
       "layer": "UI / Visualization Layer",
       "description": "Obsidian plugin providing a spec-driven, agentic software development workflow cockpit. Guides teams from idea to release through an 11-stage lifecycle, maintaining all artifacts as editable Markdown within the vault. v2.0 will integrate agentonomous for agentic coworker capabilities.",
-      "status": "in-progress",
-      "version": "v1-alpha",
-      "techStack": ["TypeScript 5.8", "Vue 3", "Pinia 2", "Vite", "Obsidian SDK"],
       "repo": "https://github.com/Luis85/specorator",
+      "techStack": [
+        "TypeScript 5.8",
+        "Vue 3",
+        "Pinia 2",
+        "Vite",
+        "Obsidian SDK"
+      ],
+      "dependencies": [],
+      "status": null,
+      "version": null,
+      "lastUpdate": null,
+      "openIssues": null,
       "docs": null,
-      "prd": null,
-      "lastUpdate": "2026-05-04",
-      "openIssues": null
+      "prd": null
     },
     {
       "id": "specorator-runtime",
@@ -21,14 +28,15 @@
       "role": "runtime",
       "layer": "Execution Runtime",
       "description": "Planned execution engine that will orchestrate agents and workflows at runtime. Acts as the central bridge between the UI layer and the agent/workflow subsystems — the component that makes the ecosystem fully interconnected.",
-      "status": "planned",
-      "version": null,
-      "techStack": [],
       "repo": "https://github.com/Luis85/specorator-runtime",
-      "docs": null,
-      "prd": null,
+      "techStack": [],
+      "dependencies": ["agentonomous", "agentic-workflow"],
+      "status": null,
+      "version": null,
       "lastUpdate": null,
-      "openIssues": 11
+      "openIssues": null,
+      "docs": null,
+      "prd": null
     },
     {
       "id": "agentonomous",
@@ -36,14 +44,15 @@
       "role": "agents",
       "layer": "Agent Library",
       "description": "Autonomous agent library for TypeScript. Provides the building blocks for intelligent task execution and agent behaviors. Will be integrated into specorator v2.0 to provide agentic coworker capabilities — assisting with drafting, review, and workflow progression.",
-      "status": "planned",
-      "version": null,
-      "techStack": ["TypeScript"],
       "repo": "https://github.com/Luis85/agentonomous",
-      "docs": null,
-      "prd": null,
+      "techStack": ["TypeScript"],
+      "dependencies": [],
+      "status": null,
+      "version": null,
       "lastUpdate": null,
-      "openIssues": 21
+      "openIssues": null,
+      "docs": null,
+      "prd": null
     },
     {
       "id": "agentic-workflow",
@@ -51,14 +60,15 @@
       "role": "workflow",
       "layer": "Workflow Definition System",
       "description": "Spec-driven 11-stage development workflow template (Idea → Research → Requirements → Design → Specification → Tasks → Implementation → Testing → Review → Release → Retrospective). Provides the methodology, templates, quality gates, and Claude Code agents that power specorator's workflow cockpit.",
-      "status": "in-progress",
-      "version": "v0.5.1",
-      "techStack": ["TypeScript", "Node.js", "Claude Code", "Markdown"],
       "repo": "https://github.com/Luis85/agentic-workflow",
+      "techStack": ["TypeScript", "Node.js", "Claude Code", "Markdown"],
+      "dependencies": [],
+      "status": null,
+      "version": null,
+      "lastUpdate": null,
+      "openIssues": null,
       "docs": null,
-      "prd": null,
-      "lastUpdate": "2026-05-04",
-      "openIssues": null
+      "prd": null
     }
   ]
 }
