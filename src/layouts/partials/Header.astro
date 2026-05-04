@@ -33,12 +33,16 @@ const normalizePath = (path: string) => {
   return path.endsWith("/") ? path.slice(0, -1) : path;
 };
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (url: string) =>
+  url.startsWith("http") || url.startsWith("#") ? url : `${base}${url}`;
+
 const pathname = Astro.url.pathname;
 const normalizedPathname = normalizePath(pathname);
 
 const isPathActive = (url?: string) => {
   if (!url) return false;
-  return normalizePath(url) === normalizedPathname;
+  return normalizePath(withBase(url)) === normalizedPathname;
 };
 
 const isMegaMenuActive = (item: INavigationLink) =>
@@ -139,9 +143,9 @@ const iconPaths: Record<string, string> = {
                             <div class="nav-mega-company-col">
                               {group.map((child) => (
                                 <a
-                                  href={child.url}
+                                  href={withBase(child.url)}
                                   data-close-menu
-                                  data-nav-url={child.url}
+                                  data-nav-url={withBase(child.url)}
                                   class:list={[
                                     "nav-mega-link",
                                     isPathActive(child.url) && "active",
@@ -189,8 +193,8 @@ const iconPaths: Record<string, string> = {
                               <div class="nav-mega-company-col">
                                 {group.map((child) => (
                                   <a
-                                    href={child.url}
-                                    data-nav-url={child.url}
+                                    href={withBase(child.url)}
+                                    data-nav-url={withBase(child.url)}
                                     class:list={[
                                       "nav-mega-link",
                                       isPathActive(child.url) && "active",
@@ -229,8 +233,8 @@ const iconPaths: Record<string, string> = {
                           <div class="nav-mega-legal-list">
                             {item.mega_menu.page_links?.map((link) => (
                               <a
-                                href={link.url}
-                                data-nav-url={link.url}
+                                href={withBase(link.url)}
+                                data-nav-url={withBase(link.url)}
                                 class:list={[
                                   "nav-mega-legal-link",
                                   isPathActive(link.url) && "active",
@@ -265,9 +269,9 @@ const iconPaths: Record<string, string> = {
                     {item.children?.map((child) => (
                       <li class="nav-dropdown-item">
                         <a
-                          href={child.url}
+                          href={withBase(child.url)}
                           data-close-menu
-                          data-nav-url={child.url}
+                          data-nav-url={withBase(child.url)}
                           class:list={[
                             "nav-dropdown-link block",
                             isPathActive(child.url) && "active",
@@ -285,8 +289,8 @@ const iconPaths: Record<string, string> = {
                       {item.children?.map((child) => (
                         <li class="nav-dropdown-item">
                           <a
-                            href={child.url}
-                            data-nav-url={child.url}
+                            href={withBase(child.url)}
+                            data-nav-url={withBase(child.url)}
                             class:list={[
                               "nav-dropdown-link block",
                               isPathActive(child.url) && "active",
@@ -304,9 +308,9 @@ const iconPaths: Record<string, string> = {
           ) : (
             <li class="nav-item">
               <a
-                href={item.url}
+                href={withBase(item.url)}
                 data-close-menu
-                data-nav-url={item.url}
+                data-nav-url={withBase(item.url)}
                 class:list={["nav-link block", isPathActive(item.url) && "active"]}
               >
                 {item.name}
