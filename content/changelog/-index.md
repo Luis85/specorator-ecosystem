@@ -15,8 +15,8 @@ page_header:
 changelog_list:
   - version: "V1"
     date: "May 2025"
-    title: "Ecosystem Hub — Static Control Plane"
-    description: "The first public release of the Specorator Hub. A static, GitHub Pages–based control plane that consolidates all ecosystem projects in one place."
+    title: "Ecosystem Hub — V1 Launch"
+    description: "The first public release of the Specorator Hub. A static, GitHub Pages–based entry point that consolidates all ecosystem projects in one place."
     author: "luis85"
     time: ""
     categories:

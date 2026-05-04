@@ -15,7 +15,7 @@ The Specorator ecosystem consists of four independent but tightly related reposi
 - Piece together the architecture from scattered context across repos
 - Have no single URL to bookmark or share
 
-There is no "north star" page — no control plane view across the system.
+There is no "north star" page — no single hub or entry point for the system.
 
 ---
 
@@ -23,7 +23,7 @@ There is no "north star" page — no control plane view across the system.
 
 The **Specorator Ecosystem Hub** is a lightweight, always-available static web interface hosted on GitHub Pages. It serves as the **central entry point** for the entire ecosystem: one URL to understand the system, see what is active, and navigate to any component.
 
-It is explicitly **not** a marketing page or a README clone. It is a system control plane — intentionally minimal in V1, designed for operator and developer use, with a clear roadmap to grow into a live observability interface as the runtime matures.
+It is explicitly **not** a marketing page or a README clone. It is the ecosystem hub — intentionally minimal in V1, designed for developer and contributor use, with a clear roadmap to grow into a live observability interface as the runtime matures.
 
 ---
 
@@ -119,7 +119,7 @@ V1 is a static site. No build-time API calls, no dynamic data, no client-side Ja
 - **Astro** as the static site generator (already established in PR #1)
 - **Node 20** for CI
 - **Base path** `/specorator-ecosystem` (GitHub Pages project site)
-- **Dark theme** — the control plane aesthetic must be dark; no light theme for V1
+- **Dark theme** — the hub aesthetic must be dark; no light theme for V1
 
 ---
 
