@@ -1,0 +1,56 @@
+{
+  "projects": [
+    {
+      "id": "specorator",
+      "name": "specorator",
+      "role": "ui",
+      "layer": "UI / Visualization Layer",
+      "description": "Frontend interface and visualization layer. The primary entry point for users interacting with the Specorator ecosystem.",
+      "status": "in-progress",
+      "repo": "https://github.com/luis85/specorator",
+      "docs": null,
+      "prd": null,
+      "lastUpdate": "2025-05-04",
+      "openIssues": null
+    },
+    {
+      "id": "specorator-runtime",
+      "name": "specorator-runtime",
+      "role": "runtime",
+      "layer": "Execution Runtime",
+      "description": "Core execution engine that orchestrates agents and workflows. Bridges the UI layer with the agent and workflow subsystems.",
+      "status": "planned",
+      "repo": "https://github.com/luis85/specorator-runtime",
+      "docs": null,
+      "prd": null,
+      "lastUpdate": null,
+      "openIssues": null
+    },
+    {
+      "id": "agentonomous",
+      "name": "agentonomous",
+      "role": "agents",
+      "layer": "Agent Library",
+      "description": "Library of autonomous agent definitions and behaviors. Provides the building blocks for intelligent task execution within the runtime.",
+      "status": "planned",
+      "repo": "https://github.com/luis85/agentonomous",
+      "docs": null,
+      "prd": null,
+      "lastUpdate": null,
+      "openIssues": null
+    },
+    {
+      "id": "agentic-workflow",
+      "name": "agentic-workflow",
+      "role": "workflow",
+      "layer": "Workflow Definition System",
+      "description": "Declarative workflow definition system. Enables composing and sequencing agent tasks into higher-level operational flows.",
+      "status": "planned",
+      "repo": "https://github.com/luis85/agentic-workflow",
+      "docs": null,
+      "prd": null,
+      "lastUpdate": null,
+      "openIssues": null
+    }
+  ]
+}
