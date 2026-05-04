@@ -17,6 +17,22 @@ export interface Project {
   prd: string | null;
 }
 
+const STATUS_TOPICS = new Set([
+  "status:planned",
+  "status:in-progress",
+  "status:done",
+]);
+
+function extractStatus(topics: unknown): string | null {
+  if (!Array.isArray(topics)) return null;
+  for (const topic of topics) {
+    if (typeof topic === "string" && STATUS_TOPICS.has(topic)) {
+      return topic.replace("status:", "");
+    }
+  }
+  return null;
+}
+
 export async function fetchEnrichedProjects(): Promise<Project[]> {
   const { projects } = projectsData;
   const token = import.meta.env.GITHUB_TOKEN as string | undefined;
@@ -45,6 +61,7 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
 
         return {
           ...project,
+          status: extractStatus(repo?.topics),
           lastUpdate:
             typeof repo?.pushed_at === "string"
               ? repo.pushed_at.split("T")[0]
@@ -55,13 +72,19 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
               : null,
           version:
             typeof release?.tag_name === "string" ? release.tag_name : null,
+          docs:
+            typeof repo?.homepage === "string" && repo.homepage.length > 0
+              ? repo.homepage
+              : null,
         };
       } catch {
         return {
           ...project,
+          status: null,
           lastUpdate: null,
           openIssues: null,
           version: null,
+          docs: null,
         };
       }
     }),
