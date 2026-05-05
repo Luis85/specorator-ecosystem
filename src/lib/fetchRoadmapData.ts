@@ -1,16 +1,5 @@
+import roadmapData from "../data/roadmap.json";
 import type { Project } from "./fetchProjectData";
-
-const LABEL_PREFIX = "roadmap:";
-
-export interface RoadmapItem {
-  number: number;
-  title: string;
-  url: string;
-  state: "open" | "closed";
-  isPR: boolean;
-  isMerged: boolean;
-  itemStatus: "planned" | "in-progress" | "done";
-}
 
 export interface RoadmapStats {
   total: number;
@@ -19,32 +8,14 @@ export interface RoadmapStats {
   planned: number;
 }
 
-export interface RoadmapPhase {
-  label: string;
+export interface EcosystemMilestone {
+  label: string | null;
   name: string;
   description: string;
-  phaseStatus: "done" | "active" | "planned";
-  items: RoadmapItem[];
+  milestoneStatus: "done" | "active" | "planned";
   stats: RoadmapStats;
-  // false when the GitHub items fetch failed; items will be empty but the
-  // cause is a transient API error, not a phase with no tracked work.
   dataAvailable: boolean;
 }
-
-export interface ProjectRoadmap {
-  projectId: string;
-  projectName: string;
-  repo: string;
-  phases: RoadmapPhase[];
-  // false when the GitHub label fetch failed; phases will be empty but the
-  // cause is a transient API error, not an unconfigured repo.
-  dataAvailable: boolean;
-}
-
-type GitHubLabel = {
-  name: string;
-  description: string | null;
-};
 
 type GitHubIssue = {
   number: number;
@@ -54,69 +25,39 @@ type GitHubIssue = {
   pull_request?: { merged_at: string | null };
 };
 
-function labelToName(label: string): string {
-  return label
-    .slice(LABEL_PREFIX.length)
-    .split(/[-_]/)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
+type MilestoneDefinition = {
+  label: string | null;
+  name: string;
+  description: string;
+  status: string;
+};
 
 function deriveItemStatus(
   state: string,
   isPR: boolean,
-): RoadmapItem["itemStatus"] {
+): "planned" | "in-progress" | "done" {
   if (state === "closed") return "done";
   if (isPR) return "in-progress";
   return "planned";
 }
 
-function derivePhaseStatus(items: RoadmapItem[]): RoadmapPhase["phaseStatus"] {
-  if (items.length === 0) return "planned";
-  if (items.every((i) => i.itemStatus === "done")) return "done";
-  // Only open PRs are "in-progress"; open issues are "planned". A phase is
-  // active only when at least one item is actively being worked (i.e. has an
-  // open PR), keeping phase status consistent with item-level classification.
-  if (items.some((i) => i.itemStatus === "in-progress")) return "active";
+function deriveMilestoneStatus(
+  stats: RoadmapStats,
+): EcosystemMilestone["milestoneStatus"] {
+  if (stats.total === 0) return "planned";
+  if (stats.done === stats.total) return "done";
+  if (stats.inProgress > 0) return "active";
   return "planned";
 }
 
 // Returns null on any non-OK response or network error so callers can
-// distinguish "repo has no roadmap labels" from "data unavailable".
-async function fetchRoadmapLabels(
-  repoPath: string,
-  headers: HeadersInit,
-): Promise<GitHubLabel[] | null> {
-  const roadmapLabels: GitHubLabel[] = [];
-  let page = 1;
-  while (page <= 5) {
-    try {
-      const res = await fetch(
-        `https://api.github.com/repos/${repoPath}/labels?per_page=100&page=${page}`,
-        { headers },
-      );
-      if (!res.ok) return null;
-      const batch = (await res.json()) as GitHubLabel[];
-      roadmapLabels.push(
-        ...batch.filter((l) => l.name.startsWith(LABEL_PREFIX)),
-      );
-      if (batch.length < 100) break;
-      page++;
-    } catch {
-      return null;
-    }
-  }
-  return roadmapLabels;
-}
-
-// Returns null when the fetch fails so callers can distinguish "no items"
-// from "data unavailable" and avoid deriving phase status from partial data.
+// distinguish "label has no items" from "data unavailable".
 async function fetchItemsForLabel(
   repoPath: string,
   label: string,
   headers: HeadersInit,
-): Promise<RoadmapItem[] | null> {
-  const items: RoadmapItem[] = [];
+): Promise<Array<{ itemStatus: "planned" | "in-progress" | "done" }> | null> {
+  const items: Array<{ itemStatus: "planned" | "in-progress" | "done" }> = [];
   let page = 1;
   while (page <= 5) {
     try {
@@ -128,18 +69,8 @@ async function fetchItemsForLabel(
       const issues = (await res.json()) as GitHubIssue[];
       for (const issue of issues) {
         const isPR = "pull_request" in issue;
-        const isMerged =
-          isPR && typeof issue.pull_request?.merged_at === "string";
         const state = issue.state === "open" ? "open" : "closed";
-        items.push({
-          number: issue.number,
-          title: issue.title,
-          url: issue.html_url,
-          state,
-          isPR,
-          isMerged,
-          itemStatus: deriveItemStatus(state, isPR),
-        });
+        items.push({ itemStatus: deriveItemStatus(state, isPR) });
       }
       if (issues.length < 100) break;
       page++;
@@ -150,66 +81,66 @@ async function fetchItemsForLabel(
   return items;
 }
 
-async function fetchProjectRoadmap(
-  project: Project,
-  headers: HeadersInit,
-): Promise<ProjectRoadmap> {
-  const repoPath = new URL(project.repo).pathname.slice(1);
-  const labels = await fetchRoadmapLabels(repoPath, headers);
-
-  if (labels === null) {
-    return {
-      projectId: project.id,
-      projectName: project.name,
-      repo: project.repo,
-      phases: [],
-      dataAvailable: false,
-    };
-  }
-
-  const phases = await Promise.all(
-    labels.map(async (label): Promise<RoadmapPhase> => {
-      const result = await fetchItemsForLabel(repoPath, label.name, headers);
-      const dataAvailable = result !== null;
-      const items = result ?? [];
-      const stats: RoadmapStats = {
-        total: items.length,
-        done: items.filter((i) => i.itemStatus === "done").length,
-        inProgress: items.filter((i) => i.itemStatus === "in-progress").length,
-        planned: items.filter((i) => i.itemStatus === "planned").length,
-      };
-      return {
-        label: label.name,
-        name: labelToName(label.name),
-        description: label.description ?? "",
-        phaseStatus: dataAvailable ? derivePhaseStatus(items) : "planned",
-        items,
-        stats,
-        dataAvailable,
-      };
-    }),
-  );
-
-  // Sort phases alphabetically by label so ordering is deterministic.
-  phases.sort((a, b) => a.label.localeCompare(b.label));
-
-  return {
-    projectId: project.id,
-    projectName: project.name,
-    repo: project.repo,
-    phases,
-    dataAvailable: true,
-  };
-}
-
-export async function fetchAllProjectRoadmaps(
+export async function fetchEcosystemRoadmap(
   projects: Project[],
-): Promise<ProjectRoadmap[]> {
+): Promise<EcosystemMilestone[]> {
   const token = import.meta.env.GITHUB_TOKEN as string | undefined;
   const headers: HeadersInit = {
     "User-Agent": "specorator-hub",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
-  return Promise.all(projects.map((p) => fetchProjectRoadmap(p, headers)));
+  const milestones = (roadmapData as { milestones: MilestoneDefinition[] })
+    .milestones;
+
+  return Promise.all(
+    milestones.map(async (def): Promise<EcosystemMilestone> => {
+      if (def.label === null) {
+        return {
+          label: null,
+          name: def.name,
+          description: def.description,
+          milestoneStatus: def.status as EcosystemMilestone["milestoneStatus"],
+          stats: { total: 0, done: 0, inProgress: 0, planned: 0 },
+          dataAvailable: true,
+        };
+      }
+
+      const results = await Promise.all(
+        projects.map((project) => {
+          const repoPath = new URL(project.repo).pathname.slice(1);
+          return fetchItemsForLabel(repoPath, def.label!, headers);
+        }),
+      );
+
+      const allItems: Array<{
+        itemStatus: "planned" | "in-progress" | "done";
+      }> = [];
+      let failCount = 0;
+      for (const result of results) {
+        if (result === null) failCount++;
+        else allItems.push(...result);
+      }
+
+      const stats: RoadmapStats = {
+        total: allItems.length,
+        done: allItems.filter((i) => i.itemStatus === "done").length,
+        inProgress: allItems.filter((i) => i.itemStatus === "in-progress")
+          .length,
+        planned: allItems.filter((i) => i.itemStatus === "planned").length,
+      };
+      const dataAvailable = failCount < projects.length;
+
+      return {
+        label: def.label,
+        name: def.name,
+        description: def.description,
+        milestoneStatus: dataAvailable
+          ? deriveMilestoneStatus(stats)
+          : (def.status as EcosystemMilestone["milestoneStatus"]),
+        stats,
+        dataAvailable,
+      };
+    }),
+  );
 }

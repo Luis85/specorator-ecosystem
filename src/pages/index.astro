@@ -2,33 +2,20 @@
 import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
-import { fetchAllProjectRoadmaps } from "@/lib/fetchRoadmapData";
+import { fetchEcosystemRoadmap } from "@/lib/fetchRoadmapData";
 import { version as hubVersion } from "../../package.json";
 
 const projects = await fetchEnrichedProjects();
-const projectRoadmaps = await fetchAllProjectRoadmaps(projects);
-const activePhases = projectRoadmaps.flatMap((r) =>
-  r.phases.filter((p) => p.phaseStatus === "active"),
+const ecosystemRoadmap = await fetchEcosystemRoadmap(projects);
+const firstActiveMilestone = ecosystemRoadmap.find(
+  (m) => m.milestoneStatus === "active",
 );
-const firstActivePhase = activePhases[0];
 
 const layerColors: Record<string, string> = {
   ui: "#818cf8",
   runtime: "#22d3ee",
   agents: "#f472b6",
   workflow: "#fb923c",
-};
-
-const statusLabels: Record<string, string> = {
-  "in-progress": "In Progress",
-  planned: "Planned",
-  done: "Done",
-};
-
-const statusColors: Record<string, string> = {
-  "in-progress": "#22c55e",
-  planned: "#f59e0b",
-  done: "#3b82f6",
 };
 
 const specorator = projects.find((p) => p.id === "specorator");
@@ -421,404 +408,93 @@ const builderEntryPoints = [
       </div>
     </section>
 
-    <!-- ─── 04 Architecture ──────────────────────────────────────────── -->
+    <!-- ─── 04 Roadmap ───────────────────────────────────────────────── -->
     <section class="container-padding-x py-16 border-b border-border/10">
-      <div class="flex flex-col gap-10">
-        <div class="flex flex-col gap-3 max-w-3xl">
+      <div class="flex flex-col gap-10 max-w-3xl">
+        <div class="flex flex-col gap-3">
           <h2
             class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
           >
-            <span class="text-dark-gray">04</span>Architecture
+            <span class="text-dark-gray">04</span>Roadmap
           </h2>
           <p class="font-primary font-bold text-2xl text-text leading-snug">
-            Four components. One composable system.
-          </p>
-          <p class="text-gray text-sm leading-relaxed max-w-xl">
-            Each layer has a single responsibility. The specorator plugin is the
-            primary entry point — it bundles the workflow, agents, and runtime
-            into a ready-to-use interface that requires no technical setup. The
-            three underlying components are independently usable for developers
-            who want to build their own tools on top of the same foundation.
-            User decisions drive every stage; agents never advance the workflow
-            autonomously.
-          </p>
-        </div>
-
-        <div class="flex flex-col items-start max-w-xl gap-0">
-          <!-- Row 1: specorator -->
-          <div
-            class="w-full rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
-            style={`border-color: ${layerColors.ui}; background: color-mix(in srgb, ${layerColors.ui} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.ui}`}
-          >
-            <div class="flex items-center justify-between gap-2">
-              <span
-                class="font-mono font-semibold text-sm"
-                style={`color: ${layerColors.ui}`}>specorator</span
-              >
-              <span class="size-2 rounded-full bg-green-400" title="In Progress"
-              ></span>
-            </div>
-            <span class="text-xs text-gray"
-              >UI / Visualization Layer · Extensible Platform</span
-            >
-          </div>
-
-          <div class="flex flex-col items-center py-1 gap-0.5 self-center">
-            <span class="font-mono text-[10px] text-dark-gray"
-              >spec methodology</span
-            >
-            <div class="w-px h-4 bg-border/30"></div>
-            <span class="text-dark-gray text-[8px]">▼</span>
-          </div>
-
-          <!-- Row 2: specorator-runtime -->
-          <div
-            class="w-full rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
-            style={`border-color: ${layerColors.runtime}; background: color-mix(in srgb, ${layerColors.runtime} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.runtime}`}
-          >
-            <div class="flex items-center justify-between gap-2">
-              <span
-                class="font-mono font-semibold text-sm"
-                style={`color: ${layerColors.runtime}`}>specorator-runtime</span
-              >
-              <span
-                class="font-mono text-[9px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded"
-                >planned</span
-              >
-            </div>
-            <span class="text-xs text-gray"
-              >Execution Runtime · Orchestration Bridge</span
-            >
-          </div>
-
-          <!-- Split connector -->
-          <div class="flex justify-around w-full max-w-xl px-16 py-1">
-            <div class="flex flex-col items-center gap-0.5">
-              <div class="w-px h-4 bg-border/30"></div>
-              <span class="text-dark-gray text-[8px]">▼</span>
-            </div>
-            <div class="flex flex-col items-center gap-0.5">
-              <div class="w-px h-4 bg-border/30"></div>
-              <span class="text-dark-gray text-[8px]">▼</span>
-            </div>
-          </div>
-
-          <!-- Row 3: agentonomous + agentic-workflow -->
-          <div class="w-full grid grid-cols-2 gap-4">
-            <div
-              class="rounded-2xl border border-dashed p-4 flex flex-col gap-1 opacity-70 transition-shadow duration-200 hover:shadow-lg"
-              style={`border-color: ${layerColors.agents}; background: color-mix(in srgb, ${layerColors.agents} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.agents}`}
-            >
-              <div class="flex items-center justify-between gap-2">
-                <span
-                  class="font-mono font-semibold text-sm"
-                  style={`color: ${layerColors.agents}`}>agentonomous</span
-                >
-                <span
-                  class="font-mono text-[9px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded"
-                  >planned</span
-                >
-              </div>
-              <span class="text-xs text-gray"
-                >Agent Library · 6 Specialized Roles</span
-              >
-            </div>
-
-            <div
-              class="rounded-2xl border p-4 flex flex-col gap-1 transition-shadow duration-200 hover:shadow-lg"
-              style={`border-color: ${layerColors.workflow}; background: color-mix(in srgb, ${layerColors.workflow} 6%, #111113); box-shadow: 0 0 24px -10px ${layerColors.workflow}`}
-            >
-              <div class="flex items-center justify-between gap-2">
-                <span
-                  class="font-mono font-semibold text-sm"
-                  style={`color: ${layerColors.workflow}`}
-                  >agentic-workflow</span
-                >
-                <span
-                  class="size-2 rounded-full bg-green-400"
-                  title="In Progress"></span>
-              </div>
-              <span class="text-xs text-gray">Workflow Definition System</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Legend -->
-        <div class="flex items-center gap-5 flex-wrap">
-          {
-            Object.entries(layerColors).map(([role, color]) => (
-              <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-                <span
-                  class="size-2 rounded-full"
-                  style={`background: ${color}`}
-                />
-                {role}
-              </span>
-            ))
-          }
-          <span class="w-px h-4 bg-border/20"></span>
-          <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-            <span class="size-2 rounded-full bg-green-400"></span>in-progress
-          </span>
-          <span class="flex items-center gap-1.5 font-mono text-xs text-gray">
-            <span class="size-2 rounded-full bg-amber-400 opacity-60"
-            ></span>planned
-          </span>
-        </div>
-
-        <p class="text-sm text-dark-gray italic max-w-xl leading-relaxed">
-          specorator currently reads agentic-workflow methodology directly via
-          Claude Code CLI. specorator-runtime will replace that CLI bridge in
-          v2.0, and agentonomous's six specialized agent roles will power
-          specorator's AI coworker features. A core requirement across all
-          layers: agents must read from and write back to the same plain files
-          the user works in — no separate state, no proprietary formats, no
-          lock-in.
-        </p>
-      </div>
-    </section>
-
-    <!-- ─── 05 Projects ──────────────────────────────────────────────── -->
-    <section class="container-padding-x py-16 border-b border-border/10">
-      <div class="flex flex-col gap-10">
-        <div class="flex flex-col gap-3 max-w-3xl">
-          <h2
-            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
-          >
-            <span class="text-dark-gray">05</span>Projects
-          </h2>
-          <p class="font-primary font-bold text-2xl text-text leading-snug">
-            Every component, at a glance.
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          {
-            projects.map((p) => (
-              <article
-                class="bg-card/70 border border-border/6 rounded-3xl p-6 flex flex-col gap-4 group relative overflow-hidden transition-all duration-200 hover:bg-card/90"
-                style={`border-top: 2px solid ${layerColors[p.role]}`}
-              >
-                <div class="flex flex-col gap-1">
-                  <div class="flex items-center justify-between gap-2">
-                    <h3 class="font-mono font-semibold text-base text-text">
-                      {p.name}
-                    </h3>
-                    {p.status && (
-                      <span
-                        class="font-mono text-[10px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded flex-shrink-0"
-                        style={`color: ${statusColors[p.status]}; border-color: ${statusColors[p.status]}`}
-                      >
-                        {statusLabels[p.status]}
-                      </span>
-                    )}
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-xs text-dark-gray">{p.layer}</span>
-                    {p.version && (
-                      <span
-                        class="font-mono text-[10px] border px-1.5 py-0.5 rounded"
-                        style={`color: ${layerColors[p.role]}; border-color: color-mix(in srgb, ${layerColors[p.role]} 30%, transparent)`}
-                      >
-                        {p.version}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <p class="text-sm text-gray leading-relaxed flex-1">
-                  {p.description}
-                </p>
-
-                {p.techStack && p.techStack.length > 0 && (
-                  <div class="flex flex-wrap gap-1.5">
-                    {p.techStack.map((tech: string) => (
-                      <span class="font-mono text-[10px] text-dark-gray bg-body border border-border/20 px-2 py-0.5 rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {(p.lastUpdate || p.openIssues !== null) && (
-                  <div class="flex gap-5 pt-3 border-t border-border/10">
-                    {p.lastUpdate && (
-                      <div class="flex flex-col gap-0.5">
-                        <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
-                          Updated
-                        </span>
-                        <span class="font-mono text-xs text-gray">
-                          {p.lastUpdate}
-                        </span>
-                      </div>
-                    )}
-                    {p.openIssues !== null && (
-                      <div class="flex flex-col gap-0.5">
-                        <span class="font-mono text-[9px] uppercase tracking-widest text-dark-gray">
-                          Issues & PRs
-                        </span>
-                        <span class="font-mono text-xs text-gray">
-                          {p.openIssues}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div class="flex gap-3">
-                  {p.repo && (
-                    <a
-                      href={p.repo}
-                      target="_blank"
-                      rel="noopener"
-                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                    >
-                      Repo ↗
-                    </a>
-                  )}
-                  {p.docs && (
-                    <a
-                      href={p.docs}
-                      target="_blank"
-                      rel="noopener"
-                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                    >
-                      Website ↗
-                    </a>
-                  )}
-                  {p.prd && (
-                    <a
-                      href={p.prd}
-                      target="_blank"
-                      rel="noopener"
-                      class="font-mono text-xs text-primary/70 hover:text-primary transition-colors duration-150 no-underline hover:no-underline"
-                    >
-                      PRD ↗
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── 06 Roadmap ───────────────────────────────────────────────── -->
-    <section class="container-padding-x py-16 border-b border-border/10">
-      <div class="flex flex-col gap-10">
-        <div class="flex flex-col gap-3 max-w-3xl">
-          <h2
-            class="font-mono text-xs uppercase tracking-widest text-gray flex items-center gap-3"
-          >
-            <span class="text-dark-gray">06</span>Roadmap
-          </h2>
-          <p class="font-primary font-bold text-2xl text-text leading-snug">
-            What's shipping next.
+            How the ecosystem evolves.
           </p>
           <p class="text-sm text-gray leading-relaxed">
-            Each project tracks its own roadmap via <span
-              class="font-mono text-primary/80">roadmap:*</span
-            > labels on GitHub issues and PRs.
+            Progress is tracked via <span class="font-mono text-primary/80"
+              >roadmap:*</span
+            > labels on issues and PRs across all ecosystem repos.
           </p>
         </div>
 
-        <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-0">
           {
-            projectRoadmaps.map((pr) => (
-              <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-3">
-                  <span
-                    class="w-2 h-2 rounded-full flex-shrink-0"
-                    style={`background: ${layerColors[projects.find((p) => p.id === pr.projectId)?.role ?? "ui"]}`}
-                  />
-                  <a
-                    href={pr.repo}
-                    target="_blank"
-                    rel="noopener"
-                    class="font-mono text-sm font-semibold text-text hover:text-primary transition-colors no-underline hover:no-underline"
-                  >
-                    {pr.projectName}
-                  </a>
+            ecosystemRoadmap.map((milestone, i) => (
+              <div
+                class={`flex gap-6 py-8 ${i < ecosystemRoadmap.length - 1 ? "border-b border-border/10" : ""}`}
+              >
+                <div class="flex flex-col items-center gap-2 flex-shrink-0">
+                  {milestone.milestoneStatus === "done" ? (
+                    <span class="size-2.5 rounded-full bg-primary flex-shrink-0 mt-1" />
+                  ) : milestone.milestoneStatus === "active" ? (
+                    <span class="size-2.5 rounded-full bg-green-400 animate-pulse flex-shrink-0 mt-1" />
+                  ) : (
+                    <span class="size-2.5 rounded-full border border-border/40 flex-shrink-0 mt-1" />
+                  )}
+                  {i < ecosystemRoadmap.length - 1 && (
+                    <div class="w-px flex-1 bg-border/20 min-h-8" />
+                  )}
                 </div>
-
-                {!pr.dataAvailable ? (
-                  <p class="font-mono text-xs text-dark-gray ml-5">
-                    Roadmap data unavailable — GitHub API error.
-                  </p>
-                ) : pr.phases.length === 0 ? (
-                  <p class="font-mono text-xs text-dark-gray ml-5">
-                    No roadmap:* labels found in this repo yet.
-                  </p>
-                ) : (
-                  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 ml-5">
-                    {pr.phases.map((phase) => (
-                      <div
-                        class={`bg-card/70 rounded-2xl p-4 flex flex-col gap-2 ${
-                          phase.phaseStatus === "active"
-                            ? "border border-primary/40"
-                            : phase.phaseStatus === "done"
-                              ? "border border-border/6"
-                              : "border border-border/6 opacity-50"
-                        }`}
-                        style={
-                          phase.phaseStatus === "active"
-                            ? "background: color-mix(in srgb, #22d3ee 4%, #111113)"
-                            : ""
-                        }
-                      >
-                        <div class="flex items-center justify-between gap-2">
-                          <span
-                            class={`font-mono text-xs font-bold uppercase tracking-widest ${phase.phaseStatus === "done" ? "text-dark-gray" : "text-primary"}`}
-                          >
-                            {phase.name}
-                          </span>
-                          {phase.phaseStatus === "active" ? (
-                            <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-green-400 border border-green-400 px-1.5 py-0.5 rounded">
-                              Active
-                            </span>
-                          ) : phase.phaseStatus === "done" ? (
-                            <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-dark-gray border border-border/20 px-1.5 py-0.5 rounded">
-                              Done
-                            </span>
-                          ) : (
-                            <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded">
-                              Planned
-                            </span>
-                          )}
-                        </div>
-                        {phase.description && (
-                          <span class="text-xs text-gray leading-relaxed">
-                            {phase.description}
-                          </span>
-                        )}
-                        {!phase.dataAvailable ? (
-                          <span class="font-mono text-[10px] text-dark-gray mt-auto pt-1">
-                            Data unavailable
-                          </span>
-                        ) : phase.stats.total > 0 ? (
-                          <div class="flex flex-col gap-1.5 mt-auto pt-1">
-                            <div class="w-full h-1 rounded-full bg-border/20 overflow-hidden">
-                              <div
-                                class="h-full rounded-full bg-primary/60"
-                                style={`width: ${Math.round((phase.stats.done / phase.stats.total) * 100)}%`}
-                              />
-                            </div>
-                            <span class="font-mono text-[10px] text-dark-gray">
-                              {phase.stats.done}/{phase.stats.total} done
-                              {phase.stats.inProgress > 0 &&
-                                ` · ${phase.stats.inProgress} in progress`}
-                            </span>
-                          </div>
-                        ) : (
-                          <span class="font-mono text-[10px] text-dark-gray mt-auto pt-1">
-                            No issues yet
-                          </span>
-                        )}
-                      </div>
-                    ))}
+                <div class="flex flex-col gap-2 flex-1">
+                  <div class="flex items-center gap-3 flex-wrap">
+                    <span class="font-primary font-bold text-xl text-text">
+                      {milestone.name}
+                    </span>
+                    {milestone.milestoneStatus === "done" ? (
+                      <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-primary border border-primary/40 px-1.5 py-0.5 rounded">
+                        Complete
+                      </span>
+                    ) : milestone.milestoneStatus === "active" ? (
+                      <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-green-400 border border-green-400 px-1.5 py-0.5 rounded">
+                        Active
+                      </span>
+                    ) : (
+                      <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded opacity-60">
+                        Planned
+                      </span>
+                    )}
                   </div>
-                )}
+                  <p class="text-sm text-gray leading-relaxed">
+                    {milestone.description}
+                  </p>
+                  {milestone.label &&
+                    (!milestone.dataAvailable ? (
+                      <span class="font-mono text-[10px] text-dark-gray">
+                        GitHub data unavailable
+                      </span>
+                    ) : milestone.stats.total > 0 ? (
+                      <div class="flex flex-col gap-1.5 mt-1">
+                        <div class="w-full max-w-xs h-1 rounded-full bg-border/20 overflow-hidden">
+                          <div
+                            class="h-full rounded-full bg-primary/60"
+                            style={`width: ${Math.round((milestone.stats.done / milestone.stats.total) * 100)}%`}
+                          />
+                        </div>
+                        <span class="font-mono text-[10px] text-dark-gray">
+                          {milestone.stats.done}/{milestone.stats.total} issues
+                          done
+                          {milestone.stats.inProgress > 0 &&
+                            ` · ${milestone.stats.inProgress} in progress`}
+                        </span>
+                      </div>
+                    ) : (
+                      <span class="font-mono text-[10px] text-dark-gray">
+                        No issues tracked yet — apply{" "}
+                        <span class="text-primary/60">{milestone.label}</span>{" "}
+                        in ecosystem repos
+                      </span>
+                    ))}
+                </div>
               </div>
             ))
           }
@@ -871,10 +547,10 @@ const builderEntryPoints = [
         <p class="font-mono text-xs text-dark-gray">
           All four projects are open source under the MIT licence.{" "}
           {
-            firstActivePhase && (
+            firstActiveMilestone && (
               <>
                 Active:{" "}
-                <span class="text-primary">{firstActivePhase.name}</span>
+                <span class="text-primary">{firstActiveMilestone.name}</span>
               </>
             )
           }
