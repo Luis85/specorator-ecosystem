@@ -1,25 +1,113 @@
 # Design Brief — Specorator Ecosystem Hub
 
-**Version:** 2.0  
-**Aesthetic:** User-friendly information hub — dark, clean, purposeful  
+**Version:** 2.0
+**Aesthetic:** Developer-native marketing page — dark, structured, monospace
 **Framework:** Astro (static), Tailwind CSS 4
 
 ---
 
 ## 1. Design Philosophy
 
-This is a **user-friendly information hub** — the front door to the Specorator ecosystem for everyone from first-time visitors to active contributors. The design communicates:
+The hub is a **marketing and sales landing page** written in the visual language of a developer tool. Its job is to win new users for the Specorator plugin — first-time visitors should leave with a clear understanding of what they get and a reason to install it.
 
-- **Clarity** — the visitor should understand the ecosystem's value within a single scroll; structure and hierarchy guide rather than intimidate
-- **Authority** — the hub knows the state of the system; its visual weight should feel trustworthy and precise
-- **Density where it matters** — technical data (project status, roadmap, architecture) is legible and compact; narrative sections breathe
-- **Restraint** — no gradients on text, no distracting animations, no hero imagery; the content carries the weight
+The design earns trust through clarity: concise messaging, a consistent visual system, and data that speaks for itself. The aesthetic communicates that this is a serious, engineered product — not a side project, not a one-page SaaS template.
 
-The aesthetic is dark and modern — closer to a well-designed developer product page than a generic SaaS landing page. Monospace type, consistent spacing, and deliberate color use signal that this is an engineered interface. The design serves a dual audience: someone discovering the project for the first time and a contributor checking status.
+The design serves a dual audience: someone discovering the project for the first time and a developer who wants to build on top of individual packages. Both need the same foundation: clarity on what the ecosystem is, what state it's in, and where to go next.
+
+**What this page is:**
+- A first impression that converts curiosity into a plugin install
+- A routing layer for developers who want to go deeper into individual packages
+- An honest status report on the ecosystem's progress
+
+**What this page is not:**
+- A developer dashboard or ops interface
+- A README clone
+- A feature-list dump
+
+Design reference: Linear dark mode, Vercel product pages, well-designed CLI documentation sites. The shared quality is **confident restraint** — every element earns its place.
 
 ---
 
-## 2. Color System
+## 2. Target Audience
+
+### Primary — The Curious Builder
+
+Someone who ships software but doesn't want to manage a development process manually. They may be a solo founder, a product manager who writes code, a designer who can deploy, or a developer tired of reinventing their planning workflow. Not necessarily deep-technical — they can follow instructions, install an Obsidian plugin, and describe what they want in plain English.
+
+**What they need from this page:** To understand what they get, how it works at a high level, and that it won't require learning a new technical stack. The barrier to entry must feel low.
+
+**Primary conversion action:** Click "Get the Plugin" and install specorator.
+
+### Secondary — The Technical Evaluator
+
+A developer who wants to understand the architecture — either to evaluate whether to use it, contribute, or build their own tooling on top of individual packages. Comfortable with terms like CLI, TypeScript library, and API.
+
+**What they need from this page:** A clear picture of which layer does what, which packages are standalone, and where to start for their use case.
+
+**Primary conversion action:** Navigate to `agentic-workflow`, `agentonomous`, or `specorator-runtime` based on their building goal.
+
+### Tertiary — The Ecosystem Follower
+
+Someone tracking the project's progress over time. They may return periodically to check what has shipped.
+
+**What they need from this page:** A quick status update — what is active, what is coming, where to watch.
+
+---
+
+## 3. Page Goals
+
+Listed in priority order. The page succeeds or fails on goal 1.
+
+1. **Convert visitors into plugin installers.** The plugin (specorator) is the easiest, highest-value entry point. Every section of the page should, directly or indirectly, build confidence toward clicking "Get the Plugin."
+
+2. **Route technical builders to their starting point.** Developers who want to integrate individual packages need to find `agentic-workflow` (active) or understand that `agentonomous` and `specorator-runtime` are coming.
+
+3. **Establish trust through honesty.** Open source, MIT licence, no sign-up, files stay local — meaningful trust signals for this audience. Acknowledge what is still planned versus what ships today.
+
+4. **Communicate ecosystem coherence.** The four projects should read as a unified system, not four unrelated repos.
+
+5. **Invite ecosystem followers to track progress.** The roadmap section is the passive hook for repeat visitors.
+
+---
+
+## 4. Communication Style
+
+### Voice
+
+- **Plain language first.** If a word requires domain knowledge to understand (MCP, ADLC, agent lifecycle, stage gating), replace it or define it in context.
+- **Outcome-first.** Lead with what the visitor gets ("AI handles the planning and drafting"), not with how it works ("the orchestration layer dispatches agent roles sequentially").
+- **Confident, not hype-driven.** State what the product does without superlatives. Claims should be earned by the section that follows, not just asserted.
+- **Honest about status.** Active development indicators, "Planned" badges, and roadmap progress bars are trust signals, not weaknesses.
+- **Dry precision, not warmth.** Clear, direct, no filler. The tone is close to good technical writing.
+
+### Specific rules
+
+| Avoid | Prefer |
+| --- | --- |
+| "Agentic Development Lifecycle" | "12-stage workflow" or "development workflow" |
+| "MCP server / MCP exposure" | "available as a tool for AI coding sessions" (only if needed) |
+| "composable building blocks" | "standalone package" |
+| "orchestration layer" | "integration library" |
+| "agent lifecycle" | "the full workflow" or "the full process" |
+| "Claude Code agents" | "AI agents" or just "AI" |
+| "stage gating" | "quality checks" or "decision points" |
+| "event streaming" | "track progress" or "follow along" |
+| Feature-list copy ("manage skills, commands, tools...") | Outcome copy ("AI handles the writing and planning") |
+
+### Section-level intent
+
+| Section | What it communicates |
+| --- | --- |
+| Hero | What the product is and what you get. One-sentence mental model. |
+| Problem (01) | Why this matters — the pain that makes the solution feel necessary. |
+| How It Works (02) | Enough structure to feel confident, not enough detail to overwhelm. |
+| Where to Start (03) | Clearest possible routing. Plugin first; builder packages second. |
+| Roadmap (04) | Honesty about what exists, what is coming, that the project is alive. |
+| Final CTA | Repeat key trust signals. Lower the barrier to action. |
+
+---
+
+## 5. Color System
 
 All colors are defined as CSS custom properties on `:root`.
 
@@ -73,7 +161,7 @@ Each ecosystem component has a dedicated identity color used for card borders, a
 
 ---
 
-## 3. Typography
+## 6. Typography
 
 ### Font Stack
 
@@ -82,7 +170,7 @@ Each ecosystem component has a dedicated identity color used for card borders, a
 --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 ```
 
-Monospace is used for identifiers, badges, labels, metadata, section numbers, and code-like values. The primary sans-serif handles hero headlines, body copy, and descriptions — allowing the hero to breathe while the data sections stay precise.
+Monospace is the primary expressive typeface — used for the logo, section numbers, identifiers, badges, labels, and metadata. Sans-serif handles hero headlines, body copy, and descriptions — allowing the hero to breathe while the data sections stay precise.
 
 ### Type Scale
 
@@ -100,7 +188,7 @@ Monospace is used for identifiers, badges, labels, metadata, section numbers, an
 
 ---
 
-## 4. Spacing System
+## 7. Spacing System
 
 Base unit: **8px**. All spacing values are multiples of 4px (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80px).
 
@@ -110,240 +198,201 @@ Base unit: **8px**. All spacing values are multiples of 4px (4, 8, 12, 16, 20, 2
 - Container horizontal padding: `24px`
 - Card padding: `20–32px`
 - Card gap: `16px`
-- Section title margin-bottom: `40px`
+- Section heading gap from body: `40px`
 
 ---
 
-## 5. Page Structure
+## 8. Page Structure
 
-The hub is a single-page experience with six content sections plus a final CTA. Each section has a numbered label, a bold headline, and section-appropriate content.
+The homepage is a single-page experience with five numbered content sections plus a final CTA. Each section has a numbered label, a bold headline, and section-appropriate content.
 
-| Section | Label          | Purpose                                        |
-| ------- | -------------- | ---------------------------------------------- |
-| Hero    | —              | Value proposition, primary CTA, eyebrow badges |
-| 01      | The Problem    | Three pain-point cards                         |
-| 02      | How It Works   | Three-phase ADLC walkthrough                   |
-| 03      | Where to Start | Primary entry point + builder alternatives     |
-| 04      | Architecture   | Layered diagram + legend                       |
-| 05      | Projects       | Live project status cards                      |
-| 06      | Roadmap        | Per-project roadmap fetched from GitHub        |
-| Final   | CTA            | Closing conversion section                     |
+| Section | Label          | Purpose                                           |
+| ------- | -------------- | ------------------------------------------------- |
+| Hero    | —              | Value proposition, primary CTA, eyebrow badges    |
+| 01      | The Problem    | Three pain-point cards                            |
+| 02      | How It Works   | Three-phase workflow walkthrough                  |
+| 03      | Where to Start | Primary plugin entry point + builder alternatives |
+| 04      | Roadmap        | Ecosystem milestone timeline with live GitHub data |
+| Final   | CTA            | Closing conversion section with trust signals     |
+
+Additional pages in the hub:
+- `/integrations` — project listing with live status cards and architecture diagram
+- `/integrations/[slug]` — per-project detail pages
+- `/changelog` — full roadmap and milestone history
 
 ---
 
-## 6. Component Specifications
+## 9. Component Specifications
 
-### 6.1 Header / Navigation
+### 9.1 Header / Navigation
 
 Single sticky row with site identity on the left and navigation links on the right.
 
-- **Logo**: `specorator` in `--text-primary`, `://hub` suffix in `--accent` (cyan), monospace
+- **Logo text**: `specorator://hub` — `specorator://` in `--text-primary`, `hub` in `--accent`, monospace
 - Background: subtle `linear-gradient(to bottom, rgba(34,211,238,0.04), transparent)`
 - Bottom border: `1px solid --border`
 
-### 6.2 Hero Section
+### 9.2 Hero Section
 
-Full-width section with max-w-3xl content column.
+Full-width section with `max-w-3xl` content column.
 
-- **Eyebrow row**: pill badges + live pulse indicator + version badge
-  - Eyebrow text: `Obsidian Plugin · Claude Code · Open Source · No Coding Required`
-  - Live indicator: green pulse dot (`animate-pulse`) + text `active development`
-  - Version badge: `hub vX.Y.Z` — monospace, border outline, muted text
-- **Headline**: 5xl–6xl primary font, bold, `tracking-tight`, `leading-tight`
-  - Format: `[Statement] —\n[Coloured resolution in --accent]`
-- **Subheadline**: xl sans-serif, `--text-secondary`, `leading-relaxed`, max-w-2xl
-  - Inline links use `--text-primary` underline with `hover:--accent` transition
-- **CTA row**: two buttons
-  - Primary: `bg-primary` filled, rounded-xl, monospace, `Get the Plugin ↗`
-  - Secondary: outlined `border-border/30`, rounded-xl, monospace, `Find your entry point ↓`
+**Eyebrow row:**
+- Taxonomy text: `Obsidian Plugin · AI-Powered · Open Source · No Coding Required` — mono xs, `--text-muted`, uppercase
+- Live indicator: green pulse dot (`animate-pulse`) + `active development` text
+- Version badge: `hub vX.Y.Z` — mono, border outline, muted
 
-### 6.3 Section Labels
+**Headline:**
+- Two lines. Primary statement in `--text-primary`, resolution phrase in `--accent`
+- Size: `text-5xl md:text-6xl`, bold, `tracking-tight`, `leading-tight`
+
+**Subheadline:**
+- One paragraph, `text-xl`, `--text-secondary`, `leading-relaxed`, `max-w-2xl`
+- Establishes the mental model: what it is, what you get, key differentiators (plain files, no coding)
+- Inline link to Obsidian — underlined, hover to accent
+
+**CTA buttons:**
+- Primary: `bg-primary` filled, rounded-xl, mono, `Get the Plugin ↗` — links to specorator docs/repo
+- Secondary: outlined `border-border/30`, rounded-xl, mono, `Find your entry point ↓` — anchors to `#use-cases`
+
+### 9.3 Section Labels
 
 ```
 [section-num]  [LABEL TEXT]
 ```
 
-- Section number: 0.75rem mono `--text-muted` (e.g., `01`, `02`)
-- Label: 0.75rem mono `--text-secondary` uppercase `tracking-widest`
-- Followed by a bold section headline (1.875rem primary font)
+- Section number: 0.75rem mono `--text-muted` (`01`, `02`, etc.)
+- Label: 0.75rem mono uppercase `tracking-widest`
+- Followed by a bold section headline in primary font
 
-### 6.4 Problem Cards (Section 01)
+### 9.4 Problem Cards (Section 01)
 
-Three cards in a responsive `md:grid-cols-3` grid.
+Three equal cards in a responsive `md:grid-cols-3` grid.
 
 **Card anatomy:**
-
 - Background: `bg-card/50`, border `border-border/6`, `rounded-2xl`, padding `20px`
-- Emoji icon (2xl) — no alt text needed, decorative
+- Emoji icon (2xl, decorative)
 - Heading: mono semibold sm `--text-primary`
 - Body: xs sans `--text-secondary` `leading-relaxed`
 
-### 6.5 How It Works (Section 02)
+Cards describe the pain, not the solution — they prime the "How It Works" section.
 
-Three-step vertical list with connector lines.
+### 9.5 How It Works (Section 02)
+
+Three-step vertical timeline with connector lines. `max-w-3xl`.
 
 **Step anatomy:**
-
 - Step number column: mono bold 2xl in `--accent`; vertical connector line `bg-border/20` between steps
-- Content column: step title (xl primary bold) + description (sm sans `--text-secondary`) + detail badge (10px mono `--text-muted` uppercase)
-- Steps separated by `border-b border-border/10`
+- Content column: step title (xl primary bold) + description (sm sans `--text-secondary`) + stage detail (10px mono `--text-muted` uppercase)
+- Steps separated by `border-b border-border/10`; last step has no connector
 
-### 6.6 Entry-Point Routing (Section 03)
+### 9.6 Where to Start (Section 03) — Primary Conversion Zone
 
-Two-tier layout: one primary card + three secondary cards.
+Two sub-zones. The plugin card is the hero of this section.
 
 **Primary card (specorator plugin):**
-
-- Large rounded card (`rounded-3xl`) with layer-colored border + glow (`box-shadow`)
-- Background: `color-mix(in srgb, var(--layer-ui) 6%, --bg-card)`
+- Prominent, glow-bordered card using `--layer-ui` (indigo)
+- `color-mix` background tint + `box-shadow` ambient glow
 - Project name in layer color + `Recommended starting point` badge in green
-- Description (sm sans), primary CTA button, collapsible `Includes` detail box
+- Description (sm sans) + primary CTA button (`Get the Plugin ↗`)
+- Side panel: `Includes` list of bundled components with layer-colored dots + `Planned` additions
+- This is the primary conversion surface — it must be unmissable
 
-**Builder alternative cards:**
+**Divider:**
+- Full-width centered: `For builders — want to go deeper?`
+- Flanked by `border/10` horizontal rules
 
-- Builder divider with heading `Or build your own tools on top of the components`
-- Three cards in `md:grid-cols-3` with layer-colored left border accent
-- Each shows: project name, badge (status), description, CTA link (disabled if not yet available)
+**Builder cards (three):**
+- `md:grid-cols-3` grid
+- Each card: top accent border in layer color, name, status badge, description, CTA link
+- Planned components: CTA link at `opacity-40 cursor-not-allowed` with `aria-disabled`
+- Descriptions lead with value ("the workflow engine that powers specorator, available standalone"), not implementation
 
-### 6.7 Architecture Diagram (Section 04)
+### 9.7 Roadmap (Section 04)
 
-Vertical stack with three rows and connector lines.
+Vertical timeline. `max-w-3xl`.
 
-```
-[                  specorator                  ]   ← full width, --layer-ui
-              ↓ spec methodology ↑
-[              specorator-runtime              ]   ← full width, --layer-runtime (dashed border = planned)
-            ↙                  ↘
-[  agentonomous  ]   [  agentic-workflow  ]         ← half-width each
-```
+**Section header:**
+- Numbered label + concise heading + one sub-sentence in plain language (not internal mechanism detail)
 
-**Node anatomy:**
+**Timeline items:**
+- Status dot: filled `--primary` (done), green `animate-pulse` (active), hollow border (planned)
+- Connector line between items
+- Name + status badge (`Complete` / `Active` / `Planned`)
+- Description: what this phase delivers, outcome-focused
+- Progress bar (milestones with GitHub data): thin `h-1` bar, done/total ratio + counter label
+- Fallback states: "GitHub data unavailable" or "No issues tracked yet" in muted mono
 
-- Border: `1px solid var(--c)` (layer color); planned nodes use `border-dashed`
-- Background: `color-mix(in srgb, var(--c) 6%, var(--bg-card))`
-- Box shadow: `0 0 24px -10px var(--c)` — subtle glow
-- Hover: `box-shadow: 0 0 36px -6px var(--c)` — intensifies glow
-- Name: mono 0.88rem 600 in layer color
-- Sub-label: 0.72rem `--text-secondary`
-- Status badge: color-coded pill (green = in-progress, amber = planned)
+### 9.8 Final CTA Section
 
-**Connectors:**
+Rounded card with ambient glow (`color-mix` cyan tint, `--primary/20` border).
 
-- `1px solid --border` lines; dashed for planned connections
-- Labels in `--text-muted` monospace (e.g., `spec methodology`)
+- Eyebrow: `Ready to start?` in accent
+- Heading: two-line statement reinforcing core value proposition
+- Body: one paragraph restating three key trust signals (no coding, open source, no lock-in)
+- Two CTAs: primary (get specorator) + secondary (browse the workflow)
+- Footer line: licence note + active milestone name if available from GitHub
 
-**Legend:**
-
-- Row of `[dot] [role-name]` items: 8px circle in layer color + 0.72rem mono label
-- Status legend row: dots for in-progress, planned, done
-- Annotation: single line of 0.78rem `--text-muted` describing key relationships
-
-### 6.8 Project Cards (Section 05)
-
-Four cards in a responsive `md:grid-cols-2` grid.
-
-**Card anatomy (top to bottom):**
-
-1. **Top accent border** — `2px solid var(--ca)` where `--ca` is the layer color
-2. **Card header:**
-   - Row: `[card-name]` (mono 0.875rem 600) + `[status-badge]` (right-aligned, color-coded)
-   - Sub-row: `[layer-label]` (0.72rem `--text-muted`)
-3. **Description** — 0.82rem sans `--text-secondary`, flex-1
-4. **Tech stack tags** — small pill badges, `--bg` background, `--border` outline, 0.62rem mono `--text-muted`
-5. **Metadata row** (conditional — only if data exists) — `Updated [date]` + `Issues [count]` in mono
-6. **Links row** — `Repo ↗` `Docs ↗` `PRD ↗` links, 0.72rem mono cyan, `opacity: 0.75 → 1` on hover
-
-**Card states:**
-
-- Default: `--bg-card` background, `--border` border
-- Hover: `--bg-card-hover` background, `var(--ca)` all borders
-
-### 6.9 Roadmap (Section 06)
-
-Per-project roadmap sections — one collapsible block per project.
-
-**Phase card anatomy:**
-
-- Phase label (`roadmap:v3`, `roadmap:v4`) + status badge
-- Progress bar: filled proportion based on done/total items
-- Item list: each item shows status icon (done/active/planned) + title + description
-
-**Status derivation (automatic — no extra label needed):**
-
-| GitHub state | Is PR? | Display status |
-| ------------ | ------ | -------------- |
-| `open`       | no     | `planned`      |
-| `open`       | yes    | `in-progress`  |
-| `closed`     | —      | `done`         |
-
-**Phase color coding by project role:**
-
-- `ui` → indigo (`#818cf8`)
-- `runtime` → cyan (`#22d3ee`)
-- `agents` → pink (`#f472b6`)
-- `workflow` → orange (`#fb923c`)
-
-### 6.10 Footer
+### 9.9 Footer
 
 Single row.
 
-- `specorator-ecosystem · github.com/luis85/specorator-ecosystem`
-- 0.72rem monospace `--text-muted`
+- Copyright and ecosystem credit in monospace, `--text-muted`
+- Navigation links: `Home`, `Projects`, `Roadmap`, GitHub repos
 - Top border: `1px solid --border`
 
 ---
 
-## 7. Border Radius
+## 10. Border Radius
 
-| Variable      | Value  | Use                              |
-| ------------- | ------ | -------------------------------- |
-| `--radius`    | `8px`  | Cards, architecture nodes        |
-| `--radius-sm` | `4px`  | Badges, tags, pills              |
-| `--radius-lg` | `12px` | CTA buttons                      |
-| `--radius-xl` | `16px` | Entry-point cards (primary card) |
+| Variable       | Value  | Use                                    |
+| -------------- | ------ | -------------------------------------- |
+| `--radius`     | `8px`  | Cards, architecture nodes              |
+| `--radius-sm`  | `4px`  | Badges, tags, pills                    |
+| `--radius-lg`  | `12px` | CTA buttons (rounded-xl)               |
+| `--radius-xl`  | `16px` | Problem cards (rounded-2xl)            |
+| `--radius-2xl` | `24px` | Primary card, builder cards, final CTA |
 
 ---
 
-## 8. Responsive Behavior
+## 11. Responsive Behavior
 
 Primary breakpoint at `768px` (`md:`), secondary at `640px` (`sm:`):
 
-- **Hero**: headline scales from 3rem → 3.75rem; CTA buttons stack on narrow viewports
+- **Hero**: headline scales `text-5xl` → `text-6xl`; CTA row wraps on narrow viewports
 - **Problem cards**: `grid-cols-1` → `grid-cols-3`
-- **Entry-point builder cards**: `grid-cols-1` → `grid-cols-3`
-- **Architecture Row 3**: collapses to single column below `md:`
-- **Project cards**: `grid-cols-1` → `grid-cols-2`
-- All grids use `gap-4` and naturally reflow
+- **Builder cards**: `grid-cols-1` → `grid-cols-3`
+- **Primary card side panel**: stacks vertically → `sm:flex-row`
+- All other layouts reflow naturally via Tailwind's `flex-wrap` and `gap`
 
 No JavaScript required for responsiveness — pure CSS via Tailwind utilities.
 
 ---
 
-## 9. Motion
+## 12. Motion
 
-Minimal. Two animation classes:
+Minimal. Two animation types:
 
 ```css
-animate-pulse   /* green live indicator in hero eyebrow — opacity pulse, 2s infinite */
+animate-pulse            /* green live indicator (hero eyebrow) and active roadmap dot */
 transition-colors duration-150   /* button and link hover state changes */
 ```
 
-Card hover uses CSS transitions on `background-color`, `border-color`, `box-shadow` (`0.15s`). No entrance animations, scroll effects, or loading states.
+Card hover uses `0.15s` CSS transitions on `background-color`, `border-color`, `opacity`. No entrance animations, scroll effects, or loading states.
 
 ---
 
-## 10. Accessibility
+## 13. Accessibility
 
-- All section headings use proper `h1`/`h2`/`h3` hierarchy
-- External links include `target="_blank" rel="noopener"` and the `↗` suffix visually signals new-tab behavior
-- Color is never the **sole** indicator of status — status badges carry both color and text label
+- All section headings use proper `h1`/`h2` hierarchy
+- External links include `target="_blank" rel="noopener"` and the `↗` suffix signals new-tab behavior
+- Color is never the **sole** status indicator — badges carry both color and text label
 - Layer identity uses both color and text label (never color alone)
+- Disabled builder links use `aria-disabled="true"` and `cursor-not-allowed` — not interactive when not actionable
 - Contrast ratios: `--text-primary` (#fafafa) on `--bg` (#09090b) > 18:1; `--text-secondary` (#a1a1aa) on `--bg-card` (#111113) > 5.5:1
-- Disabled entry-point links use `pointer-events-none` and reduced opacity — no interactive deception
 
 ---
 
-## 11. File Structure
+## 14. File Structure
 
 ```
 src/
@@ -351,25 +400,26 @@ src/
     Base.astro           ← global styles, CSS variables, meta
     Layout.astro         ← template layout with header/footer
   pages/
-    index.astro          ← hub page (all sections)
+    index.astro          ← marketing landing page (all sections)
     changelog.astro      ← roadmap page
     integrations/
       index.astro        ← projects listing page
       [single].astro     ← per-project detail page
   data/
     projects.json        ← stable project metadata
-    roadmap.json         ← roadmap label configuration
+    projects.schema.json ← JSON schema for validation
+    roadmap.json         ← milestone definitions
   lib/
     fetchProjectData.ts  ← GitHub API enrichment at build time
-    fetchRoadmapData.ts  ← GitHub label-based roadmap fetch
+    fetchRoadmapData.ts  ← GitHub label-based roadmap aggregation
   config/
-    config.json          ← site title, base path, logo
+    config.json          ← site metadata, navigation button, footer
+    menu.json            ← nav and footer link sets
     theme.json           ← design tokens
-    menu.json            ← navigation links
 content/
   homepage/-index.md     ← hero banner content
   integrations/          ← per-project detail content (Markdown)
-  changelog/-index.md    ← V1–V4 roadmap milestones
+  changelog/-index.md    ← roadmap milestone history
   sections/
     faq.md               ← ecosystem FAQ
     call-to-action.md    ← CTA content
