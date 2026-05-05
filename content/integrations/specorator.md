@@ -68,6 +68,7 @@ agentonomous  agentic-workflow
 - **Agent coordination** — instructs Claude Code agents for each stage via structured prompts
 - **Vault integration** — reads and writes Canvas, Bases, Frontmatter, and linked Markdown notes
 - **Artifact management** — tracks specs, tasks, and quality gates as linked vault notes
+- **MCP server** *(planned)* — expose plugin functionality as MCP tools so external Claude Code sessions and automations can interact with the specorator workflow without opening Obsidian
 
 ## Links
 
