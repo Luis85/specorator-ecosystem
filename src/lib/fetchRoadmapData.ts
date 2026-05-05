@@ -71,38 +71,52 @@ function deriveMilestoneStatus(
   return "planned";
 }
 
+// Returns null when the fetch fails (non-OK or network error) so callers can
+// distinguish "no items" from "data unavailable" and avoid deriving milestone
+// status from partial data.
 async function fetchItemsForLabel(
   repoPath: string,
   project: Project,
   label: string,
   headers: HeadersInit,
-): Promise<RoadmapItem[]> {
-  try {
-    const url = `https://api.github.com/repos/${repoPath}/issues?labels=${encodeURIComponent(label)}&state=all&per_page=100`;
-    const res = await fetch(url, { headers });
-    if (!res.ok) return [];
+): Promise<RoadmapItem[] | null> {
+  const items: RoadmapItem[] = [];
+  let page = 1;
+  const PAGE_LIMIT = 5;
 
-    const issues = (await res.json()) as GitHubIssue[];
-    return issues.map((issue) => {
-      const isPR = "pull_request" in issue;
-      const isMerged =
-        isPR && typeof issue.pull_request?.merged_at === "string";
-      const state = issue.state === "open" ? "open" : "closed";
-      return {
-        number: issue.number,
-        title: issue.title,
-        url: issue.html_url,
-        state,
-        isPR,
-        isMerged,
-        projectId: project.id,
-        projectName: project.name,
-        itemStatus: deriveItemStatus(state, isPR),
-      };
-    });
-  } catch {
-    return [];
+  while (page <= PAGE_LIMIT) {
+    try {
+      const url = `https://api.github.com/repos/${repoPath}/issues?labels=${encodeURIComponent(label)}&state=all&per_page=100&page=${page}`;
+      const res = await fetch(url, { headers });
+      if (!res.ok) return null;
+
+      const issues = (await res.json()) as GitHubIssue[];
+      for (const issue of issues) {
+        const isPR = "pull_request" in issue;
+        const isMerged =
+          isPR && typeof issue.pull_request?.merged_at === "string";
+        const state = issue.state === "open" ? "open" : "closed";
+        items.push({
+          number: issue.number,
+          title: issue.title,
+          url: issue.html_url,
+          state,
+          isPR,
+          isMerged,
+          projectId: project.id,
+          projectName: project.name,
+          itemStatus: deriveItemStatus(state, isPR),
+        });
+      }
+
+      if (issues.length < 100) break;
+      page++;
+    } catch {
+      return null;
+    }
   }
+
+  return items;
 }
 
 export async function fetchEnrichedRoadmap(
@@ -131,19 +145,22 @@ export async function fetchEnrichedRoadmap(
         };
       }
 
-      const allItems = (
-        await Promise.all(
-          projects.map((project) => {
-            const repoPath = new URL(project.repo).pathname.slice(1);
-            return fetchItemsForLabel(
-              repoPath,
-              project,
-              milestone.label!,
-              headers,
-            );
-          }),
-        )
-      ).flat();
+      const results = await Promise.all(
+        projects.map((project) => {
+          const repoPath = new URL(project.repo).pathname.slice(1);
+          return fetchItemsForLabel(
+            repoPath,
+            project,
+            milestone.label!,
+            headers,
+          );
+        }),
+      );
+
+      // If any repo fetch failed, fall back to the static status to avoid
+      // deriving milestone status from incomplete data.
+      const anyFailed = results.some((r) => r === null);
+      const allItems = results.flatMap((r) => r ?? []);
 
       const stats: RoadmapStats = {
         total: allItems.length,
@@ -158,7 +175,9 @@ export async function fetchEnrichedRoadmap(
         title: milestone.title,
         description: milestone.description,
         label: milestone.label,
-        milestoneStatus: deriveMilestoneStatus(allItems, milestone.status),
+        milestoneStatus: anyFailed
+          ? (milestone.status as EnrichedMilestone["milestoneStatus"])
+          : deriveMilestoneStatus(allItems, milestone.status),
         items: allItems,
         stats,
       };
