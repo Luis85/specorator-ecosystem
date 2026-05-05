@@ -26,10 +26,10 @@ const srcDir = path.join(root, "src");
 
 // Patterns that signal a hardcoded absolute path in JSX/Astro attributes.
 // We target string literals only (href="/" or href='/foo'), not template literals.
+// \/(?!\/) — leading slash but not //, which would be a protocol-relative URL.
 const PATTERNS = [
-  // href or src attributes with a bare absolute path (not http/mailto/tel)
-  { regex: /(?:href|src)="\/(?!\/)[^h][^"]*"/, label: 'hardcoded absolute href/src (double-quote)' },
-  { regex: /(?:href|src)='\/(?!\/)[^h][^']*'/, label: "hardcoded absolute href/src (single-quote)" },
+  { regex: /(?:href|src)="\/(?!\/)[^"]*"/, label: 'hardcoded absolute href/src (double-quote)' },
+  { regex: /(?:href|src)='\/(?!\/)[^']*'/, label: "hardcoded absolute href/src (single-quote)" },
 ];
 
 // Paths that are intentionally served from the site root and need no BASE_URL prefix.
@@ -38,8 +38,6 @@ const ALLOWLIST = [
   /\/robots\.txt/,
   /\/sitemap/,
   /\/manifest/,
-  // 404 page "Go home" button intentionally uses "/" — acceptable because Astro
-  // rewrites it at build time when base is configured.
 ];
 
 const EXT_PATTERN = /\.(tsx|ts|astro)$/;
