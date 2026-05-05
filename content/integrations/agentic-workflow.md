@@ -62,6 +62,7 @@ specorator-runtime  (planned — will orchestrate workflow execution)
 - **Quality gates** — explicit criteria that must be met before a stage can advance
 - **Claude Code agents** — structured prompts for each stage's agent responsibilities
 - **CLI-native** — works entirely from the command line with plain Markdown, no GUI required
+- **MCP server** *(planned)* — expose the full workflow engine as MCP tools so any Claude Code session can drive it with a single config line, with no local installation beyond the MCP entry point
 
 ## Links
 

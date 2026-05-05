@@ -47,9 +47,10 @@ agentonomous  agentic-workflow
 
 ## Key Responsibilities
 
+- **MCP server** — primary integration surface: expose workflow and session tools so any Claude Code session can drive the runtime with a single config line, independent of the Obsidian plugin
 - **Orchestration** — coordinate the six agentonomous agent roles per ADLC stage
-- **State management** — track session and task state across execution cycles
-- **Event streaming** — emit real-time progress events consumed by specorator
+- **State management** — track session and task state across execution cycles, designed to feed both V3 observability and V4 semantic cross-linking from day one
+- **Event streaming** — emit real-time progress events consumed by specorator and any other client
 - **CLI bridge replacement** — npm library API usable directly from the Obsidian plugin
 
 ## Links

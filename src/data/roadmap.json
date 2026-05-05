@@ -4,19 +4,19 @@
       "phase": "V1",
       "title": "Static Hub",
       "description": "Architecture diagram · project listing · manual data in projects.json · GitHub Pages CI/CD",
-      "status": "active"
+      "status": "done"
     },
     {
       "phase": "V2",
       "title": "Live Data",
       "description": "GitHub API at build time · live issue counts · last-commit dates · per-project detail pages",
-      "status": "planned"
+      "status": "done"
     },
     {
       "phase": "V3",
       "title": "Runtime Observability",
       "description": "Agent session tracking · event stream visualization · live runtime status from specorator-runtime",
-      "status": "planned"
+      "status": "active"
     },
     {
       "phase": "V4",
