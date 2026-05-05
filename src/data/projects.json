@@ -19,7 +19,7 @@
       "version": null,
       "lastUpdate": null,
       "openIssues": null,
-      "docs": null,
+      "docs": "https://luis85.github.io/specorator",
       "prd": null
     },
     {
@@ -35,7 +35,7 @@
       "version": null,
       "lastUpdate": null,
       "openIssues": null,
-      "docs": null,
+      "docs": "https://luis85.github.io/specorator-runtime",
       "prd": null
     },
     {
@@ -51,7 +51,7 @@
       "version": null,
       "lastUpdate": null,
       "openIssues": null,
-      "docs": null,
+      "docs": "https://luis85.github.io/agentonomous",
       "prd": null
     },
     {
@@ -67,7 +67,7 @@
       "version": null,
       "lastUpdate": null,
       "openIssues": null,
-      "docs": null,
+      "docs": "https://luis85.github.io/agentic-workflow",
       "prd": null
     }
   ]
