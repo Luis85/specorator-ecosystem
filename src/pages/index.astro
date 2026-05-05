@@ -32,23 +32,13 @@ const statusColors: Record<string, string> = {
 const specorator = projects.find((p) => p.id === "specorator");
 const agenticWorkflow = projects.find((p) => p.id === "agentic-workflow");
 const agentonomous = projects.find((p) => p.id === "agentonomous");
+const specoratorRuntime = projects.find((p) => p.id === "specorator-runtime");
 
-const useCases = [
+const builderEntryPoints = [
   {
-    label: "I want a structured way to run my project",
+    label: "agentic-workflow",
     description:
-      "Manage your full 12-stage lifecycle from inside Obsidian — specs, tasks, quality gates, and AI agents all in one place. No coding knowledge required.",
-    cta: "Get specorator",
-    href: specorator?.docs ?? specorator?.repo ?? "#",
-    color: layerColors.ui,
-    badge: "Start here",
-    badgeColor: "#22c55e",
-    available: true,
-  },
-  {
-    label: "I want the workflow methodology without the plugin",
-    description:
-      "Use the 12-stage Agentic Development Lifecycle and Claude Code agents on their own — pure CLI and Markdown, no Obsidian required.",
+      "The raw 12-stage ADLC methodology — templates, quality gates, and Claude Code agents — as a standalone CLI tool. No Obsidian, no plugin, pure Markdown.",
     cta: "Explore agentic-workflow",
     href: agenticWorkflow?.docs ?? agenticWorkflow?.repo ?? "#",
     color: layerColors.workflow,
@@ -57,12 +47,23 @@ const useCases = [
     available: true,
   },
   {
-    label: "I want to build specialized AI agents",
+    label: "agentonomous",
     description:
-      "Use the TypeScript agent library to compose PM, Architect, Engineering, QA, Review, and Writer agents for your own tooling.",
+      "The TypeScript agent library. Six specialised roles (PM, Architect, Engineering, QA, Review, Writer) as composable building blocks for your own tooling.",
     cta: "View agentonomous",
     href: agentonomous?.docs ?? agentonomous?.repo ?? "#",
     color: layerColors.agents,
+    badge: "Planned",
+    badgeColor: "#f59e0b",
+    available: false,
+  },
+  {
+    label: "specorator-runtime",
+    description:
+      "The npm orchestration library. Integrate the full agent lifecycle — session management, event streaming, stage gating — directly into your own application.",
+    cta: "View specorator-runtime",
+    href: specoratorRuntime?.docs ?? specoratorRuntime?.repo ?? "#",
+    color: layerColors.runtime,
     badge: "Planned",
     badgeColor: "#f59e0b",
     available: false,
@@ -266,49 +267,130 @@ const useCases = [
             What brings you here?
           </p>
           <p class="text-gray text-base leading-relaxed">
-            The ecosystem has four components. No coding background required to
-            get started — pick the entry point that fits your role.
+            Most people should start with the plugin — it bundles everything.
+            The individual components are there for developers who want to build
+            their own tools on top.
           </p>
         </div>
 
+        <!-- Primary: specorator plugin -->
+        <div
+          class="rounded-3xl border p-8 flex flex-col sm:flex-row gap-8 items-start"
+          style={`border-color: ${layerColors.ui}; background: color-mix(in srgb, ${layerColors.ui} 6%, #111113); box-shadow: 0 0 40px -16px ${layerColors.ui}`}
+        >
+          <div class="flex flex-col gap-4 flex-1">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span
+                class="font-mono font-bold text-lg"
+                style={`color: ${layerColors.ui}`}>specorator</span
+              >
+              <span
+                class="font-mono text-[9px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded"
+                style={`color: #22c55e; border-color: #22c55e`}
+              >
+                Recommended starting point
+              </span>
+            </div>
+            <p class="text-sm text-gray leading-relaxed max-w-xl">
+              The all-in-one Obsidian plugin. It bundles the 12-stage workflow,
+              Claude Code agents, and (in v2.0) the full runtime into a
+              ready-to-use interface. No configuration, no coding knowledge
+              required — suitable for product managers, designers, founders, and
+              developers alike.
+            </p>
+            <a
+              href={specorator?.docs ??
+                specorator?.repo ??
+                "https://github.com/Luis85/specorator"}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 bg-primary text-body font-mono font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-primary/90 transition-colors duration-150 no-underline hover:no-underline self-start"
+            >
+              Get the Plugin ↗
+            </a>
+          </div>
+          <div
+            class="flex flex-col gap-2 flex-shrink-0 font-mono text-xs text-gray border border-border/10 rounded-2xl p-4 bg-body/40 min-w-44"
+          >
+            <span class="text-dark-gray uppercase tracking-widest text-[9px]"
+              >Includes</span
+            >
+            <span class="flex items-center gap-2"
+              ><span
+                class="size-1.5 rounded-full"
+                style={`background: ${layerColors.workflow}`}
+              ></span>agentic-workflow</span
+            >
+            <span class="flex items-center gap-2"
+              ><span
+                class="size-1.5 rounded-full"
+                style={`background: ${layerColors.agents}`}></span>agentonomous <span
+                class="text-dark-gray">(v2.0)</span
+              ></span
+            >
+            <span class="flex items-center gap-2"
+              ><span
+                class="size-1.5 rounded-full"
+                style={`background: ${layerColors.runtime}`}
+              ></span>specorator-runtime <span class="text-dark-gray"
+                >(v2.0)</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <!-- Builder divider -->
+        <div class="flex items-center gap-4">
+          <div class="flex-1 h-px bg-border/10"></div>
+          <span
+            class="font-mono text-xs text-dark-gray uppercase tracking-widest"
+            >For builders — want to go deeper?</span
+          >
+          <div class="flex-1 h-px bg-border/10"></div>
+        </div>
+
+        <!-- Secondary: individual components for technical users -->
         <div class="grid md:grid-cols-3 gap-4">
           {
-            useCases.map((uc) => (
+            builderEntryPoints.map((ep) => (
               <div
                 class="bg-card/70 border border-border/6 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden"
-                style={`border-top: 2px solid ${uc.color}`}
+                style={`border-top: 2px solid ${ep.color}`}
               >
                 <div class="flex items-start justify-between gap-2">
-                  <span class="font-mono font-semibold text-sm text-text leading-snug">
-                    {uc.label}
+                  <span
+                    class="font-mono font-semibold text-sm leading-snug"
+                    style={`color: ${ep.color}`}
+                  >
+                    {ep.label}
                   </span>
                   <span
                     class="font-mono text-[9px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded flex-shrink-0"
-                    style={`color: ${uc.badgeColor}; border-color: ${uc.badgeColor}`}
+                    style={`color: ${ep.badgeColor}; border-color: ${ep.badgeColor}`}
                   >
-                    {uc.badge}
+                    {ep.badge}
                   </span>
                 </div>
                 <p class="text-xs text-gray leading-relaxed flex-1">
-                  {uc.description}
+                  {ep.description}
                 </p>
-                {uc.available ? (
+                {ep.available ? (
                   <a
-                    href={uc.href}
+                    href={ep.href}
                     target="_blank"
                     rel="noopener"
                     class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-80 hover:opacity-100 transition-colors duration-150 no-underline hover:no-underline"
-                    style={`color: ${uc.color}`}
+                    style={`color: ${ep.color}`}
                   >
-                    {uc.cta} ↗
+                    {ep.cta} ↗
                   </a>
                 ) : (
                   <span
                     class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-40 cursor-not-allowed"
                     aria-disabled="true"
-                    style={`color: ${uc.color}`}
+                    style={`color: ${ep.color}`}
                   >
-                    {uc.cta} ↗
+                    {ep.cta} ↗
                   </span>
                 )}
               </div>
@@ -331,9 +413,11 @@ const useCases = [
             Four components. One composable system.
           </p>
           <p class="text-gray text-sm leading-relaxed max-w-xl">
-            Each layer has a single responsibility. Together they form a fully
-            observable, governance-first development platform — built
-            incrementally so you can adopt as much or as little as you need.
+            Each layer has a single responsibility. The specorator plugin is the
+            primary entry point — it bundles the workflow, agents, and runtime
+            into a ready-to-use interface that requires no technical setup. The
+            three underlying components are independently usable for developers
+            who want to build their own tools on top of the same foundation.
             User decisions drive every stage; agents never advance the workflow
             autonomously.
           </p>

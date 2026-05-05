@@ -10,7 +10,7 @@ page_header:
   badge: "Workflow Definition System"
   title: |
     agentic-workflow
-  subtitle: "The 12-stage Agentic Development Lifecycle: structured templates, quality gates, and Claude Code agents that guide any project from rough idea to shipped software."
+  subtitle: "The 12-stage ADLC as a standalone CLI tool — for developers who want the methodology without the Obsidian plugin. Also the workflow engine that specorator bundles under the hood."
   button_primary:
     enable: true
     label: "View Repository"
@@ -21,7 +21,7 @@ page_header:
 
 **agentic-workflow** is the methodology engine of the Specorator ecosystem. It defines the complete Agentic Development Lifecycle (ADLC) — a 12-stage process that keeps every project decision explicit and every artifact traceable.
 
-It can be used standalone via CLI and Markdown, or as the engine driving specorator's structured workflow.
+**Most users don't need to touch this directly.** The specorator plugin bundles it and sets everything up automatically. This project is for developers who want the raw methodology via CLI and Markdown — no Obsidian, no GUI — or who want to integrate the ADLC process into their own tooling.
 
 ## The 12 Stages
 

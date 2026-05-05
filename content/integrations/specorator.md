@@ -1,7 +1,7 @@
 ---
 title: "specorator"
-meta_title: "specorator — Development Cockpit"
-description: "Your Obsidian-based development cockpit. Guides anyone from rough idea to shipped software through a structured 12-stage lifecycle — no coding background required."
+meta_title: "specorator — The All-in-One Plugin"
+description: "The main entry point for the Specorator ecosystem. An Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and the full runtime in one ready-to-use interface — no coding required."
 image: ""
 draft: false
 category: "UI"
@@ -10,7 +10,7 @@ page_header:
   badge: "UI / Visualization Layer"
   title: |
     specorator
-  subtitle: "Your development cockpit inside Obsidian. Anyone — developer, designer, PM, or founder — can guide a project from idea to release through a structured 12-stage lifecycle."
+  subtitle: "The main entry point for the ecosystem. Bundles the 12-stage workflow, Claude Code agents, and the full runtime into a single Obsidian plugin — no coding knowledge required."
   button_primary:
     enable: true
     label: "View Repository"
@@ -19,9 +19,9 @@ page_header:
 
 ## Overview
 
-**specorator** is the primary user-facing layer of the ecosystem — an Obsidian plugin that makes structured, AI-assisted software development accessible to everyone, not just engineers.
+**specorator** is the primary entry point for the ecosystem — an Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and (in v2.0) the full runtime into a single, ready-to-use interface.
 
-You define what to build. The plugin sets up your 12-stage workflow, connects Claude Code agents for spec drafting and task generation, and keeps all artifacts in your vault as plain Markdown. You review and approve at every stage; agents handle the drafting.
+Most users should start and stay here. You don't need to configure agentic-workflow, agentonomous, or specorator-runtime separately — the plugin handles all of that. You define what to build; agents handle spec drafting and task generation; you review and approve at every stage. All artifacts stay in your vault as plain Markdown.
 
 ## Role in the Ecosystem
 

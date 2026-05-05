@@ -10,7 +10,7 @@ page_header:
   badge: "Execution Runtime"
   title: |
     specorator-runtime
-  subtitle: "The orchestration bridge planned for v2.0. Connects the specorator plugin to the six specialized agent roles and the 12-stage workflow engine — replacing the current CLI interface."
+  subtitle: "The npm orchestration library for technical builders — for developers who want to integrate the full agent lifecycle into their own application, without going through the Obsidian plugin."
   button_primary:
     enable: true
     label: "View Repository"
