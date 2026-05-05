@@ -3,8 +3,9 @@ import Base from "@/layouts/Base.astro";
 import AnimatedButton from "@/components/AnimatedButton.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import CTAShape from "@/components/shape/CTAShape";
+import { buildUrl } from "@/lib/utils/url";
 
-const homeUrl = import.meta.env.BASE_URL;
+const homeUrl = buildUrl("/");
 ---
 
 <Base title="Page Not Found">

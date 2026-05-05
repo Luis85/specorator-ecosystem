@@ -38,6 +38,34 @@ export default [
           message:
             "Use buildUrl() from '@/lib/utils/url' instead of concatenating import.meta.env['BASE_URL'] directly. Raw concatenation breaks the GitHub Pages base path.",
         },
+        {
+          // Catches: const x = import.meta.env.BASE_URL  (bare alias assignment)
+          // Aliasing the raw value into a variable is the canonical bypass for the
+          // BinaryExpression selectors above — once aliased, `x + "/foo"` looks like
+          // any other string concat. Force callers to either use buildUrl() directly
+          // or apply trailing-slash normalization inline (e.g. .replace(/\/$/, "")),
+          // which makes this selector inapplicable because init becomes a CallExpression.
+          selector:
+            "VariableDeclarator[init.type='MemberExpression'][init.property.name='BASE_URL'][init.object.property.name='env'][init.object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env.BASE_URL into a variable. Use buildUrl() from '@/lib/utils/url', or normalize inline via import.meta.env.BASE_URL.replace(/\\/$/, '').",
+        },
+        {
+          // Same as above but for computed notation: const x = import.meta.env['BASE_URL']
+          selector:
+            "VariableDeclarator[init.type='MemberExpression'][init.computed=true][init.property.value='BASE_URL'][init.object.property.name='env'][init.object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env['BASE_URL'] into a variable. Use buildUrl() from '@/lib/utils/url', or normalize inline via import.meta.env.BASE_URL.replace(/\\/$/, '').",
+        },
+        {
+          // Catches: const { BASE_URL } = import.meta.env  (destructuring alias)
+          // Even rarer, but a free bypass once destructured because BASE_URL becomes
+          // a plain identifier the BinaryExpression selectors can't trace back to env.
+          selector:
+            "VariableDeclarator[id.type='ObjectPattern'][init.type='MemberExpression'][init.property.name='env'][init.object.type='MetaProperty'] > ObjectPattern > Property[key.name='BASE_URL']",
+          message:
+            "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
+        },
       ],
     },
   },
