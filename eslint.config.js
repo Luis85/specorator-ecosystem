@@ -90,6 +90,26 @@ export default [
           message:
             "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
         },
+        {
+          // Catches alias RHS wrapped by optional-chain or TS non-null assertion:
+          //   const x = import.meta.env?.BASE_URL
+          //   const x = import.meta.env.BASE_URL!
+          //   x = import.meta.env?.BASE_URL
+          //   x = import.meta.env.BASE_URL!
+          // Without this, those wrappers change init/right.type from MemberExpression
+          // to ChainExpression / TSNonNullExpression and bypass the bare-alias selectors.
+          selector:
+            ":matches(VariableDeclarator, AssignmentExpression) > :matches(ChainExpression, TSNonNullExpression) > MemberExpression[property.name='BASE_URL'][object.property.name='env'][object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env.BASE_URL (incl. optional-chain or non-null assertion) into a variable. Use buildUrl() from '@/lib/utils/url'.",
+        },
+        {
+          // Same as above for computed notation: import.meta.env?.['BASE_URL'] / ['BASE_URL']!
+          selector:
+            ":matches(VariableDeclarator, AssignmentExpression) > :matches(ChainExpression, TSNonNullExpression) > MemberExpression[computed=true][property.value='BASE_URL'][object.property.name='env'][object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env['BASE_URL'] (incl. optional-chain or non-null assertion) into a variable. Use buildUrl() from '@/lib/utils/url'.",
+        },
       ],
     },
   },
