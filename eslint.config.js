@@ -23,13 +23,20 @@ export default [
       "no-restricted-syntax": [
         "error",
         {
-          // Matches specifically: import.meta.env.BASE_URL + <anything>
-          // Anchored to MetaProperty (import.meta) to avoid false positives on
-          // unrelated chains like foo.env.BASE_URL + '...' or process.env.BASE_URL + '...'
+          // Catches: import.meta.env.BASE_URL + <anything>  (dot notation)
+          // Anchored to MetaProperty so foo.env.BASE_URL doesn't trigger.
           selector:
             "BinaryExpression[operator='+'] MemberExpression[property.name='BASE_URL'][object.property.name='env'][object.object.type='MetaProperty']",
           message:
             "Use buildUrl() from '@/lib/utils/url' instead of concatenating import.meta.env.BASE_URL directly. Raw concatenation breaks the GitHub Pages base path.",
+        },
+        {
+          // Catches: import.meta.env['BASE_URL'] + <anything>  (computed notation)
+          // Same broken-concatenation behavior, just bypasses dot-notation selector.
+          selector:
+            "BinaryExpression[operator='+'] MemberExpression[computed=true][property.value='BASE_URL'][object.property.name='env'][object.object.type='MetaProperty']",
+          message:
+            "Use buildUrl() from '@/lib/utils/url' instead of concatenating import.meta.env['BASE_URL'] directly. Raw concatenation breaks the GitHub Pages base path.",
         },
       ],
     },

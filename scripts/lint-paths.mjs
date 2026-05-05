@@ -35,14 +35,16 @@ const ABS = /\/(?!\/)/;
 //   href={"/foo"}      — JSX expression with double-quoted string
 //   href={'/foo'}      — JSX expression with single-quoted string
 //   href={`/foo`}      — JSX template literal (may contain ${…} interpolation)
-// gs flags: g = global (find all matches), s = dotAll (. matches \n, not used here
-// but \s* inside braces already handles newlines between { and the opening quote).
+// gs flags: g = global (find all matches), s = dotAll (. matches \n).
+// JSX expression patterns intentionally do NOT require a closing } so that
+// concatenations like href={'/path/' + slug} are caught alongside full literals
+// like href={"/path"}. The signal is the opening { followed by an absolute string.
 const PATTERNS = [
   { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`, "gs"), label: "string attr (double-quote)" },
   { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`, "gs"), label: "string attr (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{\\s*"${ABS.source}[^"]*"\\s*\\}`, "gs"), label: "JSX expression string (double-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{\\s*'${ABS.source}[^']*'\\s*\\}`, "gs"), label: "JSX expression string (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{\\s*\`${ABS.source}[^\`]*\`\\s*\\}`, "gs"), label: "JSX template literal" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*"${ABS.source}[^"]*"`, "gs"), label: "JSX expression (double-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*'${ABS.source}[^']*'`, "gs"), label: "JSX expression (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*\`${ABS.source}[^\`]*\``, "gs"), label: "JSX template literal" },
 ];
 
 // Extract just the path portion from a matched string so allowlist patterns
