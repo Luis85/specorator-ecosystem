@@ -5,6 +5,7 @@ interface Props {
 }
 const { data, featured } = Astro.props;
 const { title, job_info } = data.frontmatter;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const { employ_type, location, salary_range, department } = job_info;
 const uid = `careercard-${Math.random().toString(36).slice(2, 8)}`;
 ---
@@ -15,7 +16,7 @@ const uid = `careercard-${Math.random().toString(36).slice(2, 8)}`;
   class={`${featured ? "bg-card/20 border-border/10" : "bg-card/70"} border border-border/6 rounded-3xl p-10 flex lg:items-center lg:justify-between gap-8 group hover:bg-card/40 transition-all duration-300 flex-col lg:flex-row`}
 >
   <div class="flex flex-col gap-1 min-w-0 flex-1">
-    <a href={`/careers/${data.slug}`}>
+    <a href={`${base}/careers/${data.slug}`}>
       <h3 class="font-primary font-medium text-h6 text-text hover:text-primary transition-colors duration-200">
         {title}
       </h3>
@@ -30,7 +31,7 @@ const uid = `careercard-${Math.random().toString(36).slice(2, 8)}`;
     <span class="text-gray">{salary_range}</span>
   </div>
   <a
-    href={`/careers/${data.slug}`}
+    href={`${base}/careers/${data.slug}`}
     class={`${featured ? "bg-gradient-primary" : "bg-gradient-dark"} btn btn-dark w-fit`}
   >
     Apply Now

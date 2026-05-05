@@ -1,5 +1,6 @@
 
 import { useState, useMemo } from "react";
+import { buildUrl } from "@/lib/utils/url";
 
 
 
@@ -131,7 +132,7 @@ const OpenPositions = ({ badge, title, careers }: OpenPositionsProps) => {
                 >
                   <div className={"bg-card/70 border border-border/6 rounded-3xl p-10 flex lg:items-center lg:justify-between gap-8 group hover:bg-card/40 transition-all duration-300 flex-col lg:flex-row"}>
                     <div className="flex flex-col gap-1 min-w-0 flex-1">
-                      <a href={`/careers/${career.slug}`}>
+                      <a href={buildUrl(`careers/${career.slug}`)}>
                         <h3 className="font-primary font-medium text-h6 text-text hover:text-primary transition-colors duration-200">{career.frontmatter.title}</h3>
                       </a>
                       <p className="text-gray">{career.frontmatter.job_info?.department}</p>
@@ -143,7 +144,7 @@ const OpenPositions = ({ badge, title, careers }: OpenPositionsProps) => {
                       <div className="size-1 rounded-full bg-gray/40" />
                       <span className="text-gray">{career.frontmatter.job_info?.salary_range}</span>
                     </div>
-                    <a href={`/careers/${career.slug}`} className="bg-gradient-dark btn btn-dark w-fit">Apply Now</a>
+                    <a href={buildUrl(`careers/${career.slug}`)} className="bg-gradient-dark btn btn-dark w-fit">Apply Now</a>
                   </div>
                 </motion.div>
               ))}

@@ -4,14 +4,15 @@
  * the /specorator-ecosystem GitHub Pages base path.
  *
  * Patterns caught:
- *   href="/"          — absolute path that ignores BASE_URL
- *   href="/foo"       — same
- *   src="/foo"        — images/assets with hardcoded absolute path
+ *   href="/"            — string attribute with absolute path
+ *   href="/foo"         — same
+ *   href={"/foo"}       — JSX expression with string literal
+ *   href={`/foo/${x}`}  — JSX template literal with absolute path
+ *   src="/foo"          — same for src attributes
  *
  * Exceptions (allowed absolute paths):
  *   External URLs (http:, https:, mailto:, tel:) — not matched
- *   /favicon.svg, /robots.txt, /sitemap*.xml     — served from root by convention
- *   Files under src/pages/                        — Astro resolves these at build time
+ *   /favicon.svg, /robots.txt, /sitemap*.xml, /manifest* — root assets
  *
  * Exit 1 when violations are found; exit 0 on clean pass.
  */
@@ -19,25 +20,45 @@
 import { execSync } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const srcDir = path.join(root, "src");
 
-// Patterns that signal a hardcoded absolute path in JSX/Astro attributes.
-// We target string literals only (href="/" or href='/foo'), not template literals.
-// \/(?!\/) — leading slash but not //, which would be a protocol-relative URL.
+// \/(?!\/) — leading slash, negative lookahead excludes protocol-relative //
+const ABS = /\/(?!\/)/;
+
+// All forms an href/src attribute can take in .astro/.tsx files:
+//   href="/foo"        — plain string attribute
+//   href='/foo'        — single-quote variant
+//   href={"/foo"}      — JSX expression with double-quoted string
+//   href={'/foo'}      — JSX expression with single-quoted string
+//   href={`/foo`}      — JSX template literal (may contain ${…} interpolation)
 const PATTERNS = [
-  { regex: /(?:href|src)="\/(?!\/)[^"]*"/, label: 'hardcoded absolute href/src (double-quote)' },
-  { regex: /(?:href|src)='\/(?!\/)[^']*'/, label: "hardcoded absolute href/src (single-quote)" },
+  { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`), label: "string attr (double-quote)" },
+  { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`), label: "string attr (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{"${ABS.source}[^"]*"\\}`), label: "JSX expression string (double-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{'${ABS.source}[^']*'\\}`), label: "JSX expression string (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\`${ABS.source}[^\`]*\`\\}`), label: "JSX template literal" },
 ];
 
-// Paths that are intentionally served from the site root and need no BASE_URL prefix.
+// Extract just the path portion from a matched string so allowlist patterns
+// can be anchored precisely (e.g. /^\/favicon\.svg$/ won't match /favicon.svg.bak).
+function extractPath(matched) {
+  const m = matched.match(/["'`](\/[^"'`]*)/);
+  return m ? m[1] : null;
+}
+
+// Root-served assets that legitimately use absolute paths because they live
+// at the domain root regardless of the GitHub Pages base prefix.
+// Patterns are anchored (^ and $) to avoid matching unrelated routes.
 const ALLOWLIST = [
-  /\/favicon\.svg/,
-  /\/robots\.txt/,
-  /\/sitemap/,
-  /\/manifest/,
+  /^\/favicon\.svg$/,
+  /^\/favicon\.ico$/,
+  /^\/robots\.txt$/,
+  /^\/sitemap[-\w]*(?:\.xml)?$/,   // /sitemap.xml, /sitemap-index.xml, /sitemap
+  /^\/manifest(?:\.json|\.webmanifest)?$/, // /manifest.json, /manifest.webmanifest
 ];
 
 const EXT_PATTERN = /\.(tsx|ts|astro)$/;
@@ -59,8 +80,6 @@ function walkSync(dir, results = []) {
   return results;
 }
 
-import fs from "fs";
-
 const files = walkSync(srcDir);
 const violations = [];
 
@@ -74,8 +93,8 @@ for (const file of files) {
       const match = line.match(regex);
       if (!match) continue;
 
-      const value = match[0];
-      if (ALLOWLIST.some((re) => re.test(value))) continue;
+      const urlPath = extractPath(match[0]);
+      if (urlPath && ALLOWLIST.some((re) => re.test(urlPath))) continue;
 
       violations.push({
         file: path.relative(root, file),
