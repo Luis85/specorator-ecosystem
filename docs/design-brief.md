@@ -15,11 +15,13 @@ The design earns trust through clarity: concise messaging, a consistent visual s
 The design serves a dual audience: someone discovering the project for the first time and a developer who wants to build on top of individual packages. Both need the same foundation: clarity on what the ecosystem is, what state it's in, and where to go next.
 
 **What this page is:**
+
 - A first impression that converts curiosity into a plugin install
 - A routing layer for developers who want to go deeper into individual packages
 - An honest status report on the ecosystem's progress
 
 **What this page is not:**
+
 - A developer dashboard or ops interface
 - A README clone
 - A feature-list dump
@@ -82,28 +84,28 @@ Listed in priority order. The page succeeds or fails on goal 1.
 
 ### Specific rules
 
-| Avoid | Prefer |
-| --- | --- |
-| "Agentic Development Lifecycle" | "12-stage workflow" or "development workflow" |
-| "MCP server / MCP exposure" | "available as a tool for AI coding sessions" (only if needed) |
-| "composable building blocks" | "standalone package" |
-| "orchestration layer" | "integration library" |
-| "agent lifecycle" | "the full workflow" or "the full process" |
-| "Claude Code agents" | "AI agents" or just "AI" |
-| "stage gating" | "quality checks" or "decision points" |
-| "event streaming" | "track progress" or "follow along" |
-| Feature-list copy ("manage skills, commands, tools...") | Outcome copy ("AI handles the writing and planning") |
+| Avoid                                                   | Prefer                                                        |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| "Agentic Development Lifecycle"                         | "12-stage workflow" or "development workflow"                 |
+| "MCP server / MCP exposure"                             | "available as a tool for AI coding sessions" (only if needed) |
+| "composable building blocks"                            | "standalone package"                                          |
+| "orchestration layer"                                   | "integration library"                                         |
+| "agent lifecycle"                                       | "the full workflow" or "the full process"                     |
+| "Claude Code agents"                                    | "AI agents" or just "AI"                                      |
+| "stage gating"                                          | "quality checks" or "decision points"                         |
+| "event streaming"                                       | "track progress" or "follow along"                            |
+| Feature-list copy ("manage skills, commands, tools...") | Outcome copy ("AI handles the writing and planning")          |
 
 ### Section-level intent
 
-| Section | What it communicates |
-| --- | --- |
-| Hero | What the product is and what you get. One-sentence mental model. |
-| Problem (01) | Why this matters — the pain that makes the solution feel necessary. |
-| How It Works (02) | Enough structure to feel confident, not enough detail to overwhelm. |
-| Where to Start (03) | Clearest possible routing. Plugin first; builder packages second. |
-| Roadmap (04) | Honesty about what exists, what is coming, that the project is alive. |
-| Final CTA | Repeat key trust signals. Lower the barrier to action. |
+| Section             | What it communicates                                                  |
+| ------------------- | --------------------------------------------------------------------- |
+| Hero                | What the product is and what you get. One-sentence mental model.      |
+| Problem (01)        | Why this matters — the pain that makes the solution feel necessary.   |
+| How It Works (02)   | Enough structure to feel confident, not enough detail to overwhelm.   |
+| Where to Start (03) | Clearest possible routing. Plugin first; builder packages second.     |
+| Roadmap (04)        | Honesty about what exists, what is coming, that the project is alive. |
+| Final CTA           | Repeat key trust signals. Lower the barrier to action.                |
 
 ---
 
@@ -206,16 +208,17 @@ Base unit: **8px**. All spacing values are multiples of 4px (4, 8, 12, 16, 20, 2
 
 The homepage is a single-page experience with five numbered content sections plus a final CTA. Each section has a numbered label, a bold headline, and section-appropriate content.
 
-| Section | Label          | Purpose                                           |
-| ------- | -------------- | ------------------------------------------------- |
-| Hero    | —              | Value proposition, primary CTA, eyebrow badges    |
-| 01      | The Problem    | Three pain-point cards                            |
-| 02      | How It Works   | Three-phase workflow walkthrough                  |
-| 03      | Where to Start | Primary plugin entry point + builder alternatives |
+| Section | Label          | Purpose                                            |
+| ------- | -------------- | -------------------------------------------------- |
+| Hero    | —              | Value proposition, primary CTA, eyebrow badges     |
+| 01      | The Problem    | Three pain-point cards                             |
+| 02      | How It Works   | Three-phase workflow walkthrough                   |
+| 03      | Where to Start | Primary plugin entry point + builder alternatives  |
 | 04      | Roadmap        | Ecosystem milestone timeline with live GitHub data |
-| Final   | CTA            | Closing conversion section with trust signals     |
+| Final   | CTA            | Closing conversion section with trust signals      |
 
 Additional pages in the hub:
+
 - `/integrations` — project listing with live status cards and architecture diagram
 - `/integrations/[slug]` — per-project detail pages
 - `/changelog` — full roadmap and milestone history
@@ -237,20 +240,24 @@ Single sticky row with site identity on the left and navigation links on the rig
 Full-width section with `max-w-3xl` content column.
 
 **Eyebrow row:**
+
 - Taxonomy text: `Obsidian Plugin · AI-Powered · Open Source · No Coding Required` — mono xs, `--text-muted`, uppercase
 - Live indicator: green pulse dot (`animate-pulse`) + `active development` text
 - Version badge: `hub vX.Y.Z` — mono, border outline, muted
 
 **Headline:**
+
 - Two lines. Primary statement in `--text-primary`, resolution phrase in `--accent`
 - Size: `text-5xl md:text-6xl`, bold, `tracking-tight`, `leading-tight`
 
 **Subheadline:**
+
 - One paragraph, `text-xl`, `--text-secondary`, `leading-relaxed`, `max-w-2xl`
 - Establishes the mental model: what it is, what you get, key differentiators (plain files, no coding)
 - Inline link to Obsidian — underlined, hover to accent
 
 **CTA buttons:**
+
 - Primary: `bg-primary` filled, rounded-xl, mono, `Get the Plugin ↗` — links to specorator docs/repo
 - Secondary: outlined `border-border/30`, rounded-xl, mono, `Find your entry point ↓` — anchors to `#use-cases`
 
@@ -269,6 +276,7 @@ Full-width section with `max-w-3xl` content column.
 Three equal cards in a responsive `md:grid-cols-3` grid.
 
 **Card anatomy:**
+
 - Background: `bg-card/50`, border `border-border/6`, `rounded-2xl`, padding `20px`
 - Emoji icon (2xl, decorative)
 - Heading: mono semibold sm `--text-primary`
@@ -281,6 +289,7 @@ Cards describe the pain, not the solution — they prime the "How It Works" sect
 Three-step vertical timeline with connector lines. `max-w-3xl`.
 
 **Step anatomy:**
+
 - Step number column: mono bold 2xl in `--accent`; vertical connector line `bg-border/20` between steps
 - Content column: step title (xl primary bold) + description (sm sans `--text-secondary`) + stage detail (10px mono `--text-muted` uppercase)
 - Steps separated by `border-b border-border/10`; last step has no connector
@@ -290,6 +299,7 @@ Three-step vertical timeline with connector lines. `max-w-3xl`.
 Two sub-zones. The plugin card is the hero of this section.
 
 **Primary card (specorator plugin):**
+
 - Prominent, glow-bordered card using `--layer-ui` (indigo)
 - `color-mix` background tint + `box-shadow` ambient glow
 - Project name in layer color + `Recommended starting point` badge in green
@@ -298,10 +308,12 @@ Two sub-zones. The plugin card is the hero of this section.
 - This is the primary conversion surface — it must be unmissable
 
 **Divider:**
+
 - Full-width centered: `For builders — want to go deeper?`
 - Flanked by `border/10` horizontal rules
 
 **Builder cards (three):**
+
 - `md:grid-cols-3` grid
 - Each card: top accent border in layer color, name, status badge, description, CTA link
 - Planned components: CTA link at `opacity-40 cursor-not-allowed` with `aria-disabled`
@@ -312,9 +324,11 @@ Two sub-zones. The plugin card is the hero of this section.
 Vertical timeline. `max-w-3xl`.
 
 **Section header:**
+
 - Numbered label + concise heading + one sub-sentence in plain language (not internal mechanism detail)
 
 **Timeline items:**
+
 - Status dot: filled `--primary` (done), green `animate-pulse` (active), hollow border (planned)
 - Connector line between items
 - Name + status badge (`Complete` / `Active` / `Planned`)
