@@ -33,6 +33,9 @@ export interface ProjectRoadmap {
   projectName: string;
   repo: string;
   phases: RoadmapPhase[];
+  // false when the GitHub label fetch failed; phases will be empty but the
+  // cause is a transient API error, not an unconfigured repo.
+  dataAvailable: boolean;
 }
 
 type GitHubLabel = {
@@ -68,14 +71,19 @@ function deriveItemStatus(
 function derivePhaseStatus(items: RoadmapItem[]): RoadmapPhase["phaseStatus"] {
   if (items.length === 0) return "planned";
   if (items.every((i) => i.itemStatus === "done")) return "done";
-  if (items.some((i) => i.state === "open")) return "active";
+  // Only open PRs are "in-progress"; open issues are "planned". A phase is
+  // active only when at least one item is actively being worked (i.e. has an
+  // open PR), keeping phase status consistent with item-level classification.
+  if (items.some((i) => i.itemStatus === "in-progress")) return "active";
   return "planned";
 }
 
+// Returns null on any non-OK response or network error so callers can
+// distinguish "repo has no roadmap labels" from "data unavailable".
 async function fetchRoadmapLabels(
   repoPath: string,
   headers: HeadersInit,
-): Promise<GitHubLabel[]> {
+): Promise<GitHubLabel[] | null> {
   const roadmapLabels: GitHubLabel[] = [];
   let page = 1;
   while (page <= 5) {
@@ -84,7 +92,7 @@ async function fetchRoadmapLabels(
         `https://api.github.com/repos/${repoPath}/labels?per_page=100&page=${page}`,
         { headers },
       );
-      if (!res.ok) break;
+      if (!res.ok) return null;
       const batch = (await res.json()) as GitHubLabel[];
       roadmapLabels.push(
         ...batch.filter((l) => l.name.startsWith(LABEL_PREFIX)),
@@ -92,7 +100,7 @@ async function fetchRoadmapLabels(
       if (batch.length < 100) break;
       page++;
     } catch {
-      break;
+      return null;
     }
   }
   return roadmapLabels;
@@ -146,6 +154,16 @@ async function fetchProjectRoadmap(
   const repoPath = new URL(project.repo).pathname.slice(1);
   const labels = await fetchRoadmapLabels(repoPath, headers);
 
+  if (labels === null) {
+    return {
+      projectId: project.id,
+      projectName: project.name,
+      repo: project.repo,
+      phases: [],
+      dataAvailable: false,
+    };
+  }
+
   const phases = await Promise.all(
     labels.map(async (label): Promise<RoadmapPhase> => {
       const result = await fetchItemsForLabel(repoPath, label.name, headers);
@@ -175,6 +193,7 @@ async function fetchProjectRoadmap(
     projectName: project.name,
     repo: project.repo,
     phases,
+    dataAvailable: true,
   };
 }
 

@@ -742,7 +742,11 @@ const builderEntryPoints = [
                   </a>
                 </div>
 
-                {pr.phases.length === 0 ? (
+                {!pr.dataAvailable ? (
+                  <p class="font-mono text-xs text-dark-gray ml-5">
+                    Roadmap data unavailable — GitHub API error.
+                  </p>
+                ) : pr.phases.length === 0 ? (
                   <p class="font-mono text-xs text-dark-gray ml-5">
                     No roadmap:* labels found in this repo yet.
                   </p>

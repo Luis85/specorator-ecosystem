@@ -5,6 +5,7 @@ Audit one or all specorator ecosystem project repositories, define roadmap phase
 Optional argument: a single repo name to process only that project (e.g. `/label-roadmap agentic-workflow`). When omitted, all four repos are processed.
 
 **Target repos (process all unless $ARGUMENTS specifies one):**
+
 - Luis85/specorator
 - Luis85/specorator-runtime
 - Luis85/agentonomous
@@ -21,10 +22,10 @@ The specorator-ecosystem hub (luis85/specorator-ecosystem) builds its roadmap se
 3. Deriving status automatically — no extra labels needed:
 
 | GitHub state | Is it a PR? | Hub displays as |
-|---|---|---|
-| open | no | Planned |
-| open | yes | In Progress |
-| closed | — | Done |
+| ------------ | ----------- | --------------- |
+| open         | no          | Planned         |
+| open         | yes         | In Progress     |
+| closed       | —           | Done            |
 
 The label's **description field** becomes the phase subtitle shown on the hub. A well-written description ("Expose the workflow engine as an MCP server") is more useful than a terse one ("MCP").
 
@@ -62,22 +63,23 @@ Group the issues and PRs into coherent delivery phases. A good phase is:
 - Sized at roughly 2–10 issues (smaller = faster feedback loop)
 
 **Naming rules:**
+
 - Label name format: `roadmap:<slug>` where slug is lowercase kebab-case
 - Examples: `roadmap:v3`, `roadmap:mcp-server`, `roadmap:agent-roles`, `roadmap:cli-init`
 - Keep slugs short (≤ 20 chars), descriptive, and stable — they appear in URLs and data files
 
 **Known context per repo (use as guidance, not gospel):**
 
-*specorator* — Obsidian plugin, UI/visualization layer  
+_specorator_ — Obsidian plugin, UI/visualization layer  
 Likely phases: `roadmap:v3` (runtime observability UI inside Obsidian), `roadmap:v4` (knowledge graph browser)
 
-*specorator-runtime* — npm orchestration library + MCP server  
+_specorator-runtime_ — npm orchestration library + MCP server  
 Likely phases: `roadmap:mcp-contract` (MCP server interface definition), `roadmap:session-schema` (V3+V4 event data model), `roadmap:async-workers` (background worker event bus)
 
-*agentonomous* — TypeScript agent library  
+_agentonomous_ — TypeScript agent library  
 Likely phases: `roadmap:agent-roles` (six role contracts), `roadmap:memory-interface` (AgentMemory + semantic search), `roadmap:provider-abstraction` (LLMProvider interface)
 
-*agentic-workflow* — 12-stage methodology + CLI  
+_agentic-workflow_ — 12-stage methodology + CLI  
 Likely phases: `roadmap:mcp-server` (MCP tool exposure), `roadmap:cli-init` (workflow init command), `roadmap:quality-gate-hooks` (onStageTransition event system)
 
 Rename, merge, or split these suggestions freely based on what the actual issues say. Do not invent phases that have no issues to back them.
@@ -97,6 +99,7 @@ If the label already exists but has an empty or poor description, update the des
 For each issue or PR that belongs to a phase, add the `roadmap:<slug>` label.
 
 Guidelines:
+
 - An issue/PR may carry multiple `roadmap:*` labels only if it genuinely spans phases (rare; prefer splitting the issue instead)
 - Skip pure housekeeping items (typo fixes, dependency bumps, CI config tweaks) unless they are phase-blocking
 - Label closed issues and merged PRs that represent shipped phase work — this gives the hub accurate Done counts
