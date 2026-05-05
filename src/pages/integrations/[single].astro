@@ -3,6 +3,8 @@ import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
+import { fetchAllProjectRoadmaps } from "@/lib/fetchRoadmapData";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -19,6 +21,22 @@ if (integration.data.draft) return Astro.redirect("/404");
 
 const { Content } = await render(integration);
 const { title, meta_title, description, image, page_header } = integration.data;
+
+const projects = await fetchEnrichedProjects();
+const matchedProject = projects.find((p) => p.id === integration.id);
+const roadmap = matchedProject
+  ? (await fetchAllProjectRoadmaps([matchedProject]))[0]
+  : null;
+
+const layerColors: Record<string, string> = {
+  ui: "#818cf8",
+  runtime: "#22d3ee",
+  agents: "#f472b6",
+  workflow: "#fb923c",
+};
+const phaseColor = matchedProject
+  ? (layerColors[matchedProject.role] ?? "#818cf8")
+  : "#818cf8";
 ---
 
 <Base
@@ -28,6 +46,114 @@ const { title, meta_title, description, image, page_header } = integration.data;
   image={image}
 >
   {page_header && <PageHeader page_header={page_header} />}
+
+  {
+    roadmap && (
+      <section class="border-b border-border/10">
+        <MainContainer>
+          <div class="lg:w-4/5 mx-auto container-padding-y container-padding-x">
+            <div class="flex flex-col gap-6">
+              <div class="flex items-center gap-3">
+                <span class="font-mono text-xs uppercase tracking-widest text-gray">
+                  Roadmap
+                </span>
+                {!roadmap.dataAvailable && (
+                  <span class="font-mono text-[10px] text-dark-gray">
+                    — data unavailable
+                  </span>
+                )}
+              </div>
+
+              {!roadmap.dataAvailable ? (
+                <p class="font-mono text-xs text-dark-gray">
+                  GitHub API error — roadmap data could not be fetched.
+                </p>
+              ) : roadmap.phases.length === 0 ? (
+                <p class="font-mono text-xs text-dark-gray">
+                  No <span class="text-primary/70">roadmap:*</span> labels found
+                  in this repo yet.
+                </p>
+              ) : (
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {roadmap.phases.map((phase) => (
+                    <div
+                      class={`rounded-2xl p-4 flex flex-col gap-2 ${
+                        phase.phaseStatus === "active"
+                          ? "border border-primary/40"
+                          : "border border-border/6 opacity-60"
+                      }`}
+                      style={
+                        phase.phaseStatus === "active"
+                          ? `background: color-mix(in srgb, ${phaseColor} 5%, #111113)`
+                          : "background: color-mix(in srgb, #ffffff 3%, #111113)"
+                      }
+                    >
+                      <div class="flex items-center justify-between gap-2">
+                        <span
+                          class="font-mono text-xs font-bold uppercase tracking-widest"
+                          style={
+                            phase.phaseStatus !== "done"
+                              ? `color: ${phaseColor}`
+                              : "color: #4b5563"
+                          }
+                        >
+                          {phase.name}
+                        </span>
+                        {phase.phaseStatus === "active" ? (
+                          <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-green-400 border border-green-400 px-1.5 py-0.5 rounded">
+                            Active
+                          </span>
+                        ) : phase.phaseStatus === "done" ? (
+                          <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-dark-gray border border-border/20 px-1.5 py-0.5 rounded">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="font-mono text-[10px] font-bold uppercase tracking-wide text-amber-400 border border-amber-400 px-1.5 py-0.5 rounded">
+                            Planned
+                          </span>
+                        )}
+                      </div>
+
+                      {phase.description && (
+                        <span class="text-xs text-gray leading-relaxed">
+                          {phase.description}
+                        </span>
+                      )}
+
+                      {!phase.dataAvailable ? (
+                        <span class="font-mono text-[10px] text-dark-gray mt-auto pt-1">
+                          Data unavailable
+                        </span>
+                      ) : phase.stats.total > 0 ? (
+                        <div class="flex flex-col gap-1.5 mt-auto pt-1">
+                          <div class="w-full h-1 rounded-full bg-border/20 overflow-hidden">
+                            <div
+                              class="h-full rounded-full"
+                              style={`width: ${Math.round((phase.stats.done / phase.stats.total) * 100)}%; background: ${phaseColor}`}
+                            />
+                          </div>
+                          <span class="font-mono text-[10px] text-dark-gray">
+                            {phase.stats.done}/{phase.stats.total} done
+                            {phase.stats.inProgress > 0 &&
+                              ` · ${phase.stats.inProgress} in progress`}
+                          </span>
+                        </div>
+                      ) : (
+                        <span class="font-mono text-[10px] text-dark-gray mt-auto pt-1">
+                          No issues yet
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </MainContainer>
+      </section>
+    )
+  }
+
   <section>
     <MainContainer>
       <div class="lg:w-4/5 mx-auto container-padding-y container-padding-x">
