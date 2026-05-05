@@ -2,7 +2,7 @@
 
 ## What this project is
 
-Static site (Astro + GitHub Pages) that serves as the central control plane for the Specorator ecosystem. It lists all four ecosystem projects, shows the architecture, and tracks the roadmap.
+Static site (Astro + GitHub Pages) that serves as the main entry point into the Specorator ecosystem. It is the first touchpoint for new visitors — introducing the product, routing users to their entry point, and showing the ecosystem roadmap.
 
 ## Branching model
 
@@ -56,12 +56,16 @@ Volatile fields are fetched at build time by `src/lib/fetchProjectData.ts`. If t
 
 ### `src/data/roadmap.json`
 
-Roadmap phase definitions. Each milestone has a `label` field:
+Ecosystem roadmap milestone definitions. Each entry has:
 
-- `null` — phase is complete (V1, V2); no GitHub tracking needed.
-- `"roadmap:vN"` — active/planned phase; the hub fetches issues and PRs carrying this label from all four ecosystem repos at build time via `src/lib/fetchRoadmapData.ts`.
+| Field         | Type             | Description                                                                                                   |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| `label`       | `string \| null` | `null` for completed phases (no GitHub tracking needed), or a `"roadmap:vN"` label for active/planned phases. |
+| `name`        | `string`         | Display name for the milestone.                                                                               |
+| `description` | `string`         | Brief description of what this phase delivers for the ecosystem.                                              |
+| `status`      | `string`         | Static fallback status (`"done"`, `"active"`, `"planned"`). Used when GitHub data is unavailable.             |
 
-The `milestoneStatus` is **derived** from the fetched items at build time and falls back to the static `status` field if no items are found. Do not adjust `status` manually to reflect progress — apply GitHub labels to issues/PRs instead.
+For active/planned milestones, the hub fetches all issues and PRs carrying that label from across **all four ecosystem repos** at build time via `src/lib/fetchRoadmapData.ts`, and derives the milestone status from the aggregated results. The `milestoneStatus` falls back to the static `status` field if GitHub data is unavailable. Do not adjust `status` manually to reflect progress — apply GitHub labels to issues/PRs instead.
 
 ## Cross-ecosystem roadmap label standard
 
@@ -69,10 +73,10 @@ For an issue or PR to appear on the hub roadmap, the **ecosystem project repo** 
 
 ### Required label for roadmap inclusion
 
-| Label        | Maps to milestone        |
-| ------------ | ------------------------ |
-| `roadmap:v3` | V3 Runtime Observability |
-| `roadmap:v4` | V4 Knowledge Graph       |
+| Label        | Maps to milestone  |
+| ------------ | ------------------ |
+| `roadmap:v3` | Composable Runtime |
+| `roadmap:v4` | Intelligence Layer |
 
 ### Item status derivation (automatic — no extra label needed)
 

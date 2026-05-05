@@ -1,6 +1,6 @@
 # specorator-ecosystem
 
-The **Specorator Ecosystem Hub** — the entry point for the four-component Specorator system, deployed to GitHub Pages.
+The **Specorator Ecosystem Hub** — a user-friendly information hub for the four-component Specorator system, deployed to GitHub Pages.
 
 **Live:** https://luis85.github.io/specorator-ecosystem
 
@@ -8,9 +8,9 @@ The **Specorator Ecosystem Hub** — the entry point for the four-component Spec
 
 ## What this is
 
-A lightweight developer-facing dashboard that provides a single URL to understand the Specorator system: what components exist, what state they're in, how they relate, and how to navigate to each one.
+The hub explains the ecosystem's purpose, shows how the 12-stage Agentic Development Lifecycle works, guides visitors to the right entry point, and surfaces live project status — all in one place.
 
-It is not a marketing page. The aesthetic is an ops-style hub — dark, monospace, dense.
+It serves a broad audience: anyone curious about AI-driven software development (product managers, designers, founders, developers) and contributors who want to build on top of individual ecosystem components.
 
 ---
 
@@ -42,6 +42,14 @@ npm run dev
 
 Open http://localhost:4321
 
+## Quality gate
+
+```bash
+npm run verify
+```
+
+Runs in sequence: `check → lint → format → test → build`. All steps must pass before merging to `main`.
+
 ## Build
 
 ```bash
@@ -54,15 +62,26 @@ Output goes to `dist/`. The build is purely static — no server-side runtime re
 
 ## Deployment
 
-GitHub Actions deploys automatically on push to `develop` via `.github/workflows/deploy.yml`. The site is served from GitHub Pages at the `/specorator-ecosystem` base path.
+Two GitHub Actions workflows:
+
+- **`verify.yml`** — runs `npm run verify` on push to `develop` and on PRs to `main`. No deployment.
+- **`deploy.yml`** — runs `npm run verify` then deploys to GitHub Pages on push to `main`.
+
+The site is served from GitHub Pages at the `/specorator-ecosystem` base path.
 
 ---
 
 ## Data
 
-All project metadata lives in `src/data/projects.json`. This is the single source of truth for V1. Fields: `id`, `name`, `role`, `layer`, `description`, `status`, `version`, `techStack`, `repo`, `docs`, `prd`, `lastUpdate`, `openIssues`.
+### Static (`src/data/projects.json`)
 
-V2 will replace `lastUpdate` and `openIssues` with live GitHub API data at build time.
+Stable project metadata — `id`, `name`, `role`, `layer`, `description`, `repo`, `techStack`, `dependencies`. Manually maintained.
+
+### Build-time
+
+Volatile fields (`status`, `version`, `lastUpdate`, `openIssues`, `docs`) are fetched from the GitHub API at build time by `src/lib/fetchProjectData.ts`. Falls back to `null` if the API is unavailable — the build always succeeds.
+
+Roadmap data is fetched by `src/lib/fetchRoadmapData.ts`: issues and PRs carrying `roadmap:v3` or `roadmap:v4` labels are pulled from all four ecosystem repos. Status is derived automatically from GitHub state.
 
 ---
 
@@ -71,14 +90,18 @@ V2 will replace `lastUpdate` and `openIssues` with live GitHub API data at build
 ```
 src/
   pages/
-    index.astro              ← hub page (architecture + projects + roadmap)
+    index.astro              ← hub page (hero + problem + ADLC + entry points + architecture + projects + roadmap)
     integrations/            ← per-project detail pages
     changelog.astro          ← roadmap page
   data/
-    projects.json            ← project metadata (single source of truth)
+    projects.json            ← project metadata (stable fields)
+    roadmap.json             ← roadmap label configuration
+  lib/
+    fetchProjectData.ts      ← GitHub API enrichment at build time
+    fetchRoadmapData.ts      ← GitHub label-based roadmap fetch
   config/
     config.json              ← site title, base path, logo
-    theme.json               ← design tokens (colors, fonts)
+    theme.json               ← design tokens
     menu.json                ← navigation links
 content/
   integrations/              ← per-project detail content (Markdown)
@@ -87,20 +110,21 @@ content/
     faq.md                   ← ecosystem FAQ
     call-to-action.md        ← CTA content
 docs/
-  product-brief.md           ← V1 product spec
+  product-brief.md           ← product spec and vision
   design-brief.md            ← design system spec
 .github/
   workflows/
-    deploy.yml               ← GitHub Pages CI/CD
+    verify.yml               ← CI verification (develop + PRs)
+    deploy.yml               ← GitHub Pages deploy (main)
 ```
 
 ---
 
 ## Roadmap
 
-| Version          | Scope                                                                                  |
-| ---------------- | -------------------------------------------------------------------------------------- |
-| **V1** (current) | Static site · architecture diagram · project listing · manual data                     |
-| V2               | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages |
-| V3               | Runtime observability · agent session tracking · event stream visualization            |
-| V4               | Workflow execution tracking · knowledge graph · semantic cross-linking                 |
+| Version          | Scope                                                                                                           |
+| ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| **V1** (shipped) | Static site · architecture diagram · project listing · manual data                                              |
+| **V2** (shipped) | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages · roadmap label standard |
+| V3               | Runtime observability · agent session tracking · event stream visualization                                     |
+| V4               | Workflow execution tracking · knowledge graph · semantic cross-linking                                          |

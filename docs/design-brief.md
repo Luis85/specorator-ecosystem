@@ -1,25 +1,115 @@
 # Design Brief — Specorator Ecosystem Hub
 
-**Version:** 1.0  
-**Aesthetic:** Ecosystem hub — dark, dense, monospace  
-**Framework:** Astro (static), zero external CSS frameworks
+**Version:** 2.0
+**Aesthetic:** Developer-native marketing page — dark, structured, monospace
+**Framework:** Astro (static), Tailwind CSS 4
 
 ---
 
 ## 1. Design Philosophy
 
-This is a **developer tool**, not a product landing page. The design language should communicate:
+The hub is a **marketing and sales landing page** written in the visual language of a developer tool. Its job is to win new users for the Specorator plugin — first-time visitors should leave with a clear understanding of what they get and a reason to install it.
 
-- **Authority** — the hub knows the state of the system; its visual weight should feel trustworthy
-- **Density** — information should be legible and compact, not padded out
-- **Precision** — monospace type, grid alignment, and consistent spacing signal that this is an engineered interface
-- **Restraint** — no gradients, no hero images, no animations beyond a subtle status pulse; nothing that distracts from the data
+The design earns trust through clarity: concise messaging, a consistent visual system, and data that speaks for itself. The aesthetic communicates that this is a serious, engineered product — not a side project, not a one-page SaaS template.
 
-The reference aesthetic is a terminal + a well-designed ops dashboard: `htop`, Grafana dark mode, Linear dark mode. Not a SaaS marketing page.
+The design serves a dual audience: someone discovering the project for the first time and a developer who wants to build on top of individual packages. Both need the same foundation: clarity on what the ecosystem is, what state it's in, and where to go next.
+
+**What this page is:**
+
+- A first impression that converts curiosity into a plugin install
+- A routing layer for developers who want to go deeper into individual packages
+- An honest status report on the ecosystem's progress
+
+**What this page is not:**
+
+- A developer dashboard or ops interface
+- A README clone
+- A feature-list dump
+
+Design reference: Linear dark mode, Vercel product pages, well-designed CLI documentation sites. The shared quality is **confident restraint** — every element earns its place.
 
 ---
 
-## 2. Color System
+## 2. Target Audience
+
+### Primary — The Curious Builder
+
+Someone who ships software but doesn't want to manage a development process manually. They may be a solo founder, a product manager who writes code, a designer who can deploy, or a developer tired of reinventing their planning workflow. Not necessarily deep-technical — they can follow instructions, install an Obsidian plugin, and describe what they want in plain English.
+
+**What they need from this page:** To understand what they get, how it works at a high level, and that it won't require learning a new technical stack. The barrier to entry must feel low.
+
+**Primary conversion action:** Click "Get the Plugin" and install specorator.
+
+### Secondary — The Technical Evaluator
+
+A developer who wants to understand the architecture — either to evaluate whether to use it, contribute, or build their own tooling on top of individual packages. Comfortable with terms like CLI, TypeScript library, and API.
+
+**What they need from this page:** A clear picture of which layer does what, which packages are standalone, and where to start for their use case.
+
+**Primary conversion action:** Navigate to `agentic-workflow`, `agentonomous`, or `specorator-runtime` based on their building goal.
+
+### Tertiary — The Ecosystem Follower
+
+Someone tracking the project's progress over time. They may return periodically to check what has shipped.
+
+**What they need from this page:** A quick status update — what is active, what is coming, where to watch.
+
+---
+
+## 3. Page Goals
+
+Listed in priority order. The page succeeds or fails on goal 1.
+
+1. **Convert visitors into plugin installers.** The plugin (specorator) is the easiest, highest-value entry point. Every section of the page should, directly or indirectly, build confidence toward clicking "Get the Plugin."
+
+2. **Route technical builders to their starting point.** Developers who want to integrate individual packages need to find `agentic-workflow` (active) or understand that `agentonomous` and `specorator-runtime` are coming.
+
+3. **Establish trust through honesty.** Open source, MIT licence, no sign-up, files stay local — meaningful trust signals for this audience. Acknowledge what is still planned versus what ships today.
+
+4. **Communicate ecosystem coherence.** The four projects should read as a unified system, not four unrelated repos.
+
+5. **Invite ecosystem followers to track progress.** The roadmap section is the passive hook for repeat visitors.
+
+---
+
+## 4. Communication Style
+
+### Voice
+
+- **Plain language first.** If a word requires domain knowledge to understand (MCP, ADLC, agent lifecycle, stage gating), replace it or define it in context.
+- **Outcome-first.** Lead with what the visitor gets ("AI handles the planning and drafting"), not with how it works ("the orchestration layer dispatches agent roles sequentially").
+- **Confident, not hype-driven.** State what the product does without superlatives. Claims should be earned by the section that follows, not just asserted.
+- **Honest about status.** Active development indicators, "Planned" badges, and roadmap progress bars are trust signals, not weaknesses.
+- **Dry precision, not warmth.** Clear, direct, no filler. The tone is close to good technical writing.
+
+### Specific rules
+
+| Avoid                                                   | Prefer                                                        |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| "Agentic Development Lifecycle"                         | "12-stage workflow" or "development workflow"                 |
+| "MCP server / MCP exposure"                             | "available as a tool for AI coding sessions" (only if needed) |
+| "composable building blocks"                            | "standalone package"                                          |
+| "orchestration layer"                                   | "integration library"                                         |
+| "agent lifecycle"                                       | "the full workflow" or "the full process"                     |
+| "Claude Code agents"                                    | "AI agents" or just "AI"                                      |
+| "stage gating"                                          | "quality checks" or "decision points"                         |
+| "event streaming"                                       | "track progress" or "follow along"                            |
+| Feature-list copy ("manage skills, commands, tools...") | Outcome copy ("AI handles the writing and planning")          |
+
+### Section-level intent
+
+| Section             | What it communicates                                                  |
+| ------------------- | --------------------------------------------------------------------- |
+| Hero                | What the product is and what you get. One-sentence mental model.      |
+| Problem (01)        | Why this matters — the pain that makes the solution feel necessary.   |
+| How It Works (02)   | Enough structure to feel confident, not enough detail to overwhelm.   |
+| Where to Start (03) | Clearest possible routing. Plugin first; builder packages second.     |
+| Roadmap (04)        | Honesty about what exists, what is coming, that the project is alive. |
+| Final CTA           | Repeat key trust signals. Lower the barrier to action.                |
+
+---
+
+## 5. Color System
 
 All colors are defined as CSS custom properties on `:root`.
 
@@ -54,7 +144,7 @@ All colors are defined as CSS custom properties on `:root`.
 
 ### Layer Identity Colors
 
-Each ecosystem component has a dedicated identity color used for card top-borders, architecture nodes, and legend dots.
+Each ecosystem component has a dedicated identity color used for card borders, architecture nodes, and legend dots.
 
 | Variable           | Value     | Component          | Rationale                                     |
 | ------------------ | --------- | ------------------ | --------------------------------------------- |
@@ -73,221 +163,280 @@ Each ecosystem component has a dedicated identity color used for card top-border
 
 ---
 
-## 3. Typography
+## 6. Typography
 
 ### Font Stack
 
 ```css
---font-sans: system-ui, -apple-system, sans-serif;
+--font-primary: system-ui, -apple-system, sans-serif; /* headings, body */
 --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 ```
 
-Monospace is the primary expressive type face — used for the logo, section numbers, identifiers, badges, labels, metadata, and code-like values. Sans-serif is used for body copy (descriptions, paragraphs).
+Monospace is the primary expressive typeface — used for the logo, section numbers, identifiers, badges, labels, and metadata. Sans-serif handles hero headlines, body copy, and descriptions — allowing the hero to breathe while the data sections stay precise.
 
 ### Type Scale
 
-| Role               | Size         | Font | Weight | Treatment                               |
-| ------------------ | ------------ | ---- | ------ | --------------------------------------- |
-| Logo               | 1.5rem       | mono | 700    | `letter-spacing: -0.02em`               |
-| Section title      | 0.78rem      | sans | 600    | `uppercase, letter-spacing: 0.12em`     |
-| Card name          | 0.875rem     | mono | 600    | —                                       |
-| Body / description | 0.82rem      | sans | 400    | `line-height: 1.55`                     |
-| Badge / label      | 0.62–0.72rem | mono | 700    | `uppercase, letter-spacing: 0.05–0.1em` |
-| Metadata value     | 0.78rem      | mono | 400    | —                                       |
-| Footer             | 0.72rem      | mono | 400    | —                                       |
+| Role               | Size          | Font    | Weight | Treatment                         |
+| ------------------ | ------------- | ------- | ------ | --------------------------------- |
+| Hero headline      | 3rem–3.75rem  | primary | 700    | `tracking-tight`, `leading-tight` |
+| Section headline   | 1.875rem      | primary | 700    | `leading-snug`                    |
+| Section label      | 0.75rem       | mono    | 400    | `uppercase, tracking-widest`      |
+| Section number     | 0.75rem       | mono    | 400    | `--text-muted`                    |
+| Card name          | 0.875rem      | mono    | 600    | —                                 |
+| Body / description | 0.875rem–1rem | primary | 400    | `line-height: 1.55–1.65`          |
+| Small body         | 0.75rem       | primary | 400    | `leading-relaxed`                 |
+| Badge / label      | 0.56–0.72rem  | mono    | 700    | `uppercase, tracking-wide`        |
+| Metadata value     | 0.78rem       | mono    | 400    | —                                 |
 
 ---
 
-## 4. Spacing System
+## 7. Spacing System
 
-Base unit: **8px**. All spacing values are multiples of 4px (4, 8, 12, 16, 20, 24, 32, 36, 48, 56px).
+Base unit: **8px**. All spacing values are multiples of 4px (4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80px).
 
-- Section padding: `56px 0` top/bottom
-- Container max-width: `1100px`, horizontal padding `24px`
-- Card padding: `20px`
+- Hero section: `padding-top: 80px`, `padding-bottom: 64px`
+- Content sections: `padding-top/bottom: 64px`
+- Container max-width: `1100px` (full-bleed sections) or `max-w-3xl` for narrative sections
+- Container horizontal padding: `24px`
+- Card padding: `20–32px`
 - Card gap: `16px`
-- Section title margin-bottom: `36px`
+- Section heading gap from body: `40px`
 
 ---
 
-## 5. Component Specifications
+## 8. Page Structure
 
-### 5.1 Header
+The homepage is a single-page experience with five numbered content sections plus a final CTA. Each section has a numbered label, a bold headline, and section-appropriate content.
 
-Single row: logo on the left, status indicators on the right.
+| Section | Label          | Purpose                                            |
+| ------- | -------------- | -------------------------------------------------- |
+| Hero    | —              | Value proposition, primary CTA, eyebrow badges     |
+| 01      | The Problem    | Three pain-point cards                             |
+| 02      | How It Works   | Three-phase workflow walkthrough                   |
+| 03      | Where to Start | Primary plugin entry point + builder alternatives  |
+| 04      | Roadmap        | Ecosystem milestone timeline with live GitHub data |
+| Final   | CTA            | Closing conversion section with trust signals      |
 
-- **Logo**: `specorator` in `--text-primary`, `://hub` in `--accent` (cyan)
-- **Tagline**: `Ecosystem Control Plane · V1` in `--text-muted`, monospace, 0.75rem, `letter-spacing: 0.06em`
-- **Version badge**: `v0.1.0` — pill shape, `--border` outline, `--text-muted` text, 0.72rem mono
-- **Live indicator**: green pulse dot + `live` label in `--status-in-progress`
-  - Pulse animation: `opacity 1 → 0.25 → 1` at 2s ease-in-out infinite
-- Background: `linear-gradient(to bottom, rgba(34,211,238,0.04), transparent)` — extremely subtle cyan glow at top
+Additional pages in the hub:
+
+- `/integrations` — project listing with live status cards and architecture diagram
+- `/integrations/[slug]` — per-project detail pages
+- `/changelog` — full roadmap and milestone history
+
+---
+
+## 9. Component Specifications
+
+### 9.1 Header / Navigation
+
+Single sticky row with site identity on the left and navigation links on the right.
+
+- **Logo text**: `specorator://hub` — `specorator://` in `--text-primary`, `hub` in `--accent`, monospace
+- Background: subtle `linear-gradient(to bottom, rgba(34,211,238,0.04), transparent)`
 - Bottom border: `1px solid --border`
 
-### 5.2 Section Title
+### 9.2 Hero Section
+
+Full-width section with `max-w-3xl` content column.
+
+**Eyebrow row:**
+
+- Taxonomy text: `Obsidian Plugin · AI-Powered · Open Source · No Coding Required` — mono xs, `--text-muted`, uppercase
+- Live indicator: green pulse dot (`animate-pulse`) + `active development` text
+- Version badge: `hub vX.Y.Z` — mono, border outline, muted
+
+**Headline:**
+
+- Two lines. Primary statement in `--text-primary`, resolution phrase in `--accent`
+- Size: `text-5xl md:text-6xl`, bold, `tracking-tight`, `leading-tight`
+
+**Subheadline:**
+
+- One paragraph, `text-xl`, `--text-secondary`, `leading-relaxed`, `max-w-2xl`
+- Establishes the mental model: what it is, what you get, key differentiators (plain files, no coding)
+- Inline link to Obsidian — underlined, hover to accent
+
+**CTA buttons:**
+
+- Primary: `bg-primary` filled, rounded-xl, mono, `Get the Plugin ↗` — links to specorator docs/repo
+- Secondary: outlined `border-border/30`, rounded-xl, mono, `Find your entry point ↓` — anchors to `#use-cases`
+
+### 9.3 Section Labels
 
 ```
-[section-num]  [TITLE TEXT]
+[section-num]  [LABEL TEXT]
 ```
 
-- Section number in `--text-muted` monospace 0.65rem (e.g., `01`, `02`, `03`, `04`)
-- Title in `--text-secondary` sans 0.78rem 600 uppercase 0.12em tracking
-- Separator: `1px solid --border-subtle` below each section (except last)
+- Section number: 0.75rem mono `--text-muted` (`01`, `02`, etc.)
+- Label: 0.75rem mono uppercase `tracking-widest`
+- Followed by a bold section headline in primary font
 
-### 5.3 Overview Stats
+### 9.4 Problem Cards (Section 01)
 
-Three stat blocks in a row:
+Three equal cards in a responsive `md:grid-cols-3` grid.
 
-```
-[value]        [value]        [value]
-[label]        [label]        [label]
-```
+**Card anatomy:**
 
-- Value: 1.75rem monospace 700 `--text-primary`
-- Label: 0.65rem sans uppercase `--text-muted` letter-spacing 0.08em
-- Each stat block: `min-width: 80px`, centered text
+- Background: `bg-card/50`, border `border-border/6`, `rounded-2xl`, padding `20px`
+- Emoji icon (2xl, decorative)
+- Heading: mono semibold sm `--text-primary`
+- Body: xs sans `--text-secondary` `leading-relaxed`
 
-### 5.4 Architecture Diagram
+Cards describe the pain, not the solution — they prime the "How It Works" section.
 
-Vertical stack with three rows:
+### 9.5 How It Works (Section 02)
 
-```
-[                  specorator                  ]   ← Row 1, full width, --layer-ui
-              ↓ spec methodology ↑
-[              specorator-runtime              ]   ← Row 2, full width, --layer-runtime
-            ↙                  ↘
-[  agentonomous  ]   [  agentic-workflow  ]         ← Row 3, half-width each, --layer-agents / --layer-workflow
-```
+Three-step vertical timeline with connector lines. `max-w-3xl`.
 
-**Node anatomy:**
+**Step anatomy:**
 
-- Border: `1px solid var(--c)` where `--c` is the layer color
-- Background: `color-mix(in srgb, var(--c) 6%, var(--bg-card))`
-- Box shadow: `0 0 24px -10px var(--c)` — subtle glow
-- On hover: `box-shadow: 0 0 36px -6px var(--c)` — intensifies glow
-- Name: monospace 0.88rem 600 in layer color
-- Sub-label: 0.72rem `--text-secondary`
-- Planned nodes: `opacity: 0.7` + `(planned)` label
+- Step number column: mono bold 2xl in `--accent`; vertical connector line `bg-border/20` between steps
+- Content column: step title (xl primary bold) + description (sm sans `--text-secondary`) + stage detail (10px mono `--text-muted` uppercase)
+- Steps separated by `border-b border-border/10`; last step has no connector
 
-**Connectors:**
+### 9.6 Where to Start (Section 03) — Primary Conversion Zone
 
-- `1px solid --border` vertical lines
-- `▼` arrowhead in `--text-muted`
+Two sub-zones. The plugin card is the hero of this section.
 
-**Legend:**
+**Primary card (specorator plugin):**
 
-- Inline row of `[dot] [role-name]` items below the diagram
-- Dot: 8px circle in layer color
-- Label: 0.72rem monospace `--text-secondary`
+- Prominent, glow-bordered card using `--layer-ui` (indigo)
+- `color-mix` background tint + `box-shadow` ambient glow
+- Project name in layer color + `Recommended starting point` badge in green
+- Description (sm sans) + primary CTA button (`Get the Plugin ↗`)
+- Side panel: `Includes` list of bundled components with layer-colored dots + `Planned` additions
+- This is the primary conversion surface — it must be unmissable
 
-**Annotation:**
+**Divider:**
 
-- Single line of 0.78rem `--text-muted` text below legend explaining the key connections in plain language
+- Full-width centered: `For builders — want to go deeper?`
+- Flanked by `border/10` horizontal rules
 
-### 5.5 Project Cards
+**Builder cards (three):**
 
-Four cards in a responsive CSS grid (`repeat(auto-fill, minmax(260px, 1fr))`).
+- `md:grid-cols-3` grid
+- Each card: top accent border in layer color, name, status badge, description, CTA link
+- Planned components: CTA link at `opacity-40 cursor-not-allowed` with `aria-disabled`
+- Descriptions lead with value ("the workflow engine that powers specorator, available standalone"), not implementation
 
-**Card anatomy (top to bottom):**
+### 9.7 Roadmap (Section 04)
 
-1. **Top accent border** — `2px solid var(--ca)` where `--ca` is the layer color
-2. **Card header:**
-   - Row: `[card-name]` (mono 0.875rem 600) + `[status-badge]` (right-aligned)
-   - Sub-row: `[layer-label]` (0.72rem `--text-muted`)
-3. **Description** — 0.82rem sans `--text-secondary`, flex: 1 (fills available height)
-4. **Tech stack tags** — small pill badges, `--bg` background, `--border` outline, 0.62rem mono `--text-muted`
-5. **Metadata row** (conditional — only if data exists) — `Updated [date]` + `Issues [count]` in mono
-6. **Links row** — `Repo ↗` `Docs ↗` `PRD ↗` links, 0.72rem mono cyan, opacity 0.75 → 1 on hover
+Vertical timeline. `max-w-3xl`.
 
-**Card states:**
+**Section header:**
 
-- Default: `--bg-card` background, `--border` border
-- Hover: `--bg-card-hover` background, `var(--ca)` all borders
+- Numbered label + concise heading + one sub-sentence in plain language (not internal mechanism detail)
 
-**Planned projects:** No dimming — show clearly but badge says `Planned` in amber.
+**Timeline items:**
 
-### 5.6 Roadmap Cards
+- Status dot: filled `--primary` (done), green `animate-pulse` (active), hollow border (planned)
+- Connector line between items
+- Name + status badge (`Complete` / `Active` / `Planned`)
+- Description: what this phase delivers, outcome-focused
+- Progress bar (milestones with GitHub data): thin `h-1` bar, done/total ratio + counter label
+- Fallback states: "GitHub data unavailable" or "No issues tracked yet" in muted mono
 
-Four cards: `repeat(auto-fill, minmax(200px, 1fr))`.
+### 9.8 Final CTA Section
 
-- **Inactive:** `opacity: 0.45`, standard border
-- **Active (V1):** `opacity: 1`, `--accent` border, subtle cyan background tint
-- Content: `[Vn]` phase label (mono 0.72rem 700 cyan uppercase) + description (0.78rem sans `--text-secondary`)
+Rounded card with ambient glow (`color-mix` cyan tint, `--primary/20` border).
 
-### 5.7 Footer
+- Eyebrow: `Ready to start?` in accent
+- Heading: two-line statement reinforcing core value proposition
+- Body: one paragraph restating three key trust signals (no coding, open source, no lock-in)
+- Two CTAs: primary (get specorator) + secondary (browse the workflow)
+- Footer line: licence note + active milestone name if available from GitHub
 
-Single row, centered-left.
+### 9.9 Footer
 
-- `specorator-ecosystem · github.com/luis85/specorator-ecosystem`
-- 0.72rem monospace `--text-muted`
+Single row.
+
+- Copyright and ecosystem credit in monospace, `--text-muted`
+- Navigation links: `Home`, `Projects`, `Roadmap`, GitHub repos
 - Top border: `1px solid --border`
 
 ---
 
-## 6. Border Radius
+## 10. Border Radius
 
-| Variable      | Value | Use                       |
-| ------------- | ----- | ------------------------- |
-| `--radius`    | `8px` | Cards, architecture nodes |
-| `--radius-sm` | `4px` | Badges, tags, pills       |
-
----
-
-## 7. Responsive Behavior
-
-Single breakpoint at `600px`:
-
-- **Header**: stacks vertically (brand above status)
-- **Architecture Row 3**: collapses to single column (agentonomous above agentic-workflow)
-- **Split connectors**: adjust padding
-- All grids (`projects-grid`, `roadmap-grid`): naturally reflow via `auto-fill minmax`
-
-No JavaScript required for responsiveness — pure CSS.
+| Variable       | Value  | Use                                    |
+| -------------- | ------ | -------------------------------------- |
+| `--radius`     | `8px`  | Cards, architecture nodes              |
+| `--radius-sm`  | `4px`  | Badges, tags, pills                    |
+| `--radius-lg`  | `12px` | CTA buttons (rounded-xl)               |
+| `--radius-xl`  | `16px` | Problem cards (rounded-2xl)            |
+| `--radius-2xl` | `24px` | Primary card, builder cards, final CTA |
 
 ---
 
-## 8. Motion
+## 11. Responsive Behavior
 
-Minimal. One animation defined:
+Primary breakpoint at `768px` (`md:`), secondary at `640px` (`sm:`):
+
+- **Hero**: headline scales `text-5xl` → `text-6xl`; CTA row wraps on narrow viewports
+- **Problem cards**: `grid-cols-1` → `grid-cols-3`
+- **Builder cards**: `grid-cols-1` → `grid-cols-3`
+- **Primary card side panel**: stacks vertically → `sm:flex-row`
+- All other layouts reflow naturally via Tailwind's `flex-wrap` and `gap`
+
+No JavaScript required for responsiveness — pure CSS via Tailwind utilities.
+
+---
+
+## 12. Motion
+
+Minimal. Two animation types:
 
 ```css
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.25;
-  }
-}
+animate-pulse            /* green live indicator (hero eyebrow) and active roadmap dot */
+transition-colors duration-150   /* button and link hover state changes */
 ```
 
-Used only on the live status indicator pulse dot. Duration: 2s, timing: ease-in-out, iteration: infinite.
-
-All other transitions are `0.15–0.2s` CSS transitions on hover state changes (background, border-color, box-shadow). No entrance animations, scroll effects, or loading states.
+Card hover uses `0.15s` CSS transitions on `background-color`, `border-color`, `opacity`. No entrance animations, scroll effects, or loading states.
 
 ---
 
-## 9. Accessibility
+## 13. Accessibility
 
-- All section headings use proper `h1`/`h2`/`h3` hierarchy
-- External links include `target="_blank" rel="noopener"` and the `↗` suffix visually signals new-tab behavior
-- Color is never the **sole** indicator of status — status badges carry both color and text label
+- All section headings use proper `h1`/`h2` hierarchy
+- External links include `target="_blank" rel="noopener"` and the `↗` suffix signals new-tab behavior
+- Color is never the **sole** status indicator — badges carry both color and text label
 - Layer identity uses both color and text label (never color alone)
+- Disabled builder links use `aria-disabled="true"` and `cursor-not-allowed` — not interactive when not actionable
 - Contrast ratios: `--text-primary` (#fafafa) on `--bg` (#09090b) > 18:1; `--text-secondary` (#a1a1aa) on `--bg-card` (#111113) > 5.5:1
 
 ---
 
-## 10. File Structure
+## 14. File Structure
 
 ```
 src/
   layouts/
-    Layout.astro       ← global styles, CSS variables, meta
+    Base.astro           ← global styles, CSS variables, meta
+    Layout.astro         ← template layout with header/footer
   pages/
-    index.astro        ← hub page (all sections)
+    index.astro          ← marketing landing page (all sections)
+    changelog.astro      ← roadmap page
+    integrations/
+      index.astro        ← projects listing page
+      [single].astro     ← per-project detail page
   data/
-    projects.json      ← single source of truth for project metadata
+    projects.json        ← stable project metadata
+    projects.schema.json ← JSON schema for validation
+    roadmap.json         ← milestone definitions
+  lib/
+    fetchProjectData.ts  ← GitHub API enrichment at build time
+    fetchRoadmapData.ts  ← GitHub label-based roadmap aggregation
+  config/
+    config.json          ← site metadata, navigation button, footer
+    menu.json            ← nav and footer link sets
+    theme.json           ← design tokens
+content/
+  homepage/-index.md     ← hero banner content
+  integrations/          ← per-project detail content (Markdown)
+  changelog/-index.md    ← roadmap milestone history
+  sections/
+    faq.md               ← ecosystem FAQ
+    call-to-action.md    ← CTA content
 public/
-  favicon.svg          ← cyan-on-black circle/crosshair mark
+  favicon.svg            ← cyan-on-black mark
 ```

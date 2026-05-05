@@ -3,28 +3,35 @@ import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { type Project } from "@/lib/fetchProjectData";
-import { fetchAllProjectRoadmaps } from "@/lib/fetchRoadmapData";
-import projectsData from "@/data/projects.json";
+import { fetchEnrichedProjects, type Project } from "@/lib/fetchProjectData";
+import { fetchProjectRoadmap } from "@/lib/fetchRoadmapData";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const integrations = await getSinglePage("integrations");
-  const projects = projectsData.projects as Project[];
-  const roadmaps = await fetchAllProjectRoadmaps(projects);
+  const projects = await fetchEnrichedProjects();
+
+  const roadmaps = Object.fromEntries(
+    await Promise.all(
+      projects.map(async (p) => [p.id, await fetchProjectRoadmap(p)]),
+    ),
+  );
 
   return integrations.map((integration: any) => {
-    const roadmap =
-      roadmaps.find((r) => r.projectId === integration.id) ?? null;
     const project = projects.find((p) => p.id === integration.id) ?? null;
+    const roadmap = roadmaps[integration.id] ?? null;
     return {
       params: { single: integration.id },
-      props: { integration, roadmap, projectRole: project?.role ?? null },
+      props: { integration, project, roadmap },
     };
   });
 }
 
-const { integration, roadmap, projectRole } = Astro.props;
+const { integration, project, roadmap } = Astro.props as {
+  integration: any;
+  project: Project | null;
+  roadmap: Awaited<ReturnType<typeof fetchProjectRoadmap>> | null;
+};
 
 if (integration.data.draft) return Astro.redirect("/404");
 
@@ -37,9 +44,30 @@ const layerColors: Record<string, string> = {
   agents: "#f472b6",
   workflow: "#fb923c",
 };
-const phaseColor = projectRole
-  ? (layerColors[projectRole] ?? "#818cf8")
+
+const statusColorMap: Record<string, string> = {
+  "in-progress": "#22c55e",
+  planned: "#f59e0b",
+  done: "#3b82f6",
+};
+
+const statusLabelMap: Record<string, string> = {
+  "in-progress": "In Progress",
+  planned: "Planned",
+  done: "Done",
+};
+
+const phaseColor = project?.role
+  ? (layerColors[project.role] ?? "#818cf8")
   : "#818cf8";
+
+const hasMetadata =
+  project &&
+  (project.status ||
+    project.version ||
+    project.lastUpdate ||
+    project.openIssues !== null ||
+    (project.techStack && project.techStack.length > 0));
 ---
 
 <Base
@@ -50,9 +78,79 @@ const phaseColor = projectRole
 >
   {page_header && <PageHeader page_header={page_header} />}
 
+  {/* ── Live metadata strip ──────────────────────────────────────────── */}
+  {
+    hasMetadata && (
+      <section class="border-b border-border/10">
+        <MainContainer>
+          <div class="lg:w-4/5 mx-auto container-padding-x py-5">
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {project!.status && (
+                <span
+                  class="font-mono text-[10px] font-bold uppercase tracking-wide border px-1.5 py-0.5 rounded"
+                  style={`color: ${statusColorMap[project!.status] ?? phaseColor}; border-color: ${statusColorMap[project!.status] ?? phaseColor}`}
+                >
+                  {statusLabelMap[project!.status] ?? project!.status}
+                </span>
+              )}
+              {project!.version && (
+                <span
+                  class="font-mono text-xs border px-1.5 py-0.5 rounded"
+                  style={`color: ${phaseColor}; border-color: color-mix(in srgb, ${phaseColor} 30%, transparent)`}
+                >
+                  {project!.version}
+                </span>
+              )}
+              {project!.lastUpdate && (
+                <span class="font-mono text-xs text-dark-gray">
+                  Updated {project!.lastUpdate}
+                </span>
+              )}
+              {project!.openIssues !== null &&
+                project!.openIssues !== undefined && (
+                  <a
+                    href={`${project!.repo}/issues`}
+                    target="_blank"
+                    rel="noopener"
+                    class="font-mono text-xs text-dark-gray hover:text-gray no-underline hover:no-underline transition-colors"
+                  >
+                    {project!.openIssues} open issues ↗
+                  </a>
+                )}
+              {project!.techStack && project!.techStack.length > 0 && (
+                <>
+                  <span class="hidden sm:block w-px h-4 bg-border/20" />
+                  <div class="flex flex-wrap gap-1.5">
+                    {project!.techStack.map((tech: string) => (
+                      <span class="font-mono text-[10px] text-dark-gray bg-body border border-border/20 px-2 py-0.5 rounded">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </MainContainer>
+      </section>
+    )
+  }
+
+  {/* ── Main content ────────────────────────────────────────────────────── */}
+  <section>
+    <MainContainer>
+      <div class="lg:w-4/5 mx-auto container-padding-y container-padding-x">
+        <div class="content">
+          <Content />
+        </div>
+      </div>
+    </MainContainer>
+  </section>
+
+  {/* ── Per-project roadmap ─────────────────────────────────────────────── */}
   {
     roadmap && (
-      <section class="border-b border-border/10">
+      <section class="border-t border-border/10">
         <MainContainer>
           <div class="lg:w-4/5 mx-auto container-padding-y container-padding-x">
             <div class="flex flex-col gap-6">
@@ -156,14 +254,4 @@ const phaseColor = projectRole
       </section>
     )
   }
-
-  <section>
-    <MainContainer>
-      <div class="lg:w-4/5 mx-auto container-padding-y container-padding-x">
-        <div class="content">
-          <Content />
-        </div>
-      </div>
-    </MainContainer>
-  </section>
 </Base>

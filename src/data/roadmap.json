@@ -1,3 +1,22 @@
 {
-  "labelPrefix": "roadmap:"
+  "milestones": [
+    {
+      "label": null,
+      "name": "Foundation",
+      "description": "The 12-stage workflow engine and the Obsidian plugin that wraps it into a ready-to-use experience. The full process — from idea to shipped software — is available today.",
+      "status": "done"
+    },
+    {
+      "label": "roadmap:v3",
+      "name": "Composable Runtime",
+      "description": "The workflow engine and AI agent library become available as standalone packages. Developers can embed the full Specorator methodology into their own tools and applications — no Obsidian plugin required.",
+      "status": "planned"
+    },
+    {
+      "label": "roadmap:v4",
+      "name": "Intelligence Layer",
+      "description": "The ecosystem learns from every project. Decisions are tracked, patterns surfaced, and guidance improves over time — the more you use it, the smarter it gets.",
+      "status": "planned"
+    }
+  ]
 }

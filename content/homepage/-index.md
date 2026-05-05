@@ -2,21 +2,21 @@
 # Banner
 banner:
   title: |
-    Specorator Ecosystem
+    From idea to shipped software
     <br/>
-    <mark>Hub</mark>
-  content: "Central entry point for all Specorator projects. Navigate the architecture, track project status, and explore the system — in one place."
+    <mark>with AI doing the heavy lifting</mark>
+  content: "Specorator guides anyone — developer, PM, designer, or founder — through a structured 12-stage Agentic Development Lifecycle. Claude Code agents handle spec drafting, task generation, and quality gates. You decide at every stage."
   badge:
     enable: true
-    label: "4 Projects · Ecosystem Hub V1"
+    label: "Obsidian Plugin · Open Source · No Coding Required"
     images: []
   image: "/images/banner.png"
   button_dark:
     enable: true
-    label: "View on GitHub"
+    label: "Explore on GitHub"
     link: "https://github.com/luis85/specorator-ecosystem"
   button_primary:
     enable: true
-    label: "Explore Projects"
-    link: "/integrations"
+    label: "Get the Plugin"
+    link: "https://github.com/Luis85/specorator"
 ---
