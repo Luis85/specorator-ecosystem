@@ -5,7 +5,7 @@
       "name": "specorator",
       "role": "ui",
       "layer": "UI / Visualization Layer",
-      "description": "The main entry point for the ecosystem. An Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and (in v2.0) the full runtime into a ready-to-use interface — no coding knowledge required. Suitable for product managers, designers, founders, and developers alike.",
+      "description": "The main entry point for the ecosystem. An Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and (in v2.0) the full runtime into a ready-to-use interface. A core requirement: agents work natively inside the vault — reading Canvas, writing Bases properties, enriching Frontmatter — so the vault grows smarter with every project. No coding required.",
       "repo": "https://github.com/Luis85/specorator",
       "techStack": [
         "TypeScript 5.8",

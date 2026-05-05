@@ -1,7 +1,7 @@
 ---
 title: "specorator"
 meta_title: "specorator — The All-in-One Plugin"
-description: "The main entry point for the Specorator ecosystem. An Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and the full runtime in one ready-to-use interface — no coding required."
+description: "The main entry point for the Specorator ecosystem. An Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and the full runtime in one ready-to-use interface. Agents work natively inside the vault — reading Canvas, writing Bases properties, enriching Frontmatter."
 image: ""
 draft: false
 category: "UI"
@@ -10,7 +10,7 @@ page_header:
   badge: "UI / Visualization Layer"
   title: |
     specorator
-  subtitle: "The main entry point for the ecosystem. Bundles the 12-stage workflow, Claude Code agents, and the full runtime into a single Obsidian plugin — no coding knowledge required."
+  subtitle: "The main entry point for the ecosystem. Bundles the 12-stage workflow, Claude Code agents, and the full runtime into a single Obsidian plugin — with agents that work natively inside your vault."
   button_primary:
     enable: true
     label: "View Repository"
@@ -21,14 +21,28 @@ page_header:
 
 **specorator** is the primary entry point for the ecosystem — an Obsidian plugin that bundles the 12-stage workflow, Claude Code agents, and (in v2.0) the full runtime into a single, ready-to-use interface.
 
-Most users should start and stay here. You don't need to configure agentic-workflow, agentonomous, or specorator-runtime separately — the plugin handles all of that. You define what to build; agents handle spec drafting and task generation; you review and approve at every stage. All artifacts stay in your vault as plain Markdown.
+Most users should start and stay here. You don't need to configure agentic-workflow, agentonomous, or specorator-runtime separately — the plugin handles all of that. You define what to build; agents handle spec drafting and task generation; you review and approve at every stage.
+
+## Vault-Native Architecture
+
+A core architectural requirement for specorator is that the whole system must interact deeply with Obsidian as a platform — not just live inside it as a sidebar panel. Agents must be able to work *out of* the vault, augmenting and enriching its content using the full range of Obsidian's capabilities:
+
+| Obsidian feature | How specorator uses it |
+|---|---|
+| **Markdown** | All stage outputs (specs, tasks, retrospectives) are plain Markdown notes — editable, portable, yours |
+| **Frontmatter** | Stage status, metadata, and agent outputs are written as structured properties so Bases and queries can surface them |
+| **Bases** | Project and task tables are Bases views over Frontmatter properties — live, filterable, no manual updates |
+| **Canvas** | Architecture diagrams, workflow boards, and stage maps are written back to Canvas by agents as the project progresses |
+| **Knowledge graph** | Notes link to each other (idea → spec → task → result) so the full lifecycle is traversable from the graph view |
+
+The vault ends up richer than when you started. Every project leaves behind a structured, interlinked record.
 
 ## Role in the Ecosystem
 
-Specorator sits at the top of the architecture stack:
+Specorator sits at the top of the architecture stack and bundles the layers below:
 
 ```
-specorator          ← you are here
+specorator          ← you are here (all-in-one entry point)
      ↓
 specorator-runtime  (planned — will replace the current CLI bridge)
      ↓         ↓
@@ -37,19 +51,21 @@ agentonomous  agentic-workflow
 
 ## Status
 
-**In Progress** — active development. Currently uses agentic-workflow methodology directly via Claude Code CLI. specorator-runtime will become the orchestration bridge in v2.0.
+**In Progress** — active development. Currently uses agentic-workflow methodology directly via Claude Code CLI. specorator-runtime will become the orchestration bridge in v2.0, enabling agents to work with deeper Obsidian integration via established plugin ports.
 
 ## Key Principles
 
+- **Vault-native**: agents read Canvas, write Bases properties, enrich Frontmatter — the vault grows smarter with every project
 - **Governance**: every stage transition requires an explicit user decision — agents never advance the workflow autonomously
 - **Non-technical accessibility**: plain language throughout; no AI jargon or coding knowledge required
-- **Vault-native**: all outputs stay as editable Markdown in your Obsidian vault
+- **Obsidian philosophy**: outputs are plain Markdown, independent of the plugin — your data is never locked in
 
 ## Key Responsibilities
 
 - **Workflow cockpit** — visual interface for the 12-stage Agentic Development Lifecycle
 - **Agent coordination** — instructs Claude Code agents for each stage via structured prompts
-- **Artifact management** — tracks specs, tasks, and quality gates as linked Markdown files
+- **Vault integration** — reads and writes Canvas, Bases, Frontmatter, and linked Markdown notes
+- **Artifact management** — tracks specs, tasks, and quality gates as linked vault notes
 
 ## Links
 

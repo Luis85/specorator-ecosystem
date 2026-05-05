@@ -109,10 +109,10 @@ const builderEntryPoints = [
         <!-- Subheadline -->
         <p class="text-gray text-xl leading-relaxed max-w-2xl">
           Specorator is a workflow cockpit inside Obsidian — built for product
-          managers, designers, founders, and developers alike. Move through a
-          structured 12-stage lifecycle and let Claude Code agents handle spec
-          drafting, task generation, and quality gates. You make every decision;
-          the agents do the drafting.
+          managers, designers, founders, and developers alike. Agents work
+          directly inside your vault: reading Canvas boards, writing Bases
+          properties, enriching Markdown frontmatter. Your project knowledge
+          stays connected, structured, and fully yours.
         </p>
 
         <!-- CTAs -->
@@ -205,7 +205,7 @@ const builderEntryPoints = [
                 step: "01",
                 title: "Think & Plan",
                 description:
-                  "Describe your idea in plain language. Specorator's PM and Architect agents help you articulate the problem, synthesise research, define requirements, and produce a specification — all in your Obsidian vault. You govern every decision; agents do the drafting.",
+                  "Describe your idea in plain language. PM and Architect agents help you articulate the problem, synthesise research, and produce a specification — writing directly to your vault as structured Markdown with Frontmatter properties that Bases and Canvas can read. Every decision you make is recorded as a linked note.",
                 detail:
                   "Stages 1–6: Idea → Research → Requirements → Design → Specification → Tasks",
               },
@@ -213,14 +213,14 @@ const builderEntryPoints = [
                 step: "02",
                 title: "Build & Verify",
                 description:
-                  "Engineering, QA, and Review agents execute implementation, plan tests, and run verification. You receive plain-language summaries and diffs at each step. You decide whether the output matches what you wanted before the stage can advance.",
+                  "Engineering and QA agents execute implementation and testing while working out of your vault — reading specs, updating task notes, and writing results back as Markdown. You see plain-language summaries and decide whether to advance before anything moves forward.",
                 detail: "Stages 7–9: Implementation → Test Planning → Testing",
               },
               {
                 step: "03",
                 title: "Close & Learn",
                 description:
-                  "Writer agents draft release notes, retrospective summaries, and communication. You review and approve. Every project ends with a closed loop — decisions logged, lessons captured, vault up to date.",
+                  "Writer agents draft release notes and retrospectives as vault notes, enriching Frontmatter and updating Canvas write-backs so your knowledge graph reflects the finished project. The vault ends up richer than when you started.",
                 detail: "Stages 10–12: Review → Release → Retrospective",
               },
             ].map((item, i) => (
@@ -548,9 +548,11 @@ const builderEntryPoints = [
         <p class="text-sm text-dark-gray italic max-w-xl leading-relaxed">
           specorator currently reads agentic-workflow methodology directly via
           Claude Code CLI. specorator-runtime will replace that CLI bridge in
-          v2.0, and agentonomous's six specialized agent roles (PM, Architect,
-          Engineering, QA, Review, Writer) will power specorator's AI coworker
-          features.
+          v2.0, and agentonomous's six specialized agent roles will power
+          specorator's AI coworker features. A core architectural requirement
+          across all layers: agents must work natively inside the Obsidian vault
+          — reading Canvas boards, writing Bases properties, enriching
+          Frontmatter — so the vault grows smarter with every project.
         </p>
       </div>
     </section>
