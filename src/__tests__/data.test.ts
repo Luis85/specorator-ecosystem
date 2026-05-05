@@ -28,21 +28,7 @@ describe("projects.json", () => {
 });
 
 describe("roadmap.json", () => {
-  it("has at least one milestone", () => {
-    expect(roadmapData.milestones.length).toBeGreaterThan(0);
-  });
-
-  it("has exactly one active milestone", () => {
-    const active = roadmapData.milestones.filter((m) => m.status === "active");
-    expect(active).toHaveLength(1);
-  });
-
-  it("every milestone has phase, title, description, and status", () => {
-    for (const m of roadmapData.milestones) {
-      expect(m.phase).toBeTruthy();
-      expect(m.title).toBeTruthy();
-      expect(m.description).toBeTruthy();
-      expect(["active", "planned", "done"]).toContain(m.status);
-    }
+  it("defines the roadmap label prefix", () => {
+    expect(roadmapData.labelPrefix).toBe("roadmap:");
   });
 });
