@@ -1,5 +1,6 @@
 import type { Project } from "./fetchProjectData";
-import roadmapData from "@/data/roadmap.json";
+
+const LABEL_PREFIX = "roadmap:";
 
 export interface RoadmapItem {
   number: number;
@@ -8,8 +9,6 @@ export interface RoadmapItem {
   state: "open" | "closed";
   isPR: boolean;
   isMerged: boolean;
-  projectId: string;
-  projectName: string;
   itemStatus: "planned" | "in-progress" | "done";
 }
 
@@ -20,22 +19,25 @@ export interface RoadmapStats {
   planned: number;
 }
 
-export interface EnrichedMilestone {
-  phase: string;
-  title: string;
+export interface RoadmapPhase {
+  label: string;
+  name: string;
   description: string;
-  label: string | null;
-  milestoneStatus: "done" | "active" | "planned";
+  phaseStatus: "done" | "active" | "planned";
   items: RoadmapItem[];
   stats: RoadmapStats;
 }
 
-type RawMilestone = {
-  phase: string;
-  label: string | null;
-  title: string;
-  description: string;
-  status: string;
+export interface ProjectRoadmap {
+  projectId: string;
+  projectName: string;
+  repo: string;
+  phases: RoadmapPhase[];
+}
+
+type GitHubLabel = {
+  name: string;
+  description: string | null;
 };
 
 type GitHubIssue = {
@@ -46,6 +48,14 @@ type GitHubIssue = {
   pull_request?: { merged_at: string | null };
 };
 
+function labelToName(label: string): string {
+  return label
+    .slice(LABEL_PREFIX.length)
+    .split(/[-_]/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 function deriveItemStatus(
   state: string,
   isPR: boolean,
@@ -55,41 +65,55 @@ function deriveItemStatus(
   return "planned";
 }
 
-function deriveMilestoneStatus(
-  items: RoadmapItem[],
-  fallback: string,
-): EnrichedMilestone["milestoneStatus"] {
-  if (items.length === 0) {
-    if (fallback === "done") return "done";
-    if (fallback === "active") return "active";
-    return "planned";
-  }
-  const allDone = items.every((i) => i.itemStatus === "done");
-  if (allDone) return "done";
-  const hasOpen = items.some((i) => i.state === "open");
-  if (hasOpen) return "active";
+function derivePhaseStatus(items: RoadmapItem[]): RoadmapPhase["phaseStatus"] {
+  if (items.length === 0) return "planned";
+  if (items.every((i) => i.itemStatus === "done")) return "done";
+  if (items.some((i) => i.state === "open")) return "active";
   return "planned";
 }
 
-// Returns null when the fetch fails (non-OK or network error) so callers can
-// distinguish "no items" from "data unavailable" and avoid deriving milestone
-// status from partial data.
+async function fetchRoadmapLabels(
+  repoPath: string,
+  headers: HeadersInit,
+): Promise<GitHubLabel[]> {
+  const roadmapLabels: GitHubLabel[] = [];
+  let page = 1;
+  while (page <= 5) {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${repoPath}/labels?per_page=100&page=${page}`,
+        { headers },
+      );
+      if (!res.ok) break;
+      const batch = (await res.json()) as GitHubLabel[];
+      roadmapLabels.push(
+        ...batch.filter((l) => l.name.startsWith(LABEL_PREFIX)),
+      );
+      if (batch.length < 100) break;
+      page++;
+    } catch {
+      break;
+    }
+  }
+  return roadmapLabels;
+}
+
+// Returns null when the fetch fails so callers can distinguish "no items"
+// from "data unavailable" and avoid deriving phase status from partial data.
 async function fetchItemsForLabel(
   repoPath: string,
-  project: Project,
   label: string,
   headers: HeadersInit,
 ): Promise<RoadmapItem[] | null> {
   const items: RoadmapItem[] = [];
   let page = 1;
-  const PAGE_LIMIT = 5;
-
-  while (page <= PAGE_LIMIT) {
+  while (page <= 5) {
     try {
-      const url = `https://api.github.com/repos/${repoPath}/issues?labels=${encodeURIComponent(label)}&state=all&per_page=100&page=${page}`;
-      const res = await fetch(url, { headers });
+      const res = await fetch(
+        `https://api.github.com/repos/${repoPath}/issues?labels=${encodeURIComponent(label)}&state=all&per_page=100&page=${page}`,
+        { headers },
+      );
       if (!res.ok) return null;
-
       const issues = (await res.json()) as GitHubIssue[];
       for (const issue of issues) {
         const isPR = "pull_request" in issue;
@@ -103,84 +127,65 @@ async function fetchItemsForLabel(
           state,
           isPR,
           isMerged,
-          projectId: project.id,
-          projectName: project.name,
           itemStatus: deriveItemStatus(state, isPR),
         });
       }
-
       if (issues.length < 100) break;
       page++;
     } catch {
       return null;
     }
   }
-
   return items;
 }
 
-export async function fetchEnrichedRoadmap(
+async function fetchProjectRoadmap(
+  project: Project,
+  headers: HeadersInit,
+): Promise<ProjectRoadmap> {
+  const repoPath = new URL(project.repo).pathname.slice(1);
+  const labels = await fetchRoadmapLabels(repoPath, headers);
+
+  const phases = await Promise.all(
+    labels.map(async (label): Promise<RoadmapPhase> => {
+      const result = await fetchItemsForLabel(repoPath, label.name, headers);
+      const items = result ?? [];
+      const stats: RoadmapStats = {
+        total: items.length,
+        done: items.filter((i) => i.itemStatus === "done").length,
+        inProgress: items.filter((i) => i.itemStatus === "in-progress").length,
+        planned: items.filter((i) => i.itemStatus === "planned").length,
+      };
+      return {
+        label: label.name,
+        name: labelToName(label.name),
+        description: label.description ?? "",
+        phaseStatus: result === null ? "planned" : derivePhaseStatus(items),
+        items,
+        stats,
+      };
+    }),
+  );
+
+  // Sort phases alphabetically by label so ordering is deterministic.
+  phases.sort((a, b) => a.label.localeCompare(b.label));
+
+  return {
+    projectId: project.id,
+    projectName: project.name,
+    repo: project.repo,
+    phases,
+  };
+}
+
+export async function fetchAllProjectRoadmaps(
   projects: Project[],
-): Promise<EnrichedMilestone[]> {
+): Promise<ProjectRoadmap[]> {
   const token = import.meta.env.GITHUB_TOKEN as string | undefined;
   const headers: HeadersInit = {
     "User-Agent": "specorator-hub",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
-  const milestones = roadmapData.milestones as RawMilestone[];
-
-  return Promise.all(
-    milestones.map(async (milestone) => {
-      if (!milestone.label) {
-        return {
-          phase: milestone.phase,
-          title: milestone.title,
-          description: milestone.description,
-          label: null,
-          milestoneStatus:
-            milestone.status as EnrichedMilestone["milestoneStatus"],
-          items: [],
-          stats: { total: 0, done: 0, inProgress: 0, planned: 0 },
-        };
-      }
-
-      const results = await Promise.all(
-        projects.map((project) => {
-          const repoPath = new URL(project.repo).pathname.slice(1);
-          return fetchItemsForLabel(
-            repoPath,
-            project,
-            milestone.label!,
-            headers,
-          );
-        }),
-      );
-
-      // If any repo fetch failed, fall back to the static status to avoid
-      // deriving milestone status from incomplete data.
-      const anyFailed = results.some((r) => r === null);
-      const allItems = results.flatMap((r) => r ?? []);
-
-      const stats: RoadmapStats = {
-        total: allItems.length,
-        done: allItems.filter((i) => i.itemStatus === "done").length,
-        inProgress: allItems.filter((i) => i.itemStatus === "in-progress")
-          .length,
-        planned: allItems.filter((i) => i.itemStatus === "planned").length,
-      };
-
-      return {
-        phase: milestone.phase,
-        title: milestone.title,
-        description: milestone.description,
-        label: milestone.label,
-        milestoneStatus: anyFailed
-          ? (milestone.status as EnrichedMilestone["milestoneStatus"])
-          : deriveMilestoneStatus(allItems, milestone.status),
-        items: allItems,
-        stats,
-      };
-    }),
-  );
+  return Promise.all(projects.map((p) => fetchProjectRoadmap(p, headers)));
 }
