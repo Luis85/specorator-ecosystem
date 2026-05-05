@@ -59,7 +59,7 @@ const ALLOWLIST = [
   /^\/favicon\.svg$/,
   /^\/favicon\.ico$/,
   /^\/robots\.txt$/,
-  /^\/sitemap[-\w]*(?:\.xml)?$/,   // /sitemap.xml, /sitemap-index.xml, /sitemap
+  /^\/sitemap(?:-index|-\d+)?\.xml$/, // sitemap.xml, sitemap-index.xml, sitemap-0.xml
   /^\/manifest(?:\.json|\.webmanifest)?$/, // /manifest.json, /manifest.webmanifest
 ];
 
