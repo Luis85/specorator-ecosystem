@@ -65,7 +65,11 @@ const ALLOWLIST = [
   /^\/manifest(?:\.json|\.webmanifest)?$/, // /manifest.json, /manifest.webmanifest
 ];
 
-const EXT_PATTERN = /\.(tsx|ts|astro)$/;
+// Only scan files that can contain markup (JSX in .tsx, Astro templates in .astro).
+// Plain .ts files don't have href/src attributes — any matches there would be inside
+// string literals or comments (e.g. CSS selectors, docstrings), so scanning them
+// produces false positives without adding real coverage.
+const EXT_PATTERN = /\.(tsx|astro)$/;
 const IGNORED_DIRS = ["dist", "node_modules", ".astro", "scripts"];
 
 function walkSync(dir, results = []) {

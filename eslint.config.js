@@ -113,19 +113,21 @@ export default [
             "Don't alias import.meta.env['BASE_URL'] (incl. optional-chain, non-null, or type-cast wrappers) into a variable. Use buildUrl() from '@/lib/utils/url'.",
         },
         {
-          // Catches: const { BASE_URL } = (import.meta.env as T) (and other TS wrappers)
-          // Mirrors the destructuring rules above for cases where init/right is wrapped
-          // by a type cast or non-null assertion. :has() constrains the rule to fire
-          // only when the destructuring actually references BASE_URL.
+          // Catches: const { BASE_URL } = (import.meta.env as T) (and other TS wrappers).
+          // Constrains init.type to the wrapper set so we don't false-positive on cases
+          // where import.meta.env is passed through a function:
+          //   const { BASE_URL } = getObj(import.meta.env as T)   // init.type = CallExpression, not a wrapper
+          // The :has(MemberExpression…) descendant check then confirms the wrapper
+          // actually wraps import.meta.env (vs. some other expression).
           selector:
-            "VariableDeclarator[id.type='ObjectPattern']:has(:matches(ChainExpression, TSNonNullExpression, TSAsExpression, TSTypeAssertion, TSSatisfiesExpression) > MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+            "VariableDeclarator[id.type='ObjectPattern'][init.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
           message:
             "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
         },
         {
           // Same as above for assignment-style destructuring.
           selector:
-            "AssignmentExpression[left.type='ObjectPattern']:has(:matches(ChainExpression, TSNonNullExpression, TSAsExpression, TSTypeAssertion, TSSatisfiesExpression) > MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+            "AssignmentExpression[left.type='ObjectPattern'][right.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
           message:
             "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
         },
