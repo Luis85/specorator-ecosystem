@@ -74,8 +74,12 @@ function walkSync(dir, results = []) {
     entries = execSync(`find "${dir}" -type f`, { encoding: "utf8" })
       .split("\n")
       .filter(Boolean);
-  } catch {
-    return results;
+  } catch (err) {
+    // Fail loudly — silently returning an empty list would let the guardrail
+    // pass with zero files scanned (e.g. on shells without POSIX `find`).
+    console.error(`✗ lint-paths: failed to enumerate files under ${dir}`);
+    console.error(err?.stderr?.toString() || err?.message || String(err));
+    process.exit(2);
   }
   for (const entry of entries) {
     if (IGNORED_DIRS.some((d) => entry.includes(`/${d}/`))) continue;

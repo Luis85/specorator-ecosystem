@@ -82,6 +82,14 @@ export default [
           message:
             "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
         },
+        {
+          // Catches: ({ BASE_URL } = import.meta.env)  (destructuring assignment)
+          // Same as above, but for assignment after declaration rather than at it.
+          selector:
+            "AssignmentExpression[left.type='ObjectPattern'][right.type='MemberExpression'][right.property.name='env'][right.object.type='MetaProperty'] > ObjectPattern > Property[key.name='BASE_URL']",
+          message:
+            "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
+        },
       ],
     },
   },
