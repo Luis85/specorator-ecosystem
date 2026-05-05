@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  # Allow manual rebuilds from the Actions tab so roadmap data can be
+  # refreshed without a code change when ecosystem repos gain new labels.
+  workflow_dispatch:
+  # Rebuild daily at 06:00 UTC so live data (issue counts, labels, versions)
+  # stays fresh even without a code push.
+  schedule:
+    - cron: "0 6 * * *"
 
 permissions:
   contents: read
