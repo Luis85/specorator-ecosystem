@@ -9,24 +9,26 @@ import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const integrations = await getSinglePage("integrations");
-  return integrations.map((integration: any) => ({
-    params: { single: integration.id },
-    props: { integration },
-  }));
+  const projects = await fetchEnrichedProjects();
+  const roadmaps = await fetchAllProjectRoadmaps(projects);
+
+  return integrations.map((integration: any) => {
+    const roadmap =
+      roadmaps.find((r) => r.projectId === integration.id) ?? null;
+    const project = projects.find((p) => p.id === integration.id) ?? null;
+    return {
+      params: { single: integration.id },
+      props: { integration, roadmap, projectRole: project?.role ?? null },
+    };
+  });
 }
 
-const { integration } = Astro.props;
+const { integration, roadmap, projectRole } = Astro.props;
 
 if (integration.data.draft) return Astro.redirect("/404");
 
 const { Content } = await render(integration);
 const { title, meta_title, description, image, page_header } = integration.data;
-
-const projects = await fetchEnrichedProjects();
-const matchedProject = projects.find((p) => p.id === integration.id);
-const roadmap = matchedProject
-  ? (await fetchAllProjectRoadmaps([matchedProject]))[0]
-  : null;
 
 const layerColors: Record<string, string> = {
   ui: "#818cf8",
@@ -34,8 +36,8 @@ const layerColors: Record<string, string> = {
   agents: "#f472b6",
   workflow: "#fb923c",
 };
-const phaseColor = matchedProject
-  ? (layerColors[matchedProject.role] ?? "#818cf8")
+const phaseColor = projectRole
+  ? (layerColors[projectRole] ?? "#818cf8")
   : "#818cf8";
 ---
 
