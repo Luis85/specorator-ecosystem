@@ -112,6 +112,23 @@ export default [
           message:
             "Don't alias import.meta.env['BASE_URL'] (incl. optional-chain, non-null, or type-cast wrappers) into a variable. Use buildUrl() from '@/lib/utils/url'.",
         },
+        {
+          // Catches: const { BASE_URL } = (import.meta.env as T) (and other TS wrappers)
+          // Mirrors the destructuring rules above for cases where init/right is wrapped
+          // by a type cast or non-null assertion. :has() constrains the rule to fire
+          // only when the destructuring actually references BASE_URL.
+          selector:
+            "VariableDeclarator[id.type='ObjectPattern']:has(:matches(ChainExpression, TSNonNullExpression, TSAsExpression, TSTypeAssertion, TSSatisfiesExpression) > MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+          message:
+            "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
+        },
+        {
+          // Same as above for assignment-style destructuring.
+          selector:
+            "AssignmentExpression[left.type='ObjectPattern']:has(:matches(ChainExpression, TSNonNullExpression, TSAsExpression, TSTypeAssertion, TSSatisfiesExpression) > MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+          message:
+            "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
+        },
       ],
     },
   },
