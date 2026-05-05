@@ -36,11 +36,11 @@ const ABS = /\/(?!\/)/;
 //   href={'/foo'}      — JSX expression with single-quoted string
 //   href={`/foo`}      — JSX template literal (may contain ${…} interpolation)
 const PATTERNS = [
-  { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`), label: "string attr (double-quote)" },
-  { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`), label: "string attr (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{"${ABS.source}[^"]*"\\}`), label: "JSX expression string (double-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{'${ABS.source}[^']*'\\}`), label: "JSX expression string (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{\`${ABS.source}[^\`]*\`\\}`), label: "JSX template literal" },
+  { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`, "g"), label: "string attr (double-quote)" },
+  { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`, "g"), label: "string attr (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{"${ABS.source}[^"]*"\\}`, "g"), label: "JSX expression string (double-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{'${ABS.source}[^']*'\\}`, "g"), label: "JSX expression string (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\`${ABS.source}[^\`]*\`\\}`, "g"), label: "JSX template literal" },
 ];
 
 // Extract just the path portion from a matched string so allowlist patterns
@@ -90,18 +90,17 @@ for (const file of files) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     for (const { regex, label } of PATTERNS) {
-      const match = line.match(regex);
-      if (!match) continue;
+      for (const match of line.matchAll(regex)) {
+        const urlPath = extractPath(match[0]);
+        if (urlPath && ALLOWLIST.some((re) => re.test(urlPath))) continue;
 
-      const urlPath = extractPath(match[0]);
-      if (urlPath && ALLOWLIST.some((re) => re.test(urlPath))) continue;
-
-      violations.push({
-        file: path.relative(root, file),
-        line: i + 1,
-        text: line.trim(),
-        label,
-      });
+        violations.push({
+          file: path.relative(root, file),
+          line: i + 1,
+          text: line.trim(),
+          label,
+        });
+      }
     }
   }
 }
