@@ -26,6 +26,9 @@ export interface RoadmapPhase {
   phaseStatus: "done" | "active" | "planned";
   items: RoadmapItem[];
   stats: RoadmapStats;
+  // false when the GitHub items fetch failed; items will be empty but the
+  // cause is a transient API error, not a phase with no tracked work.
+  dataAvailable: boolean;
 }
 
 export interface ProjectRoadmap {
@@ -167,6 +170,7 @@ async function fetchProjectRoadmap(
   const phases = await Promise.all(
     labels.map(async (label): Promise<RoadmapPhase> => {
       const result = await fetchItemsForLabel(repoPath, label.name, headers);
+      const dataAvailable = result !== null;
       const items = result ?? [];
       const stats: RoadmapStats = {
         total: items.length,
@@ -178,9 +182,10 @@ async function fetchProjectRoadmap(
         label: label.name,
         name: labelToName(label.name),
         description: label.description ?? "",
-        phaseStatus: result === null ? "planned" : derivePhaseStatus(items),
+        phaseStatus: dataAvailable ? derivePhaseStatus(items) : "planned",
         items,
         stats,
+        dataAvailable,
       };
     }),
   );
