@@ -1,3 +1,22 @@
 {
-  "labelPrefix": "roadmap:"
+  "milestones": [
+    {
+      "label": null,
+      "name": "Foundation",
+      "description": "The 12-stage Agentic Development Lifecycle as a standalone workflow CLI, and the Obsidian plugin that bundles it into a zero-setup AI development platform. The full workflow is usable today.",
+      "status": "done"
+    },
+    {
+      "label": "roadmap:v3",
+      "name": "Composable Runtime",
+      "description": "specorator-runtime ships the agent lifecycle as an npm library and MCP server. agentonomous delivers the six specialised agent roles as standalone building blocks. Developers can compose the full ecosystem without the Obsidian plugin.",
+      "status": "planned"
+    },
+    {
+      "label": "roadmap:v4",
+      "name": "Intelligence Layer",
+      "description": "Session observability, event streaming, trajectory learning, and a knowledge graph that cross-links decisions across the full project lifecycle. The ecosystem improves with every run.",
+      "status": "planned"
+    }
+  ]
 }

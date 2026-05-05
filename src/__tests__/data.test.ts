@@ -28,7 +28,24 @@ describe("projects.json", () => {
 });
 
 describe("roadmap.json", () => {
-  it("defines the roadmap label prefix", () => {
-    expect(roadmapData.labelPrefix).toBe("roadmap:");
+  it("has at least one milestone", () => {
+    expect(roadmapData.milestones.length).toBeGreaterThan(0);
+  });
+
+  it("every milestone has required fields", () => {
+    for (const m of roadmapData.milestones) {
+      expect(m.name).toBeTruthy();
+      expect(m.description).toBeTruthy();
+      expect(["done", "active", "planned"]).toContain(m.status);
+      expect(m.label === null || typeof m.label === "string").toBe(true);
+    }
+  });
+
+  it("labels that are strings start with roadmap:", () => {
+    for (const m of roadmapData.milestones) {
+      if (m.label !== null) {
+        expect(m.label.startsWith("roadmap:")).toBe(true);
+      }
+    }
   });
 });
