@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Specorator Hub — Ecosystem Entry Point",
+    "title": "Specorator — From Idea to Shipped Software",
     "base_url": "https://luis85.github.io/specorator-ecosystem",
     "base_path": "/specorator-ecosystem",
     "trailing_slash": false,
@@ -24,7 +24,7 @@
     "contact_form_action": "#",
     "apply_form_action": "#",
     "newsletter_form_action": "#",
-    "footer_text": "The hub and entry point for the Specorator ecosystem",
+    "footer_text": "AI-guided development, from idea to shipped software.",
     "mail": "",
     "phone": "",
     "copyright": "Specorator Ecosystem · MIT License · [github.com/luis85](https://github.com/luis85)"
@@ -44,6 +44,6 @@
   "metadata": {
     "meta_author": "luis85",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Specorator Hub is the entry point for the Specorator ecosystem — navigate projects, explore the architecture, and track progress across all components."
+    "meta_description": "Specorator turns Obsidian into an AI-powered development companion. A structured 12-stage workflow guides any idea to shipped software — no coding required, everything in plain files you own."
   }
 }

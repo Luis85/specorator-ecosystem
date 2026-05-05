@@ -27,7 +27,7 @@ const builderEntryPoints = [
   {
     label: "agentic-workflow",
     description:
-      "The raw 12-stage ADLC methodology — templates, quality gates, Claude Code agents — as a standalone CLI tool. No Obsidian required. Planned for MCP server exposure so any Claude Code session can pull in the full workflow engine with one config line.",
+      "The workflow engine that powers specorator, available as a standalone CLI tool. Bring the full 12-stage development methodology into your own tooling — templates, stage gates, and AI guidance — without the Obsidian plugin.",
     cta: "Explore agentic-workflow",
     href: agenticWorkflow?.docs ?? agenticWorkflow?.repo ?? "#",
     color: layerColors.workflow,
@@ -38,7 +38,7 @@ const builderEntryPoints = [
   {
     label: "agentonomous",
     description:
-      "The TypeScript agent library. Six specialised roles (PM, Architect, Engineering, QA, Review, Writer) as composable building blocks for your own tooling, independent of the rest of the ecosystem.",
+      "The agent library behind specorator, available as a standalone package. Brings the six AI roles — PM, Architect, Engineering, QA, Review, and Writer — into your own applications.",
     cta: "View agentonomous",
     href: agentonomous?.docs ?? agentonomous?.repo ?? "#",
     color: layerColors.agents,
@@ -49,7 +49,7 @@ const builderEntryPoints = [
   {
     label: "specorator-runtime",
     description:
-      "The npm orchestration library and MCP server. Integrate the full agent lifecycle — session management, event streaming, stage gating — directly into your own application or Claude Code session.",
+      "The integration layer that connects the workflow engine and agents to your own applications. Wire up the full development lifecycle — from spec to release — without the Obsidian interface.",
     cta: "View specorator-runtime",
     href: specoratorRuntime?.docs ?? specoratorRuntime?.repo ?? "#",
     color: layerColors.runtime,
@@ -62,7 +62,7 @@ const builderEntryPoints = [
 
 <Base
   title="Specorator — From Idea to Shipped Software, for Everyone"
-  description="Specorator guides anyone — developer, PM, designer, or founder — through a structured 12-stage Agentic Development Lifecycle inside Obsidian. Claude Code agents handle spec drafting, task generation, and quality gates. You decide at every stage."
+  description="Specorator turns Obsidian into an AI-powered development companion. A structured 12-stage workflow takes any idea to shipped software — AI handles the planning and drafting, you make every call. No coding required."
 >
   <MainContainer>
     <!-- ─── Hero ──────────────────────────────────────────────────────── -->
@@ -71,7 +71,7 @@ const builderEntryPoints = [
         <!-- Eyebrow -->
         <div class="flex items-center gap-3 flex-wrap">
           <span class="font-mono text-xs text-gray uppercase tracking-widest">
-            Obsidian Plugin · Claude Code · Open Source · No Coding Required
+            Obsidian Plugin · AI-Powered · Open Source · No Coding Required
           </span>
           <span
             class="inline-flex items-center gap-1.5 font-mono text-xs text-green-400"
@@ -103,11 +103,11 @@ const builderEntryPoints = [
             rel="noopener"
             class="text-text underline underline-offset-2 hover:text-primary transition-colors"
             >Obsidian</a
-          > — a free, local-first notes app — that turns it into an extensible AI
-          development platform. The built-in 12-stage workflow takes any idea to shipped
-          software. Beyond that: manage agents, skills, commands, tools, and MCP servers;
-          browse a plugin marketplace; extend the platform with your own additions.
-          No coding required. Everything stays in plain files on your own computer.
+          > — a free, local-first notes app — that turns it into an AI-powered development
+          companion. Describe your idea in plain language — the built-in 12-stage
+          workflow guides you from concept to shipped software, with AI handling the
+          planning, writing, and quality checks. You decide at every stage. No coding
+          required. Everything lives in plain files on your own computer.
         </p>
 
         <!-- CTAs -->
@@ -287,13 +287,12 @@ const builderEntryPoints = [
               </span>
             </div>
             <p class="text-sm text-gray leading-relaxed max-w-xl">
-              A plugin for Obsidian (a free notes app) that turns it into an
-              extensible AI development platform. Install it once and you get
-              the 12-stage workflow, AI agents, and structured templates out of
-              the box. Beyond that: manage skills, commands, tools, and MCP
-              servers from one interface; browse a plugin marketplace; extend
-              the platform with your own additions. Works for anyone — product
-              managers, designers, founders, developers. No coding required.
+              A plugin for Obsidian (a free notes app) that makes AI-guided
+              development accessible to anyone. Install it and you get a
+              ready-to-use workspace: a 12-stage workflow, AI that does the
+              writing and planning, and everything organized in files you own.
+              Works for product managers, designers, founders, and developers
+              alike. No coding required.
             </p>
             <a
               href={specorator?.docs ??
@@ -421,9 +420,8 @@ const builderEntryPoints = [
             How the ecosystem evolves.
           </p>
           <p class="text-sm text-gray leading-relaxed">
-            Progress is tracked via <span class="font-mono text-primary/80"
-              >roadmap:*</span
-            > labels on issues and PRs across all ecosystem repos.
+            Each phase is tracked openly on GitHub — follow along as the
+            ecosystem grows.
           </p>
         </div>
 
@@ -517,9 +515,10 @@ const builderEntryPoints = [
             <span class="text-primary">Start building with a system.</span>
           </p>
           <p class="text-gray text-base leading-relaxed">
-            Install the Obsidian plugin, move through the 12 stages, and let the
-            agents handle the drafting. No coding background needed. Everything
-            is open source — no sign-up, no lock-in, your files stay yours.
+            Install the plugin, describe your idea, and let the built-in AI
+            handle the planning and drafting. No coding background needed.
+            Everything is open source — no sign-up, no lock-in, your files stay
+            yours.
           </p>
         </div>
         <div class="flex items-center gap-4 flex-wrap">
