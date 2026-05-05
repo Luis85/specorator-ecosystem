@@ -56,7 +56,47 @@ Volatile fields are fetched at build time by `src/lib/fetchProjectData.ts`. If t
 
 ### `src/data/roadmap.json`
 
-Roadmap phase definitions. The `active: true` entry drives the "Active Milestone" stat in the hero and the highlighted roadmap card. Only one entry should have `active: true` at a time.
+Roadmap phase definitions. Each milestone has a `label` field:
+
+- `null` — phase is complete (V1, V2); no GitHub tracking needed.
+- `"roadmap:vN"` — active/planned phase; the hub fetches issues and PRs carrying this label from all four ecosystem repos at build time via `src/lib/fetchRoadmapData.ts`.
+
+The `milestoneStatus` is **derived** from the fetched items at build time and falls back to the static `status` field if no items are found. Do not adjust `status` manually to reflect progress — apply GitHub labels to issues/PRs instead.
+
+## Cross-ecosystem roadmap label standard
+
+For an issue or PR to appear on the hub roadmap, the **ecosystem project repo** (specorator, specorator-runtime, agentonomous, agentic-workflow) must have the label applied to it.
+
+### Required label for roadmap inclusion
+
+| Label        | Maps to milestone        |
+| ------------ | ------------------------ |
+| `roadmap:v3` | V3 Runtime Observability |
+| `roadmap:v4` | V4 Knowledge Graph       |
+
+### Item status derivation (automatic — no extra label needed)
+
+| GitHub state | Is PR? | Hub status    |
+| ------------ | ------ | ------------- |
+| `open`       | no     | `planned`     |
+| `open`       | yes    | `in-progress` |
+| `closed`     | —      | `done`        |
+
+### Recommended type labels (optional but consistent)
+
+These are not required for roadmap inclusion but keep issue lists readable across repos:
+
+| Label         | Meaning                       |
+| ------------- | ----------------------------- |
+| `enhancement` | New capability or improvement |
+| `bug`         | Defect fix                    |
+| `research`    | Investigation or design work  |
+
+### What each ecosystem project must do
+
+1. Create the `roadmap:v3` and/or `roadmap:v4` labels in their GitHub repo.
+2. Apply the label to any issue or PR that belongs to that milestone.
+3. No other configuration is required — the hub picks them up at next build.
 
 ## Environment variables
 
