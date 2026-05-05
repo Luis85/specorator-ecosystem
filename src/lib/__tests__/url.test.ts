@@ -10,6 +10,7 @@ vi.mock("../utils/url", async () => {
 
 describe("buildUrl", () => {
   afterEach(() => {
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
