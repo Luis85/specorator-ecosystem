@@ -35,9 +35,9 @@ const agentonomous = projects.find((p) => p.id === "agentonomous");
 
 const useCases = [
   {
-    label: "I want a development cockpit",
+    label: "I want a structured way to run my project",
     description:
-      "Manage your full project lifecycle from inside Obsidian — specs, tasks, quality gates, and AI agents all in one place.",
+      "Manage your full 12-stage lifecycle from inside Obsidian — specs, tasks, quality gates, and AI agents all in one place. No coding knowledge required.",
     cta: "Get specorator",
     href: specorator?.docs ?? specorator?.repo ?? "#",
     color: layerColors.ui,
@@ -46,9 +46,9 @@ const useCases = [
     available: true,
   },
   {
-    label: "I want the workflow methodology",
+    label: "I want the workflow methodology without the plugin",
     description:
-      "Use the 11-stage workflow and Claude Code agents on their own, without the Obsidian plugin — pure CLI and Markdown.",
+      "Use the 12-stage Agentic Development Lifecycle and Claude Code agents on their own — pure CLI and Markdown, no Obsidian required.",
     cta: "Explore agentic-workflow",
     href: agenticWorkflow?.docs ?? agenticWorkflow?.repo ?? "#",
     color: layerColors.workflow,
@@ -57,9 +57,9 @@ const useCases = [
     available: true,
   },
   {
-    label: "I want to build AI agents",
+    label: "I want to build specialized AI agents",
     description:
-      "Use the TypeScript agent library to compose autonomous agents for your own tooling, independent of the rest of the ecosystem.",
+      "Use the TypeScript agent library to compose PM, Architect, Engineering, QA, Review, and Writer agents for your own tooling.",
     cta: "View agentonomous",
     href: agentonomous?.docs ?? agentonomous?.repo ?? "#",
     color: layerColors.agents,
@@ -71,8 +71,8 @@ const useCases = [
 ---
 
 <Base
-  title="Specorator — AI-Powered Development Workflow"
-  description="Specorator guides your software projects from idea to release inside Obsidian — with Claude Code agents handling spec drafting, task generation, and quality gates."
+  title="Specorator — From Idea to Shipped Software, for Everyone"
+  description="Specorator guides anyone — developer, PM, designer, or founder — through a structured 12-stage Agentic Development Lifecycle inside Obsidian. Claude Code agents handle spec drafting, task generation, and quality gates. You decide at every stage."
 >
   <MainContainer>
     <!-- ─── Hero ──────────────────────────────────────────────────────── -->
@@ -81,7 +81,7 @@ const useCases = [
         <!-- Eyebrow -->
         <div class="flex items-center gap-3 flex-wrap">
           <span class="font-mono text-xs text-gray uppercase tracking-widest">
-            Obsidian Plugin · Claude Code · Open Source
+            Obsidian Plugin · Claude Code · Open Source · No Coding Required
           </span>
           <span
             class="inline-flex items-center gap-1.5 font-mono text-xs text-green-400"
@@ -107,10 +107,11 @@ const useCases = [
 
         <!-- Subheadline -->
         <p class="text-gray text-xl leading-relaxed max-w-2xl">
-          Specorator is a workflow cockpit inside Obsidian. Define what to build
-          through a structured 11-stage process and Claude Code agents handle
-          spec drafting, task generation, and quality gates. You stay in control
-          of <em>what</em> to build — the agents handle <em>how</em>.
+          Specorator is a workflow cockpit inside Obsidian — built for product
+          managers, designers, founders, and developers alike. Move through a
+          structured 12-stage lifecycle and let Claude Code agents handle spec
+          drafting, task generation, and quality gates. You make every decision;
+          the agents do the drafting.
         </p>
 
         <!-- CTAs -->
@@ -146,7 +147,7 @@ const useCases = [
           </h2>
           <p class="font-primary font-bold text-3xl text-text leading-snug">
             AI can write code.<br />
-            <span class="text-dark-gray">It can't manage your project.</span>
+            <span class="text-dark-gray">It can't run your project.</span>
           </p>
         </div>
 
@@ -165,8 +166,8 @@ const useCases = [
               },
               {
                 icon: "🔁",
-                heading: "Every project restarts chaos",
-                body: "There's no repeatable process. Each new feature kicks off the same unstructured planning loop — from scratch, every time.",
+                heading: "No repeatable process",
+                body: "There's no structured methodology. Each new project kicks off the same unstructured loop — from scratch, every time, for everyone.",
               },
             ].map((item) => (
               <div class="bg-card/50 border border-border/6 rounded-2xl p-5 flex flex-col gap-3">
@@ -192,7 +193,7 @@ const useCases = [
             <span class="text-dark-gray">02</span>How It Works
           </h2>
           <p class="font-primary font-bold text-3xl text-text leading-snug">
-            Three moves from idea to release.
+            Three phases. Twelve stages. One repeatable process.
           </p>
         </div>
 
@@ -201,24 +202,25 @@ const useCases = [
             [
               {
                 step: "01",
-                title: "Define",
+                title: "Think & Plan",
                 description:
-                  "Describe your idea in plain language inside your Obsidian vault. Specorator creates a structured project file and sets up your 11-stage workflow automatically.",
-                detail: "Stage: Idea → Research → Requirements",
+                  "Describe your idea in plain language. Specorator's PM and Architect agents help you articulate the problem, synthesise research, define requirements, and produce a specification — all in your Obsidian vault. You govern every decision; agents do the drafting.",
+                detail:
+                  "Stages 1–6: Idea → Research → Requirements → Design → Specification → Tasks",
               },
               {
                 step: "02",
-                title: "Structure",
+                title: "Build & Verify",
                 description:
-                  "Claude Code agents draft your specifications, break work into tasks, and enforce quality gates at each stage. You review, adjust, and approve — the agents do the drafting.",
-                detail: "Stage: Design → Specification → Tasks",
+                  "Engineering, QA, and Review agents execute implementation, plan tests, and run verification. You receive plain-language summaries and diffs at each step. You decide whether the output matches what you wanted before the stage can advance.",
+                detail: "Stages 7–9: Implementation → Test Planning → Testing",
               },
               {
                 step: "03",
-                title: "Ship",
+                title: "Close & Learn",
                 description:
-                  "Progress through implementation, testing, and review with full context preserved at every step. Each stage gates the next — nothing slips through.",
-                detail: "Stage: Implementation → Testing → Review → Release",
+                  "Writer agents draft release notes, retrospective summaries, and communication. You review and approve. Every project ends with a closed loop — decisions logged, lessons captured, vault up to date.",
+                detail: "Stages 10–12: Review → Release → Retrospective",
               },
             ].map((item, i) => (
               <div
@@ -264,8 +266,8 @@ const useCases = [
             What brings you here?
           </p>
           <p class="text-gray text-base leading-relaxed">
-            The ecosystem has four components. Pick the one that matches your
-            use case.
+            The ecosystem has four components. No coding background required to
+            get started — pick the entry point that fits your role.
           </p>
         </div>
 
@@ -330,8 +332,10 @@ const useCases = [
           </p>
           <p class="text-gray text-sm leading-relaxed max-w-xl">
             Each layer has a single responsibility. Together they form a fully
-            observable, spec-driven development platform — built incrementally
-            so you can adopt as much or as little as you need.
+            observable, governance-first development platform — built
+            incrementally so you can adopt as much or as little as you need.
+            User decisions drive every stage; agents never advance the workflow
+            autonomously.
           </p>
         </div>
 
@@ -410,7 +414,9 @@ const useCases = [
                   >planned</span
                 >
               </div>
-              <span class="text-xs text-gray">Agent Library</span>
+              <span class="text-xs text-gray"
+                >Agent Library · 6 Specialized Roles</span
+              >
             </div>
 
             <div
@@ -456,10 +462,11 @@ const useCases = [
         </div>
 
         <p class="text-sm text-dark-gray italic max-w-xl leading-relaxed">
-          specorator currently reads agentic-workflow methodology directly.
-          specorator-runtime will become the orchestration bridge once
-          implemented, and agentonomous will power agentic coworker features in
-          specorator v2.0.
+          specorator currently reads agentic-workflow methodology directly via
+          Claude Code CLI. specorator-runtime will replace that CLI bridge in
+          v2.0, and agentonomous's six specialized agent roles (PM, Architect,
+          Engineering, QA, Review, Writer) will power specorator's AI coworker
+          features.
         </p>
       </div>
     </section>
@@ -657,9 +664,9 @@ const useCases = [
             <span class="text-primary">Start building with a system.</span>
           </p>
           <p class="text-gray text-base leading-relaxed">
-            Install the Obsidian plugin, run the workflow, and let the agents
-            handle the drafting. Everything is open source — no sign-up, no
-            lock-in, your files stay yours.
+            Install the Obsidian plugin, move through the 12 stages, and let the
+            agents handle the drafting. No coding background needed. Everything
+            is open source — no sign-up, no lock-in, your files stay yours.
           </p>
         </div>
         <div class="flex items-center gap-4 flex-wrap">
