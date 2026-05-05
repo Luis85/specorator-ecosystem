@@ -1,50 +1,63 @@
 # Product Brief — Specorator Ecosystem Hub
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Status:** Active  
-**URL (target):** https://luis85.github.io/specorator-ecosystem
+**URL:** https://luis85.github.io/specorator-ecosystem
 
 ---
 
 ## 1. Problem Statement
 
-The Specorator ecosystem consists of four independent but tightly related repositories. Without a shared entry point, anyone navigating the system must:
+AI tools are powerful in the moment — but they can't run your project.
 
-- Hunt through individual READMEs to understand how components relate
-- Manually check four different GitHub repositories to assess overall status
-- Piece together the architecture from scattered context across repos
-- Have no single URL to bookmark or share
+- **Context gets lost** — AI tools forget your project history, decisions, and rationale the instant a session ends.
+- **Artifacts are scattered** — Specs live in Notion, tasks in Linear, notes in Slack threads. Nothing stays connected through the lifecycle of a feature.
+- **No repeatable process** — There's no structured methodology. Each new project kicks off the same unstructured loop — from scratch, every time, for everyone.
 
-There is no "north star" page — no single hub or entry point for the system.
+The result: teams adopt AI for individual tasks but never close the gap between a raw idea and a shipped, documented, maintainable product.
 
 ---
 
 ## 2. Solution
 
-The **Specorator Ecosystem Hub** is a lightweight, always-available static web interface hosted on GitHub Pages. It serves as the **central entry point** for the entire ecosystem: one URL to understand the system, see what is active, and navigate to any component.
+The **Specorator Ecosystem Hub** is a user-friendly information hub hosted on GitHub Pages. It serves as the central entry point for the entire ecosystem: one URL to understand the system, see what is active, explore the methodology, and navigate to any component.
 
-It is explicitly **not** a marketing page or a README clone. It is the ecosystem hub — intentionally minimal in V1, designed for developer and contributor use, with a clear roadmap to grow into a live observability interface as the runtime matures.
+It is not a README clone. It explains the problem the ecosystem solves, shows how it works, guides visitors to the right starting point, and provides live project status — all in one place.
+
+The hub is intentionally designed for a broad audience: anyone curious about AI-driven software development, from first-time explorers to active contributors.
 
 ---
 
 ## 3. Users
 
-**Primary audience:** The ecosystem owner and contributors — people building with or contributing to the Specorator system.
+**Primary:** Anyone building software who wants AI to do the heavy lifting — product managers, designers, founders, and developers. No coding background required for the recommended entry point.
 
-**Secondary audience:** Technical evaluators — developers exploring the ecosystem for the first time who need a fast mental model of how the pieces fit together.
+**Secondary:** Developers and contributors who want to build on top of ecosystem components directly — using the agent library, runtime, or workflow methodology as standalone tools.
 
-Both audiences need the same thing: clarity on what exists, what state it's in, and how to navigate to it.
+Both audiences need the same foundation: clarity on what the ecosystem is, how the pieces fit together, what state each component is in, and where to go next.
 
 ---
 
 ## 4. Ecosystem Components
 
-| Project                | Layer               | Role                                                                                                                                                                                                                                                                              | Current State                               |
-| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| **specorator**         | UI / Visualization  | Obsidian plugin providing a spec-driven workflow cockpit. Guides teams from idea to release through an 11-stage lifecycle, maintaining all artifacts as editable Markdown.                                                                                                        | v1-alpha, in active development             |
-| **specorator-runtime** | Execution Runtime   | Planned execution engine that will orchestrate agents and workflows, bridging the UI layer with the agent and workflow subsystems at runtime.                                                                                                                                     | Planned, 11 open issues                     |
-| **agentonomous**       | Agent Library       | Autonomous agent library for TypeScript. Provides building blocks for intelligent task execution. Integrates into specorator v2.0 for agentic coworker capabilities.                                                                                                              | Pre-release (name reserved), 21 open issues |
-| **agentic-workflow**   | Workflow Definition | Spec-driven, 11-stage development workflow template (Idea → Research → Requirements → Design → Specification → Tasks → Implementation → Testing → Review → Release → Retrospective). Powers specorator's workflow cockpit and provides methodology, templates, and quality gates. | v0.5.1, actively maintained                 |
+| Project                | Layer               | Role                                                                                                                                                                                                                                                                                    | Current State                   |
+| ---------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **specorator**         | UI / Visualization  | Obsidian plugin that turns a free, local-first notes app into an extensible AI development platform. Guides anyone through a 12-stage Agentic Development Lifecycle — from idea to shipped software. Manages agents, skills, MCP servers, and a plugin marketplace. No coding required. | v1-alpha, in active development |
+| **specorator-runtime** | Execution Runtime   | npm orchestration library and MCP server. Planned execution engine that bridges the UI layer with agent and workflow subsystems — session management, event streaming, stage gating.                                                                                                    | Planned                         |
+| **agentonomous**       | Agent Library       | TypeScript agent library. Six specialised roles (PM, Architect, Engineering, QA, Review, Writer) as composable building blocks for custom tooling.                                                                                                                                      | Planned                         |
+| **agentic-workflow**   | Workflow Definition | The raw 12-stage ADLC methodology — templates, quality gates, and Claude Code agents — as a standalone CLI tool. Powers specorator's workflow cockpit and is planned for MCP server exposure.                                                                                           | v0.5.1, actively maintained     |
+
+### The 12-Stage Agentic Development Lifecycle (ADLC)
+
+Three phases, twelve stages, one repeatable process:
+
+| Phase              | Stages                                                                            |
+| ------------------ | --------------------------------------------------------------------------------- |
+| **Think & Plan**   | 1. Idea → 2. Research → 3. Requirements → 4. Design → 5. Specification → 6. Tasks |
+| **Build & Verify** | 7. Implementation → 8. Test Planning → 9. Testing                                 |
+| **Close & Learn**  | 10. Review → 11. Release → 12. Retrospective                                      |
+
+At every stage: the user governs every decision; agents do the drafting. Nothing advances without explicit approval.
 
 ### Architectural Relationships
 
@@ -61,84 +74,83 @@ specorator-runtime (Execution Runtime, planned)
   └──► agentic-workflow (Workflow Definitions)
 ```
 
-The runtime layer is the planned bridge that will make the system fully interconnected. Until it ships, specorator consumes `agentic-workflow` methodology directly and `agentonomous` is planned for direct v2.0 integration.
+The runtime is the planned bridge that will make the system fully interconnected. Until it ships, specorator consumes `agentic-workflow` methodology directly and `agentonomous` is planned for direct v2.0 integration.
 
 ---
 
-## 5. V1 Scope (This Deliverable)
+## 5. Hub Scope (Current State)
 
-V1 is a static site. No build-time API calls, no dynamic data, no client-side JavaScript beyond what Astro inlines.
+The hub is a fully dynamic static site — built with Astro, deployed to GitHub Pages, enriched with live GitHub API data at build time.
 
-### What V1 includes
+### What the hub includes
 
-| Feature                  | Description                                                                                                                          |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **System overview**      | Single-paragraph explanation of what the ecosystem is and what this hub does                                                         |
-| **Architecture diagram** | Layered visual showing the four components, their layer assignments, and connection flow                                             |
-| **Project status cards** | One card per component — name, layer, status badge, description, tech stack, last-update date, open issue count (where known), links |
-| **Roadmap section**      | V1–V4 milestone cards; V1 highlighted as active                                                                                      |
-| **Navigation**           | Every card links directly to its GitHub repository                                                                                   |
-| **CI/CD**                | GitHub Actions workflow deploys to GitHub Pages on push to `develop`                                                                 |
-
-### What V1 explicitly excludes
-
-- Live data from the GitHub API (V2)
-- Per-project detail pages (V2)
-- Real-time observability (V3)
-- Agent/workflow execution tracking (V4)
-- Any marketing copy, hero images, or CTA sections
+| Feature                      | Description                                                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Hero & value proposition** | Clear headline, subheadline, and CTAs oriented to first-time visitors                                                                |
+| **Problem section**          | Three cards explaining the core pain points the ecosystem solves                                                                     |
+| **How It Works**             | Three-phase ADLC walkthrough (Think & Plan, Build & Verify, Close & Learn)                                                           |
+| **Entry-point routing**      | Primary CTA (specorator plugin) + three secondary builder entry points with status badges                                            |
+| **Architecture diagram**     | Layered visual showing four components, their layer assignments, and connection flow                                                 |
+| **Project status cards**     | One card per component — name, layer, status badge, description, tech stack, live GitHub data (last update, open issues), links      |
+| **Roadmap section**          | Per-project roadmap phases fetched live from GitHub (roadmap:v3 / roadmap:v4 labels); progress bars and status derived automatically |
+| **Navigation**               | Every card links directly to its GitHub repository, docs, or PRD                                                                     |
+| **CI/CD**                    | GitHub Actions: verify on `develop` and PRs; deploy to GitHub Pages on push to `main`                                                |
 
 ---
 
 ## 6. Roadmap
 
-| Version | Scope                                                                                                      | Status               |
-| ------- | ---------------------------------------------------------------------------------------------------------- | -------------------- |
-| **V1**  | Static site · architecture diagram · project listing · manual data in `projects.json` · GitHub Pages CI/CD | **Active (this PR)** |
-| **V2**  | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages                     | Planned              |
-| **V3**  | Runtime observability · agent session tracking · event stream visualization                                | Planned              |
-| **V4**  | Workflow execution tracking · knowledge graph · semantic cross-linking                                     | Planned              |
+| Version | Scope                                                                                                           | Status      |
+| ------- | --------------------------------------------------------------------------------------------------------------- | ----------- |
+| **V1**  | Static site · architecture diagram · project listing · manual data in `projects.json` · GitHub Pages CI/CD      | **Shipped** |
+| **V2**  | GitHub API at build time · live `lastUpdate` / `openIssues` · per-project detail pages · roadmap label standard | **Shipped** |
+| **V3**  | Runtime observability · agent session tracking · event stream visualization                                     | Planned     |
+| **V4**  | Workflow execution tracking · knowledge graph · semantic cross-linking                                          | Planned     |
 
 ---
 
-## 7. Success Criteria (V1)
+## 7. Success Criteria
 
 - Hub is deployed and publicly accessible at `https://luis85.github.io/specorator-ecosystem`
-- All four ecosystem repositories are listed with correct metadata
+- First-time visitors understand what the ecosystem does and where to start within a single scroll
+- All four ecosystem repositories are listed with live metadata (status, last update, open issues)
 - Architecture diagram accurately represents component relationships and layering
-- Status badges are displayed per project
-- Navigation links to each repository work correctly
-- `npm run build` completes without errors from a clean checkout
+- Roadmap reflects live GitHub issue/PR state via label-based automation
+- `npm run verify` completes without errors from a clean checkout
 
 ---
 
 ## 8. Technical Constraints
 
-- **Static only** — output must be pure HTML/CSS, deployable to GitHub Pages with no server-side runtime
-- **No external framework dependencies** — no Tailwind CDN, Bootstrap, or similar; all CSS is local
-- **Astro** as the static site generator (already established in PR #1)
+- **Static output** — pure HTML/CSS/JS, deployable to GitHub Pages with no server-side runtime
+- **Astro** — static site generator with build-time data fetching (GitHub API)
+- **Tailwind CSS 4** — utility-first CSS framework
 - **Node 20** for CI
 - **Base path** `/specorator-ecosystem` (GitHub Pages project site)
-- **Dark theme** — the hub aesthetic must be dark; no light theme for V1
+- **Dark theme** — hub aesthetic is dark; consistent with the ops/developer aesthetic of the ecosystem
 
 ---
 
-## 9. Data Source
+## 9. Data Sources
 
-All project metadata for V1 lives in `src/data/projects.json`. This is the **single source of truth** for the hub. V2 will replace the static fields (`lastUpdate`, `openIssues`) with GitHub API responses at build time while keeping the same data shape.
+### Static (`src/data/projects.json`)
 
-Fields per project:
+The registry for stable project metadata — `id`, `name`, `role`, `layer`, `description`, `repo`, `techStack`, `dependencies`. Manually maintained.
 
-- `id` — stable identifier (matches repo name)
-- `name` — display name
-- `role` — `ui | runtime | agents | workflow` (drives color theming)
-- `layer` — human-readable layer label
-- `description` — 1–2 sentence description
-- `status` — `planned | in-progress | done`
-- `version` — current version string or null
-- `techStack` — array of technology labels (for display only)
-- `repo` — GitHub repository URL
-- `docs` — documentation URL or null
-- `prd` — PRD/spec URL or null
-- `lastUpdate` — ISO 8601 date string or null (V2: from GitHub API)
-- `openIssues` — integer or null (V2: from GitHub API)
+### Build-time (`src/lib/fetchProjectData.ts`, `src/lib/fetchRoadmapData.ts`)
+
+Volatile fields are fetched from the GitHub API at `astro build` time and overlaid on the static registry:
+
+| Field        | Source                         |
+| ------------ | ------------------------------ |
+| `status`     | GitHub Topics                  |
+| `lastUpdate` | GitHub API `pushed_at`         |
+| `openIssues` | GitHub API `open_issues_count` |
+| `version`    | GitHub Releases API `tag_name` |
+| `docs`       | GitHub API `repo.homepage`     |
+
+If the API is unavailable, fields fall back to `null` and the build always succeeds.
+
+### Roadmap (`src/lib/fetchRoadmapData.ts`)
+
+Issues and PRs carrying `roadmap:v3` or `roadmap:v4` labels are fetched from all four ecosystem repos at build time. Status is derived automatically: open issue → `planned`, open PR → `in-progress`, closed → `done`.
