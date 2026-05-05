@@ -108,11 +108,17 @@ const builderEntryPoints = [
 
         <!-- Subheadline -->
         <p class="text-gray text-xl leading-relaxed max-w-2xl">
-          Specorator is a workflow cockpit inside Obsidian — built for product
-          managers, designers, founders, and developers alike. Agents work
-          directly inside your vault: reading Canvas boards, writing Bases
-          properties, enriching Markdown frontmatter. Your project knowledge
-          stays connected, structured, and fully yours.
+          Specorator is a plugin for <a
+            href="https://obsidian.md"
+            target="_blank"
+            rel="noopener"
+            class="text-text underline underline-offset-2 hover:text-primary transition-colors"
+            >Obsidian</a
+          > — a free, local-first notes app — that turns it into a structured project
+          cockpit. Anyone can use it: product managers, designers, founders, developers.
+          Move through a repeatable 12-stage process, let AI agents handle spec drafting
+          and task generation, and keep every decision in plain files on your own
+          computer. Nothing locked in, nothing lost.
         </p>
 
         <!-- CTAs -->
@@ -205,7 +211,7 @@ const builderEntryPoints = [
                 step: "01",
                 title: "Think & Plan",
                 description:
-                  "Describe your idea in plain language. PM and Architect agents help you articulate the problem, synthesise research, and produce a specification — writing directly to your vault as structured Markdown with Frontmatter properties that Bases and Canvas can read. Every decision you make is recorded as a linked note.",
+                  "Describe your idea in plain language. PM and Architect agents help you articulate the problem, synthesise research, and produce a full specification — all saved as plain files in your project folder. You govern every decision; agents do the drafting.",
                 detail:
                   "Stages 1–6: Idea → Research → Requirements → Design → Specification → Tasks",
               },
@@ -213,14 +219,14 @@ const builderEntryPoints = [
                 step: "02",
                 title: "Build & Verify",
                 description:
-                  "Engineering and QA agents execute implementation and testing while working out of your vault — reading specs, updating task notes, and writing results back as Markdown. You see plain-language summaries and decide whether to advance before anything moves forward.",
+                  "Engineering and QA agents execute implementation and testing, reading your specs and writing results back as plain files. You receive plain-language summaries at each step and decide whether the output matches what you wanted before anything moves forward.",
                 detail: "Stages 7–9: Implementation → Test Planning → Testing",
               },
               {
                 step: "03",
                 title: "Close & Learn",
                 description:
-                  "Writer agents draft release notes and retrospectives as vault notes, enriching Frontmatter and updating Canvas write-backs so your knowledge graph reflects the finished project. The vault ends up richer than when you started.",
+                  "Writer agents draft release notes and retrospectives, closing the loop so your project folder reflects the finished work. Every project ends with a structured record — decisions logged, lessons captured, nothing lost.",
                 detail: "Stages 10–12: Review → Release → Retrospective",
               },
             ].map((item, i) => (
@@ -292,11 +298,11 @@ const builderEntryPoints = [
               </span>
             </div>
             <p class="text-sm text-gray leading-relaxed max-w-xl">
-              The all-in-one Obsidian plugin. It bundles the 12-stage workflow,
-              Claude Code agents, and (in v2.0) the full runtime into a
-              ready-to-use interface. No configuration, no coding knowledge
-              required — suitable for product managers, designers, founders, and
-              developers alike.
+              A plugin for Obsidian (a free notes app) that turns it into a full
+              project cockpit. Install it once and you get the 12-stage
+              workflow, AI agents, and structured templates — all ready to go,
+              no configuration required. Works for anyone: product managers,
+              designers, founders, developers. No coding knowledge needed.
             </p>
             <a
               href={specorator?.docs ??
@@ -549,10 +555,10 @@ const builderEntryPoints = [
           specorator currently reads agentic-workflow methodology directly via
           Claude Code CLI. specorator-runtime will replace that CLI bridge in
           v2.0, and agentonomous's six specialized agent roles will power
-          specorator's AI coworker features. A core architectural requirement
-          across all layers: agents must work natively inside the Obsidian vault
-          — reading Canvas boards, writing Bases properties, enriching
-          Frontmatter — so the vault grows smarter with every project.
+          specorator's AI coworker features. A core requirement across all
+          layers: agents must read from and write back to the same plain files
+          the user works in — no separate state, no proprietary formats, no
+          lock-in.
         </p>
       </div>
     </section>

@@ -25,7 +25,9 @@ Most users should start and stay here. You don't need to configure agentic-workf
 
 ## Vault-Native Architecture
 
-A core architectural requirement for specorator is that the whole system must interact deeply with Obsidian as a platform — not just live inside it as a sidebar panel. Agents must be able to work *out of* the vault, augmenting and enriching its content using the full range of Obsidian's capabilities:
+[Obsidian](https://obsidian.md) is a free, local-first note-taking app that stores everything as plain Markdown files on your computer. It has no proprietary cloud, no lock-in, and a powerful feature set — including visual boards (Canvas), structured data tables (Bases), and a linked knowledge graph.
+
+A core architectural requirement for specorator is that agents must work natively *inside* Obsidian — not just display output in a sidebar panel. They read your notes, update your boards, and write results back into the same files you already work in, so the whole project lifecycle is captured in one place:
 
 | Obsidian feature | How specorator uses it |
 |---|---|
