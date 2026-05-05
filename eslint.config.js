@@ -78,7 +78,7 @@ export default [
           // Even rarer, but a free bypass once destructured because BASE_URL becomes
           // a plain identifier the BinaryExpression selectors can't trace back to env.
           selector:
-            "VariableDeclarator[id.type='ObjectPattern'][init.type='MemberExpression'][init.property.name='env'][init.object.type='MetaProperty'] > ObjectPattern > Property[key.name='BASE_URL']",
+            "VariableDeclarator[id.type='ObjectPattern'][init.type='MemberExpression'][init.property.name='env'][init.object.type='MetaProperty'] > ObjectPattern > :matches(Property[key.name='BASE_URL'], Property[computed=true][key.value='BASE_URL'])",
           message:
             "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
         },
@@ -86,7 +86,7 @@ export default [
           // Catches: ({ BASE_URL } = import.meta.env)  (destructuring assignment)
           // Same as above, but for assignment after declaration rather than at it.
           selector:
-            "AssignmentExpression[left.type='ObjectPattern'][right.type='MemberExpression'][right.property.name='env'][right.object.type='MetaProperty'] > ObjectPattern > Property[key.name='BASE_URL']",
+            "AssignmentExpression[left.type='ObjectPattern'][right.type='MemberExpression'][right.property.name='env'][right.object.type='MetaProperty'] > ObjectPattern > :matches(Property[key.name='BASE_URL'], Property[computed=true][key.value='BASE_URL'])",
           message:
             "Don't destructure BASE_URL from import.meta.env. Use buildUrl() from '@/lib/utils/url'.",
         },
@@ -120,14 +120,14 @@ export default [
           // The :has(MemberExpression…) descendant check then confirms the wrapper
           // actually wraps import.meta.env (vs. some other expression).
           selector:
-            "VariableDeclarator[id.type='ObjectPattern'][init.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+            "VariableDeclarator[id.type='ObjectPattern'][init.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > :matches(Property[key.name='BASE_URL'], Property[computed=true][key.value='BASE_URL'])",
           message:
             "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
         },
         {
           // Same as above for assignment-style destructuring.
           selector:
-            "AssignmentExpression[left.type='ObjectPattern'][right.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > Property[key.name='BASE_URL']",
+            "AssignmentExpression[left.type='ObjectPattern'][right.type=/^(ChainExpression|TSNonNullExpression|TSAsExpression|TSTypeAssertion|TSSatisfiesExpression)$/]:has(MemberExpression[property.name='env'][object.type='MetaProperty']) > ObjectPattern > :matches(Property[key.name='BASE_URL'], Property[computed=true][key.value='BASE_URL'])",
           message:
             "Don't destructure BASE_URL from import.meta.env (incl. wrapped forms). Use buildUrl() from '@/lib/utils/url'.",
         },
