@@ -39,6 +39,23 @@ A core architectural requirement for specorator is that agents must work nativel
 
 The vault ends up richer than when you started. Every project leaves behind a structured, interlinked record.
 
+## Extensible Platform
+
+The 12-stage workflow is specorator's built-in capability — but the plugin is designed to grow far beyond it. The same interface that manages your ADLC projects also gives you a single place to manage everything that extends the platform:
+
+| Capability | What it means |
+|---|---|
+| **Skills** | Reusable agent capabilities that can be attached to any stage or project |
+| **Commands** | Custom actions that agents can execute within the workflow |
+| **Assets** | Shared templates, prompts, and resources available across projects |
+| **Agents** | Manage and configure the AI roles (PM, Architect, Engineering, QA, Review, Writer) used in your projects |
+| **Tools** | External tool integrations that agents can call during execution |
+| **MCP servers** | Connect any MCP-compatible server to extend what agents can do *(planned)* |
+| **Marketplace** | Browse and install community-built extensions, skills, and agent packs *(planned)* |
+| **Plugins** | Extend the platform itself with your own additions *(planned)* |
+
+The goal: one interface to govern everything — from the workflow stages you care about to the AI capabilities that power them.
+
 ## Role in the Ecosystem
 
 Specorator sits at the top of the architecture stack and bundles the layers below:
