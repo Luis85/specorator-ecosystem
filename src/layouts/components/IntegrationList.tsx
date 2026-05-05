@@ -4,6 +4,7 @@ import { FiSearch } from "react-icons/fi";
 
 import type { IntegrationType } from "@/types/index";
 import ImageFallback from "@/helpers/ImageFallback";
+import { buildUrl } from "@/lib/utils/url";
 
 const IntegrationList = ({
   items,
@@ -75,7 +76,7 @@ const IntegrationList = ({
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filteredList.map((integration, index) => (
               <a
-                href={import.meta.env.BASE_URL.replace(/\/$/, "") + "/integrations/" + integration.slug}
+                href={buildUrl("integrations/" + integration.slug)}
                 key={index}
                 className="bg-linear-white-gradient p-px rounded-3xl h-full block"
               >
