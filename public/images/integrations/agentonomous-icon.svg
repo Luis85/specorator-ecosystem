@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <rect width="40" height="40" rx="10" fill="#f472b6" fill-opacity="0.15"/>
+  <!-- Agent/neural node icon: central node with connections -->
+  <circle cx="20" cy="20" r="5" fill="#f472b6" fill-opacity="0.3" stroke="#f472b6" stroke-width="1.5"/>
+  <circle cx="9" cy="13" r="2.5" fill="#f472b6" fill-opacity="0.4" stroke="#f472b6" stroke-width="1"/>
+  <circle cx="31" cy="13" r="2.5" fill="#f472b6" fill-opacity="0.4" stroke="#f472b6" stroke-width="1"/>
+  <circle cx="9" cy="27" r="2.5" fill="#f472b6" fill-opacity="0.4" stroke="#f472b6" stroke-width="1"/>
+  <circle cx="31" cy="27" r="2.5" fill="#f472b6" fill-opacity="0.4" stroke="#f472b6" stroke-width="1"/>
+  <line x1="11" y1="14.5" x2="15.5" y2="17.5" stroke="#f472b6" stroke-width="1" stroke-opacity="0.6"/>
+  <line x1="29" y1="14.5" x2="24.5" y2="17.5" stroke="#f472b6" stroke-width="1" stroke-opacity="0.6"/>
+  <line x1="11" y1="25.5" x2="15.5" y2="22.5" stroke="#f472b6" stroke-width="1" stroke-opacity="0.6"/>
+  <line x1="29" y1="25.5" x2="24.5" y2="22.5" stroke="#f472b6" stroke-width="1" stroke-opacity="0.6"/>
+</svg>
