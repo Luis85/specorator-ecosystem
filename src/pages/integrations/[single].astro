@@ -3,13 +3,14 @@ import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
+import { type Project } from "@/lib/fetchProjectData";
 import { fetchAllProjectRoadmaps } from "@/lib/fetchRoadmapData";
+import projectsData from "@/data/projects.json";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const integrations = await getSinglePage("integrations");
-  const projects = await fetchEnrichedProjects();
+  const projects = projectsData.projects as Project[];
   const roadmaps = await fetchAllProjectRoadmaps(projects);
 
   return integrations.map((integration: any) => {
