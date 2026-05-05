@@ -35,12 +35,14 @@ const ABS = /\/(?!\/)/;
 //   href={"/foo"}      — JSX expression with double-quoted string
 //   href={'/foo'}      — JSX expression with single-quoted string
 //   href={`/foo`}      — JSX template literal (may contain ${…} interpolation)
+// gs flags: g = global (find all matches), s = dotAll (. matches \n, not used here
+// but \s* inside braces already handles newlines between { and the opening quote).
 const PATTERNS = [
-  { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`, "g"), label: "string attr (double-quote)" },
-  { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`, "g"), label: "string attr (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{"${ABS.source}[^"]*"\\}`, "g"), label: "JSX expression string (double-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{'${ABS.source}[^']*'\\}`, "g"), label: "JSX expression string (single-quote)" },
-  { regex: new RegExp(`(?:href|src)=\\{\`${ABS.source}[^\`]*\`\\}`, "g"), label: "JSX template literal" },
+  { regex: new RegExp(`(?:href|src)="${ABS.source}[^"]*"`, "gs"), label: "string attr (double-quote)" },
+  { regex: new RegExp(`(?:href|src)='${ABS.source}[^']*'`, "gs"), label: "string attr (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*"${ABS.source}[^"]*"\\s*\\}`, "gs"), label: "JSX expression string (double-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*'${ABS.source}[^']*'\\s*\\}`, "gs"), label: "JSX expression string (single-quote)" },
+  { regex: new RegExp(`(?:href|src)=\\{\\s*\`${ABS.source}[^\`]*\`\\s*\\}`, "gs"), label: "JSX template literal" },
 ];
 
 // Extract just the path portion from a matched string so allowlist patterns
@@ -85,22 +87,40 @@ const violations = [];
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
-  const lines = content.split("\n");
+  // Match against the full file content so multiline attributes like
+  //   href={
+  //     "/broken"
+  //   }
+  // are caught. Derive line number from the match index after the fact.
+  const lineStarts = [0];
+  for (let i = 0; i < content.length; i++) {
+    if (content[i] === "\n") lineStarts.push(i + 1);
+  }
+  const lineOf = (index) => {
+    let lo = 0, hi = lineStarts.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (lineStarts[mid] <= index) lo = mid; else hi = mid - 1;
+    }
+    return lo + 1;
+  };
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    for (const { regex, label } of PATTERNS) {
-      for (const match of line.matchAll(regex)) {
-        const urlPath = extractPath(match[0]);
-        if (urlPath && ALLOWLIST.some((re) => re.test(urlPath))) continue;
+  for (const { regex, label } of PATTERNS) {
+    regex.lastIndex = 0;
+    for (const match of content.matchAll(regex)) {
+      const urlPath = extractPath(match[0]);
+      if (urlPath && ALLOWLIST.some((re) => re.test(urlPath))) continue;
 
-        violations.push({
-          file: path.relative(root, file),
-          line: i + 1,
-          text: line.trim(),
-          label,
-        });
-      }
+      const lineNum = lineOf(match.index);
+      const lineEnd = content.indexOf("\n", match.index);
+      const lineText = content.slice(lineStarts[lineNum - 1], lineEnd === -1 ? undefined : lineEnd);
+
+      violations.push({
+        file: path.relative(root, file),
+        line: lineNum,
+        text: lineText.trim(),
+        label,
+      });
     }
   }
 }
