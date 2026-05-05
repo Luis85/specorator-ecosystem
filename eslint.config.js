@@ -58,6 +58,22 @@ export default [
             "Don't alias import.meta.env['BASE_URL'] into a variable. Use buildUrl() from '@/lib/utils/url', or normalize inline via import.meta.env.BASE_URL.replace(/\\/$/, '').",
         },
         {
+          // Catches: base = import.meta.env.BASE_URL  (post-declaration assignment)
+          // VariableDeclarator only fires at the declaration site, so a separate
+          // assignment after `let base = ""` would otherwise slip through.
+          selector:
+            "AssignmentExpression[right.type='MemberExpression'][right.property.name='BASE_URL'][right.object.property.name='env'][right.object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env.BASE_URL into a variable. Use buildUrl() from '@/lib/utils/url', or normalize inline via import.meta.env.BASE_URL.replace(/\\/$/, '').",
+        },
+        {
+          // Same as above but for computed notation: base = import.meta.env['BASE_URL']
+          selector:
+            "AssignmentExpression[right.type='MemberExpression'][right.computed=true][right.property.value='BASE_URL'][right.object.property.name='env'][right.object.object.type='MetaProperty']",
+          message:
+            "Don't alias import.meta.env['BASE_URL'] into a variable. Use buildUrl() from '@/lib/utils/url', or normalize inline via import.meta.env.BASE_URL.replace(/\\/$/, '').",
+        },
+        {
           // Catches: const { BASE_URL } = import.meta.env  (destructuring alias)
           // Even rarer, but a free bypass once destructured because BASE_URL becomes
           // a plain identifier the BinaryExpression selectors can't trace back to env.
