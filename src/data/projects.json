@@ -20,14 +20,15 @@
       "lastUpdate": null,
       "openIssues": null,
       "docs": "https://luis85.github.io/specorator",
-      "prd": null
+      "prd": null,
+      "stars": null
     },
     {
       "id": "specorator-runtime",
       "name": "specorator-runtime",
       "role": "runtime",
       "layer": "Execution Runtime",
-      "description": "The integration library for developers who want to embed the Specorator workflow into their own applications. Provides the full agent lifecycle as a programmable API — no Obsidian plugin required.",
+      "description": "The integration library for developers who want to embed the Specorator workflow into their own applications. Provides the full agent lifecycle as a programmable API \u2014 no Obsidian plugin required.",
       "repo": "https://github.com/Luis85/specorator-runtime",
       "techStack": [],
       "dependencies": ["agentonomous", "agentic-workflow"],
@@ -36,14 +37,15 @@
       "lastUpdate": null,
       "openIssues": null,
       "docs": "https://luis85.github.io/specorator-runtime",
-      "prd": null
+      "prd": null,
+      "stars": null
     },
     {
       "id": "agentonomous",
       "name": "agentonomous",
       "role": "agents",
       "layer": "Agent Library",
-      "description": "The agent library for developers. The six AI roles that power specorator — PM, Architect, Engineering, QA, Review, and Writer — available as a standalone TypeScript package for your own applications.",
+      "description": "The agent library for developers. The six AI roles that power specorator \u2014 PM, Architect, Engineering, QA, Review, and Writer \u2014 available as a standalone TypeScript package for your own applications.",
       "repo": "https://github.com/Luis85/agentonomous",
       "techStack": ["TypeScript"],
       "dependencies": [],
@@ -52,14 +54,15 @@
       "lastUpdate": null,
       "openIssues": null,
       "docs": "https://luis85.github.io/agentonomous",
-      "prd": null
+      "prd": null,
+      "stars": null
     },
     {
       "id": "agentic-workflow",
       "name": "agentic-workflow",
       "role": "workflow",
       "layer": "Workflow Definition System",
-      "description": "The workflow engine that powers specorator, available as a standalone CLI tool for developers. Runs the full 12-stage development process through the terminal — bring the methodology into your own tooling without the Obsidian plugin.",
+      "description": "The workflow engine that powers specorator, available as a standalone CLI tool for developers. Runs the full 12-stage development process through the terminal \u2014 bring the methodology into your own tooling without the Obsidian plugin.",
       "repo": "https://github.com/Luis85/agentic-workflow",
       "techStack": ["TypeScript", "Node.js", "Claude Code", "Markdown"],
       "dependencies": [],
@@ -68,7 +71,8 @@
       "lastUpdate": null,
       "openIssues": null,
       "docs": "https://luis85.github.io/agentic-workflow",
-      "prd": null
+      "prd": null,
+      "stars": null
     }
   ]
 }

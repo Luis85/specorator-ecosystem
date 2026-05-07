@@ -3,6 +3,9 @@ import Base from "@/layouts/Base.astro";
 import AnimatedButton from "@/components/AnimatedButton.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import CTAShape from "@/components/shape/CTAShape";
+import { buildUrl } from "@/lib/utils/url";
+
+const homeUrl = buildUrl("/");
 ---
 
 <Base title="Page Not Found">
@@ -209,7 +212,10 @@ import CTAShape from "@/components/shape/CTAShape";
                   <p class="text-[32px] font-semibold leading-10 text-white">
                     Page Not Found!
                   </p>
-                  <AnimatedButton href="/" classNames="btn bg-gradient-dark">
+                  <AnimatedButton
+                    href={homeUrl}
+                    classNames="btn bg-gradient-dark"
+                  >
                     Go Home
                   </AnimatedButton>
                 </div>

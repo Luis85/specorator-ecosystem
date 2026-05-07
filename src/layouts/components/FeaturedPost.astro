@@ -5,6 +5,7 @@ interface Props {
 }
 const { data } = Astro.props;
 const { title, image, author, date } = data.frontmatter;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const uid = `featpost-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
@@ -37,7 +38,7 @@ const uid = `featpost-${Math.random().toString(36).slice(2, 8)}`;
 
   <!-- Hero Image -->
   <div class="p-5">
-    <a href={`/blog/${data.slug}`}>
+    <a href={`${base}/blog/${data.slug}`}>
       <div class="rounded-3xl overflow-hidden bg-dark/10 w-full aspect-1150/600 relative">
         {image ? (
           <img src={image} alt={title} width="1150" height="600" class="object-cover w-full h-full" />
@@ -52,7 +53,7 @@ const uid = `featpost-${Math.random().toString(36).slice(2, 8)}`;
 
   <!-- Title -->
   <div class="px-6.5 sm:px-10 pt-6 pb-5">
-    <a href={`/blog/${data.slug}`}>
+    <a href={`${base}/blog/${data.slug}`}>
       <h2 class="font-primary font-medium leading-[1.22] text-[22px] sm:text-[30px] lg:text-[36px] text-text hover:text-primary transition-colors duration-200">
         {title}
       </h2>
