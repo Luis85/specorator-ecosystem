@@ -13,6 +13,7 @@ export interface Project {
   version: string | null;
   lastUpdate: string | null;
   openIssues: number | null;
+  stars: number | null;
   docs: string | null;
   prd: string | null;
 }
@@ -87,6 +88,10 @@ export async function fetchEnrichedProjects(): Promise<Project[]> {
             typeof repo?.open_issues_count === "number"
               ? repo.open_issues_count
               : project.openIssues,
+          stars:
+            typeof repo?.stargazers_count === "number"
+              ? repo.stargazers_count
+              : project.stars,
           version:
             typeof release?.tag_name === "string"
               ? release.tag_name
