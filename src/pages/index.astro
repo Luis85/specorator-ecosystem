@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
 import { fetchEcosystemRoadmap } from "@/lib/fetchRoadmapData";
+import { buildUrl } from "@/lib/utils/url";
 import { version as hubVersion } from "../../package.json";
 
 const projects = await fetchEnrichedProjects();
@@ -86,7 +87,7 @@ const builderEntryPoints = [
             hub v{hubVersion}
           </span>
           <a
-            href="/changelog"
+            href={buildUrl("changelog")}
             class="font-mono text-xs text-primary border border-primary/30 px-1.5 py-0.5 rounded no-underline hover:no-underline hover:border-primary/60"
           >
             What's new
