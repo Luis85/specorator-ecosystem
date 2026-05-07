@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import MainContainer from "@/components/MainContainer.astro";
 import { fetchEnrichedProjects } from "@/lib/fetchProjectData";
 import { fetchEcosystemRoadmap } from "@/lib/fetchRoadmapData";
+import { buildUrl } from "@/lib/utils/url";
 import { version as hubVersion } from "../../package.json";
 
 const projects = await fetchEnrichedProjects();
@@ -85,15 +86,24 @@ const builderEntryPoints = [
           >
             hub v{hubVersion}
           </span>
+          <a
+            href={buildUrl("changelog")}
+            class="font-mono text-xs text-primary border border-primary/30 px-1.5 py-0.5 rounded no-underline hover:no-underline hover:border-primary/60"
+          >
+            What's new
+          </a>
         </div>
 
         <!-- Headline -->
         <h1
           class="font-primary font-bold text-5xl md:text-6xl text-text tracking-tight leading-tight"
         >
-          From idea to shipped software —<br />
-          <span class="text-primary">with AI doing the heavy lifting</span>
+          A structured AI development workflow —<br />
+          <span class="text-primary">in plain Markdown files you own</span>
         </h1>
+        <p class="font-mono text-sm uppercase tracking-wide text-primary">
+          No coding required.
+        </p>
 
         <!-- Subheadline -->
         <p class="text-gray text-xl leading-relaxed max-w-2xl">
@@ -128,6 +138,13 @@ const builderEntryPoints = [
           >
             Find your entry point ↓
           </a>
+          {
+            typeof specorator?.stars === "number" && (
+              <span class="font-mono text-xs text-dark-gray border border-border/20 px-2 py-1 rounded">
+                {specorator.stars.toLocaleString()} GitHub stars
+              </span>
+            )
+          }
         </div>
       </div>
     </section>
@@ -392,13 +409,15 @@ const builderEntryPoints = [
                     {ep.cta} ↗
                   </a>
                 ) : (
-                  <span
-                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-40 cursor-not-allowed"
-                    aria-disabled="true"
+                  <a
+                    href={ep.href}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 font-mono text-xs font-semibold opacity-80 hover:opacity-100 transition-colors duration-150 no-underline hover:no-underline"
                     style={`color: ${ep.color}`}
                   >
-                    {ep.cta} ↗
-                  </span>
+                    Watch repo for updates ↗
+                  </a>
                 )}
               </div>
             ))

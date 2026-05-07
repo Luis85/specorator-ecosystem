@@ -63,6 +63,10 @@
             "$comment": "VOLATILE — do not manually edit. Populated from GitHub API open_issues_count (issue #3). Leave null until automation is in place.",
             "type": ["integer", "null"]
           },
+          "stars": {
+            "$comment": "VOLATILE — do not manually edit. Populated from GitHub API stargazers_count at build time.",
+            "type": ["integer", "null"]
+          },
           "docs": {
             "$comment": "VOLATILE — do not manually edit. Populated from GitHub API repo.homepage at build time (issue #8). Set the homepage field on the GitHub repo to populate this.",
             "type": ["string", "null"]
