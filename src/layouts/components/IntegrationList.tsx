@@ -32,6 +32,14 @@ const IntegrationList = ({
     return matchesSearch && matchesCategory;
   });
 
+  const prioritizedList = [...filteredList].sort((a, b) => {
+    if (a.slug === "specorator") return -1;
+    if (b.slug === "specorator") return 1;
+    return a.frontmatter.page_header.title.localeCompare(
+      b.frontmatter.page_header.title,
+    );
+  });
+
   return (
     <section>
       <div className="main-container"><div className="container">
@@ -74,19 +82,19 @@ const IntegrationList = ({
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filteredList.map((integration, index) => (
+            {prioritizedList.map((integration, index) => (
               <a
                 href={buildUrl("integrations/" + integration.slug)}
                 key={index}
                 className="bg-linear-white-gradient p-px rounded-3xl h-full block"
               >
-                <div className="group relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-3xl bg-primary-dark py-12 px-8 text-center border border-border/6 h-full">
+                <div className="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl bg-primary-dark py-10 px-6 text-left border border-border/6 h-full min-h-[340px]">
                   {/* Gradient overlay for smooth transition */}
                   <div className="absolute inset-0 rounded-3xl bg-radial-purple-dark opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 w-full h-full" />
 
                   {/* Content wrapper to stay above gradient overlay */}
-                  <div className="relative z-10 flex flex-col items-center justify-center">
-                    <div className="mb-7 flex h-10 w-10 items-center justify-center">
+                  <div className="relative z-10 flex flex-1 flex-col">
+                    <div className="mb-5 flex h-10 w-10 items-center justify-center">
                       <ImageFallback
                         src={integration.frontmatter.icon}
                         alt={integration.frontmatter.title}
@@ -96,13 +104,36 @@ const IntegrationList = ({
                       />
                     </div>
 
-                    <h3 className="mb-3 text-2xl font-bold text-text">
+                    <h3 className="mb-2 text-2xl font-bold text-text">
                       {integration.frontmatter.page_header.title}
                     </h3>
 
-                    <p className="text-gray">
+                    <p className="text-gray mb-5 line-clamp-4">
                       {integration.frontmatter.page_header.subtitle}
                     </p>
+
+                    <div className="mt-auto grid grid-cols-1 gap-2 text-sm">
+                      <div className="rounded-xl border border-border/10 bg-light/5 px-3 py-2">
+                        <p className="text-gray">Problem solved</p>
+                        <p className="text-text font-medium">
+                          {integration.frontmatter.problemSolved ?? "Defined in project docs"}
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="rounded-xl border border-border/10 bg-light/5 px-3 py-2">
+                          <p className="text-gray">Health</p>
+                          <p className="text-text font-medium">
+                            {integration.frontmatter.health ?? "Monitoring"}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-border/10 bg-light/5 px-3 py-2">
+                          <p className="text-gray">Progress</p>
+                          <p className="text-text font-medium">
+                            {integration.frontmatter.progress ?? "Roadmap in progress"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
