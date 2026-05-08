@@ -144,6 +144,9 @@ export type IntegrationType = {
     category: string;
     icon: string;
     page_header: PageHeaderType;
+    problemSolved?: string;
+    health?: string;
+    progress?: string;
   };
   slug?: string;
   content?: string;
