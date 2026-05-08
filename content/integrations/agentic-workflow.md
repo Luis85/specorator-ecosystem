@@ -6,6 +6,9 @@ image: ""
 draft: false
 category: "Workflow"
 icon: "/images/integrations/agentic-workflow-icon.svg"
+health: "Actively used as current workflow engine"
+progress: "12-stage methodology in active refinement"
+problemSolved: "Gives teams a clear step-by-step process from idea to release"
 page_header:
   badge: "Workflow Definition System"
   title: |

@@ -6,6 +6,9 @@ image: ""
 draft: false
 category: "Runtime"
 icon: "/images/integrations/specorator-runtime-icon.svg"
+health: "Architecture stable, implementation queued"
+progress: "Planned for v2.0 orchestration milestone"
+problemSolved: "Runs AI sessions reliably so plugin users get resumable, observable execution"
 page_header:
   badge: "Execution Runtime"
   title: |

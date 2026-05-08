@@ -2,10 +2,10 @@
 # Banner
 banner:
   title: |
-    From idea to shipped software
+    Be a Builder
     <br/>
-    <mark>with AI doing the heavy lifting</mark>
-  content: "Specorator guides anyone — developer, PM, designer, or founder — through a structured 12-stage Agentic Development Lifecycle. Claude Code agents handle spec drafting, task generation, and quality gates. You decide at every stage."
+    <mark>AI support for everyday work</mark>
+  content: "Specorator helps non-technical builders turn ideas into clear project plans and shipped outcomes. The plugin guides day-to-day work with AI support, plain language, and a step-by-step process you can review and control at every stage."
   badge:
     enable: true
     label: "Obsidian Plugin · Open Source · No Coding Required"

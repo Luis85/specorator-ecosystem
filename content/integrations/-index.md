@@ -7,10 +7,10 @@ draft: false
 page_header:
   badge: "Ecosystem Projects"
   title: |
-    Four Projects.
+    Be a Builder
     <br/>
-    <mark>One Ecosystem.</mark>
-  subtitle: "Each project owns a distinct layer of the system. Together they form a composable, observable agentic platform."
+    <mark>Start with the Specorator plugin.</mark>
+  subtitle: "Start with the consumer-friendly specorator plugin for daily AI-assisted execution. The remaining projects are technical layers that power it under the hood."
   button_dark:
     enable: true
     label: "View on GitHub"

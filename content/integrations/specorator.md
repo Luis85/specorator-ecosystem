@@ -6,6 +6,9 @@ image: ""
 draft: false
 category: "UI"
 icon: "/images/integrations/specorator-icon.svg"
+health: "Active development with weekly iteration"
+progress: "v1 live, v2 runtime integration underway"
+problemSolved: "Turns messy ideas into structured execution without requiring technical expertise"
 page_header:
   badge: "UI / Visualization Layer"
   title: |
