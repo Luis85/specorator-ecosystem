@@ -1,5 +1,11 @@
 # specorator-ecosystem
 
+[![Verify](https://github.com/Luis85/specorator-ecosystem/actions/workflows/verify.yml/badge.svg)](https://github.com/Luis85/specorator-ecosystem/actions/workflows/verify.yml)
+[![Deploy](https://github.com/Luis85/specorator-ecosystem/actions/workflows/deploy.yml/badge.svg)](https://github.com/Luis85/specorator-ecosystem/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node 22](https://img.shields.io/badge/Node-22-green.svg)](https://nodejs.org)
+[![Live site](https://img.shields.io/badge/Live-GitHub%20Pages-brightgreen)](https://luis85.github.io/specorator-ecosystem)
+
 The **Specorator Ecosystem Hub** — a user-friendly information hub for the four-component Specorator system, deployed to GitHub Pages.
 
 **Live:** https://luis85.github.io/specorator-ecosystem
