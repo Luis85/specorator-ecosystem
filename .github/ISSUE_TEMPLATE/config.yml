@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Live site
+    url: https://luis85.github.io/specorator-ecosystem
+    about: View the published hub
+  - name: specorator plugin
+    url: https://github.com/Luis85/specorator
+    about: Issues with the Obsidian plugin belong here
