@@ -6,6 +6,9 @@ image: ""
 draft: false
 category: "Agents"
 icon: "/images/integrations/agentonomous-icon.svg"
+health: "Design validated, package scaffolding pending"
+progress: "Planned as part of intelligence layer rollout"
+problemSolved: "Provides specialized AI roles so teams get the right AI support at each stage"
 page_header:
   badge: "Agent Library"
   title: |
