@@ -24,7 +24,7 @@ All work goes through a PR to `develop`. Direct pushes to `develop` and `main` a
 
 ## Quality gate
 
-CI runs `npm run verify` on every PR. All steps must pass before merging:
+CI runs `npm run verify` on push to `develop` and on PRs to `main`. All steps must pass before merging to `main`:
 
 | Step     | Tool          |
 | -------- | ------------- |
