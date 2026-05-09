@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest an improvement or new capability
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got an idea? Describe what you'd like to see and why it matters.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      placeholder: I keep running into this situation where...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      placeholder: It would be great if...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you've thought about?
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Hub site (content / layout)
+        - Roadmap data
+        - Project data / GitHub API enrichment
+        - CI / build pipeline
+        - Other
+    validations:
+      required: true

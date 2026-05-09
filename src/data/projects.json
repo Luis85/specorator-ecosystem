@@ -62,7 +62,7 @@
       "name": "agentic-workflow",
       "role": "workflow",
       "layer": "Workflow Definition System",
-      "description": "The workflow engine that powers specorator, available as a standalone CLI tool for developers. Runs the full 12-stage development process through the terminal \u2014 bring the methodology into your own tooling without the Obsidian plugin.",
+      "description": "The full 12-stage development workflow, ready to use as a Claude Code plugin. Drop it into any Claude Code session and the entire methodology \u2014 from idea to shipped software \u2014 runs through Claude, no Obsidian plugin or extra tooling required.",
       "repo": "https://github.com/Luis85/agentic-workflow",
       "techStack": ["TypeScript", "Node.js", "Claude Code", "Markdown"],
       "dependencies": [],
