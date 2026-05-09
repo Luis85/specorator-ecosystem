@@ -3,7 +3,7 @@
     {
       "label": null,
       "name": "Foundation",
-      "description": "The 12-stage workflow engine and the Obsidian plugin that wraps it into a ready-to-use experience. The full process — from idea to shipped software — is available today.",
+      "description": "The 12-stage workflow engine, the Obsidian plugin that wraps it into a ready-to-use experience, and the agentic-workflow Claude Code plugin that drops the full methodology directly into any Claude Code session. The full process — from idea to shipped software — is available today.",
       "status": "done"
     },
     {

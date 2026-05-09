@@ -15,10 +15,10 @@ npm run format:fix # auto-fix formatting
 
 ## Branching
 
-| Branch    | Purpose                                        |
-| --------- | ---------------------------------------------- |
-| `develop` | Integration branch — open PRs here             |
-| `main`    | Publishing branch — deploys to GitHub Pages    |
+| Branch    | Purpose                                     |
+| --------- | ------------------------------------------- |
+| `develop` | Integration branch — open PRs here          |
+| `main`    | Publishing branch — deploys to GitHub Pages |
 
 All work goes through a PR to `develop`. Direct pushes to `develop` and `main` are blocked.
 
